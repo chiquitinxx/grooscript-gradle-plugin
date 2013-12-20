@@ -1,0 +1,29 @@
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+group = 'org.grooscript'
+version = '0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    testCompile "org.spockframework:spock-core:0.7-groovy-1.8", {
+        exclude module: "groovy-all"
+    }
+    compile 'org.grooscript:grooscript:0.4', {
+        exclude module: "groovy"
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://localhost/Users/jorgefrancoleza/.m2/repository")
+        }
+    }
+}

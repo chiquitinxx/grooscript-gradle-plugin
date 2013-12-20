@@ -1,0 +1,10 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath group: 'org.grooscript', name: 'gradle-plugin', version: '0.1'
+    }
+}
+
+apply plugin: 'grooscript'
