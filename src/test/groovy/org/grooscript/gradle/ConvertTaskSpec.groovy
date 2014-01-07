@@ -21,13 +21,34 @@ class ConvertTaskSpec extends Specification {
 
     def setup() {
         project = ProjectBuilder.builder().build()
+
         task = project.task('convert', type: ConvertTask)
+        task.project = project
+        task.project.grooscript = [:]
         new File(JS_FILE).delete()
     }
 
     def 'create the task'() {
         expect:
         task instanceof ConvertTask
+    }
+
+    def 'by default properties come from project.grooscript'() {
+        given:
+        GroovySpy(GrooScript, global: true)
+        project.grooscript = [source: ['1'], destination: '2', customization: { -> },
+                classPath: ['3'], convertDependencies: true]
+
+        when:
+        task.convert()
+
+        then:
+        1 * GrooScript.clearAllOptions()
+        1 * GrooScript.setConversionProperty('customization', project.grooscript.customization)
+        1 * GrooScript.setConversionProperty('classPath', project.grooscript.classPath)
+        1 * GrooScript.setConversionProperty('convertDependencies', project.grooscript.convertDependencies)
+        1 * GrooScript.convert(project.grooscript.source[0], project.grooscript.destination) >> true
+        0 * _
     }
 
     @Unroll
@@ -80,5 +101,6 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('classPath', task.classPath)
         1 * GrooScript.setConversionProperty('convertDependencies', task.convertDependencies)
         1 * GrooScript.convert(SOURCE[0], DESTINATION) >> true
+        0 * _
     }
 }

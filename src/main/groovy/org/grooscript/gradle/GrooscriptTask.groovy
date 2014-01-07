@@ -8,17 +8,17 @@ import org.gradle.api.DefaultTask
  */
 class GrooscriptTask extends DefaultTask {
 
-    List<String> source = ['src/main/groovy']
-    String destination = 'src/main/webapp/js'
+    List<String> source
+    String destination
     List<String> classPath
-    boolean convertDependencies = false
+    boolean convertDependencies
     Closure customization
 
     def checkProperties() {
-        source = project.grooscript?.source ?: source
-        destination = project.grooscript?.destination ?: destination
-        classPath = project.grooscript?.classPath ?: classPath
-        convertDependencies = project.grooscript?.convertDependencies ?: convertDependencies
-        customization = project.grooscript?.customization ?: customization
+        source = source ?: project.grooscript?.source
+        destination = destination ?: project.grooscript?.destination
+        classPath = classPath ?: project.grooscript?.classPath
+        convertDependencies = convertDependencies ?: project.grooscript?.convertDependencies
+        customization = customization ?: project.grooscript?.customization
     }
 }

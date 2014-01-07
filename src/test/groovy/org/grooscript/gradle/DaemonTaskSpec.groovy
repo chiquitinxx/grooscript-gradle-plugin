@@ -22,6 +22,8 @@ class DaemonTaskSpec extends Specification {
     def setup() {
         project = ProjectBuilder.builder().build()
         task = project.task('daemon', type: DaemonTask)
+        task.project = project
+        task.project.grooscript = [:]
     }
 
     @Unroll

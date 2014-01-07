@@ -3,10 +3,9 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 group = 'org.grooscript'
-version = '0.1-SNAPSHOT'
+version = '0.1'
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -21,10 +20,22 @@ dependencies {
     }
 }
 
-uploadArchives {
+/*uploadArchives {
     repositories {
         mavenDeployer {
             repository(url: "file://localhost/Users/jorgefrancoleza/.m2/repository")
+        }
+    }
+}*/
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            name = 'Grooscript Repository'
+            repository(id: 'bintray-chiquitinxx-grooscript-grooscript-gradle-plugin',
+                    url: 'https://api.bintray.com/maven/chiquitinxx/grooscript/grooscript-gradle-plugin'){
+                authentication(userName: 'XXX', password: 'XXX')
+            }
         }
     }
 }
