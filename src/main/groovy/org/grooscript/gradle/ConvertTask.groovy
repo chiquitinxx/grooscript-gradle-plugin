@@ -1,7 +1,7 @@
 package org.grooscript.gradle
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.Task
 import org.gradle.api.tasks.TaskAction
 import org.grooscript.GrooScript
 
@@ -13,6 +13,7 @@ class ConvertTask extends GrooscriptTask {
 
     @TaskAction
     def convert() {
+        checkProperties()
         if (!source || !destination) {
             throw new GradleException("Need define source and destination.")
         } else {

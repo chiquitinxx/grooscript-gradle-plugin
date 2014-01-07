@@ -6,6 +6,7 @@ group = 'org.grooscript'
 version = '0.1-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -15,7 +16,7 @@ dependencies {
     testCompile "org.spockframework:spock-core:0.7-groovy-1.8", {
         exclude module: "groovy-all"
     }
-    compile 'org.grooscript:grooscript:0.4', {
+    compile 'org.grooscript:grooscript:0.4.2', {
         exclude module: "groovy"
     }
 }

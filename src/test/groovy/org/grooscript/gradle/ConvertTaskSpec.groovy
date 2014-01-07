@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.grooscript.GrooScript
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * User: jorgefrancoleza
@@ -29,6 +30,7 @@ class ConvertTaskSpec extends Specification {
         task instanceof ConvertTask
     }
 
+    @Unroll
     def 'run the task without source or destination throws error'() {
         when:
         task.source = source

@@ -13,6 +13,7 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.extensions.create("grooscript", GrooscriptPluginExtension)
         configureConvertTask(project)
         configureDaemonTask(project)
     }

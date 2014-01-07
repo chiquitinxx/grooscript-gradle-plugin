@@ -15,6 +15,7 @@ class DaemonTask extends GrooscriptTask {
 
     @TaskAction
     def launchDaemon() {
+        checkProperties()
         if (!source || !destination) {
             throw new GradleException("Need define source and destination.")
         } else {

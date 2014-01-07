@@ -14,4 +14,11 @@ class GrooscriptTask extends DefaultTask {
     boolean convertDependencies = false
     Closure customization
 
+    def checkProperties() {
+        source = project.grooscript?.source ?: source
+        destination = project.grooscript?.destination ?: destination
+        classPath = project.grooscript?.classPath ?: classPath
+        convertDependencies = project.grooscript?.convertDependencies ?: convertDependencies
+        customization = project.grooscript?.customization ?: customization
+    }
 }

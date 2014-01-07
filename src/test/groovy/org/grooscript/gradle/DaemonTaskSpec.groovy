@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Ignore
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * User: jorgefrancoleza
@@ -23,6 +24,7 @@ class DaemonTaskSpec extends Specification {
         task = project.task('daemon', type: DaemonTask)
     }
 
+    @Unroll
     def 'need source and destination to start daemon'() {
         when:
         task.source = source
