@@ -1,6 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 group = 'org.grooscript'
 version = '0.1'
@@ -28,14 +29,64 @@ dependencies {
     }
 }*/
 
+//Sonar repository stuff
+/*task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+	archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            name = 'Grooscript Repository'
-            repository(id: 'bintray-chiquitinxx-grooscript-grooscript-gradle-plugin',
-                    url: 'https://api.bintray.com/maven/chiquitinxx/grooscript/grooscript-gradle-plugin'){
-                authentication(userName: 'XXX', password: 'XXX')
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+              authentication(userName: sonatypeUsername, password: sonatypePassword)
             }
+
+            pom.project {
+               name 'grooscript-gradle-plugin'
+               packaging 'jar'
+               description 'Grooscript gradle plugin'
+               url 'http://grooscript.org/'
+
+               scm {
+                   url 'scm:git@github.com:chiquitinxx/grooscript-gradle-plugin.git'
+                   connection 'scm:git@github.com:chiquitinxx/grooscript-gradle-plugin.git'
+                   developerConnection 'scm:git@github.com:chiquitinxx/grooscript-gradle-plugin.git'
+               }
+
+               licenses {
+                   license {
+                       name 'The Apache Software License, Version 2.0'
+                       url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                       distribution 'repo'
+                   }
+               }
+
+               developers {
+                   developer {
+                       id 'chiquitinxx'
+                       name 'Jorge Franco'
+                   }
+               }
+           }
         }
     }
-}
+}*/
+//End Sonar
