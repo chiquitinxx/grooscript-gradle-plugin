@@ -22,8 +22,14 @@ grooscript {
     destination = 'js' //Target directory for js files
     classPath = ['src/main/groovy'] //Needed classpath's to compile source files
     convertDependencies = false //Convert dependencies in same file, by default is false
-    customization = null //Customization in files
+    customization = null //Customization in files, it's a closure, as for example { -> ast(groovy.transform.TypeChecked) }
 }
 </pre>
+
+There are 2 tasks:
+
+convert - to convert the files
+
+daemon - to run daemon that detect file changes and convert the files
 
 More info about grooscript in http://grooscript.org
