@@ -51,6 +51,20 @@ class ConvertTaskSpec extends Specification {
         0 * _
     }
 
+    def 'don\'t override task properties'() {
+        given:
+        GroovySpy(GrooScript, global: true)
+        project.grooscript = [source: ['1'], destination: '2', customization: { -> },
+                classPath: ['3'], convertDependencies: true]
+        task.source = SOURCE
+
+        when:
+        task.convert()
+
+        then:
+        1 * GrooScript.convert(SOURCE[0], project.grooscript.destination) >> true
+    }
+
     @Unroll
     def 'run the task without source or destination throws error'() {
         when:
@@ -78,11 +92,6 @@ class ConvertTaskSpec extends Specification {
         fileConverted()
     }
 
-    private void fileConverted() {
-        def jsFile = new File(JS_FILE)
-        assert jsFile.isFile() && jsFile.exists()
-    }
-
     def 'convert tasks with options'() {
         given:
         GroovySpy(GrooScript, global: true)
@@ -102,5 +111,10 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('convertDependencies', task.convertDependencies)
         1 * GrooScript.convert(SOURCE[0], DESTINATION) >> true
         0 * _
+    }
+
+    private void fileConverted() {
+        def jsFile = new File(JS_FILE)
+        assert jsFile.isFile() && jsFile.exists()
     }
 }
