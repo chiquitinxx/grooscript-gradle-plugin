@@ -15,7 +15,6 @@ class ConvertTaskSpec extends Specification {
 
     static final SOURCE = ['source']
     static final DESTINATION = 'destination'
-    static final JS_FILE = "${DESTINATION}/Item.js"
     Project project
     ConvertTask task
 
@@ -25,7 +24,6 @@ class ConvertTaskSpec extends Specification {
         task = project.task('convert', type: ConvertTask)
         task.project = project
         task.project.grooscript = [:]
-        new File(JS_FILE).delete()
     }
 
     def 'create the task'() {
@@ -83,13 +81,16 @@ class ConvertTaskSpec extends Specification {
     }
 
     def 'run the task with correct data'() {
+        given:
+        GroovySpy(GrooScript, global: true)
+
         when:
         task.source = SOURCE
         task.destination = DESTINATION
         task.convert()
 
         then:
-        fileConverted()
+        1 * GrooScript.convert(SOURCE[0], DESTINATION) >> true
     }
 
     def 'convert tasks with options'() {
@@ -111,10 +112,5 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('convertDependencies', task.convertDependencies)
         1 * GrooScript.convert(SOURCE[0], DESTINATION) >> true
         0 * _
-    }
-
-    private void fileConverted() {
-        def jsFile = new File(JS_FILE)
-        assert jsFile.isFile() && jsFile.exists()
     }
 }
