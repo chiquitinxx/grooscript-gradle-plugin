@@ -4,7 +4,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'org.grooscript'
-version = '0.1'
+version = '0.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -16,7 +16,7 @@ dependencies {
     testCompile "org.spockframework:spock-core:0.7-groovy-1.8", {
         exclude module: "groovy-all"
     }
-    compile 'org.grooscript:grooscript:0.4.2', {
+    compile 'org.grooscript:grooscript:0.4.3', {
         exclude module: "groovy"
     }
 }
