@@ -13,6 +13,10 @@ class GrooscriptTask extends DefaultTask {
     List<String> classPath
     boolean convertDependencies
     Closure customization
+    String initialText
+    String finalText
+    boolean recursive
+    List<String> mainContextScope
 
     def checkProperties() {
         source = source ?: project.grooscript?.source
@@ -20,5 +24,9 @@ class GrooscriptTask extends DefaultTask {
         classPath = classPath ?: project.grooscript?.classPath
         convertDependencies = convertDependencies ?: project.grooscript?.convertDependencies
         customization = customization ?: project.grooscript?.customization
+        initialText = initialText ?: project.grooscript?.initialText
+        finalText = finalText ?: project.grooscript?.finalText
+        recursive = recursive ?: project.grooscript?.recursive
+        mainContextScope = mainContextScope ?: project.grooscript?.mainContextScope
     }
 }

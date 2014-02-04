@@ -11,7 +11,7 @@ import org.grooscript.util.GsConsole
  */
 class DaemonTask extends GrooscriptTask {
 
-    def daemon
+    ConversionDaemon daemon
 
     @TaskAction
     def launchDaemon() {
@@ -19,11 +19,11 @@ class DaemonTask extends GrooscriptTask {
         if (!source || !destination) {
             throw new GradleException("Need define source and destination.")
         } else {
-            startDaemon()
+            configureAndStartDaemon()
         }
     }
 
-    private startDaemon() {
+    private configureAndStartDaemon() {
         try {
             def conversionOptions = [:]
             conversionOptions.classPath = classPath
@@ -31,7 +31,7 @@ class DaemonTask extends GrooscriptTask {
             conversionOptions.convertDependencies = convertDependencies
 
             daemon = new ConversionDaemon()
-            daemon.sourceList = source
+            daemon.source = source
             daemon.destinationFolder = destination
             daemon.conversionOptions = conversionOptions
             daemon.doAfter = { listFiles ->
@@ -39,17 +39,20 @@ class DaemonTask extends GrooscriptTask {
                     GsConsole.info('File changed: '+it)
                 }
             }
-            daemon.start()
-
-            def thread = Thread.start {
-                while (daemon) {
-                    sleep(100)
-                }
-            }
-
-            thread.run()
+            startDaemon()
         } finally {
             daemon.stop()
         }
+    }
+
+    private startDaemon() {
+        daemon.start()
+
+        def thread = Thread.start {
+            while (daemon.continueExecution) {
+                sleep(100)
+            }
+        }
+        thread.run()
     }
 }

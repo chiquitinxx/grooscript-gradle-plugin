@@ -35,7 +35,9 @@ class ConvertTaskSpec extends Specification {
         given:
         GroovySpy(GrooScript, global: true)
         project.grooscript = [source: ['1'], destination: '2', customization: { -> },
-                classPath: ['3'], convertDependencies: true]
+                classPath: ['3'], convertDependencies: true, initialText: 'initial', finalText: 'final',
+                recursive: true, mainContextScope: ['7']
+        ]
 
         when:
         task.convert()
@@ -45,7 +47,11 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('customization', project.grooscript.customization)
         1 * GrooScript.setConversionProperty('classPath', project.grooscript.classPath)
         1 * GrooScript.setConversionProperty('convertDependencies', project.grooscript.convertDependencies)
-        1 * GrooScript.convert(project.grooscript.source[0], project.grooscript.destination) >> true
+        1 * GrooScript.setConversionProperty('initialText', project.grooscript.initialText)
+        1 * GrooScript.setConversionProperty('finalText', project.grooscript.finalText)
+        1 * GrooScript.setConversionProperty('recursive', project.grooscript.recursive)
+        1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
+        1 * GrooScript.convert(project.grooscript.source, project.grooscript.destination) >> true
         0 * _
     }
 
@@ -60,7 +66,7 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
-        1 * GrooScript.convert(SOURCE[0], project.grooscript.destination) >> true
+        1 * GrooScript.convert(SOURCE, project.grooscript.destination) >> true
     }
 
     @Unroll
@@ -90,7 +96,7 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
-        1 * GrooScript.convert(SOURCE[0], DESTINATION) >> true
+        1 * GrooScript.convert(SOURCE, DESTINATION) >> true
     }
 
     def 'convert tasks with options'() {
@@ -101,6 +107,10 @@ class ConvertTaskSpec extends Specification {
         task.classPath = ['.']
         task.convertDependencies = true
         task.customization = { true }
+        task.initialText = 'initial'
+        task.finalText = 'final'
+        task.recursive = true
+        task.mainContextScope = [',']
 
         when:
         task.convert()
@@ -110,7 +120,11 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('customization', task.customization)
         1 * GrooScript.setConversionProperty('classPath', task.classPath)
         1 * GrooScript.setConversionProperty('convertDependencies', task.convertDependencies)
-        1 * GrooScript.convert(SOURCE[0], DESTINATION) >> true
+        1 * GrooScript.setConversionProperty('initialText', task.initialText)
+        1 * GrooScript.setConversionProperty('finalText', task.finalText)
+        1 * GrooScript.setConversionProperty('recursive', task.recursive)
+        1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
+        1 * GrooScript.convert(SOURCE, DESTINATION) >> true
         0 * _
     }
 }
