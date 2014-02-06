@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>Trial</title>
+  <script src="js/jquery.js"></script>
+  <script src="js/grooscript.js"></script>
+  <script src="js/grooscript-binder.js"></script>
+</head>
+<body>
+  <input type="text" id="text"/>
+  <br>
+  <input type="checkbox" id="bike" value="Bike">Bike<br>
+  <input type="checkbox" id="car" value="Car">Car<br>
+  <textarea id="area"></textarea>
+  <br>
+  <SELECT id="combo">
+      <option/>
+      <OPTION VALUE="key">Value</OPTION>
+      <OPTION VALUE="key2">Value2</OPTION>
+  </SELECT>
+  <br>
+  <input type="radio" name="group1" id="star" value="Star">Star<br>
+  <input type="radio" name="group1" id="moon" value="Moon">Moon<br>
+
+  <script>
+    var item = {
+        text: ''
+    };
+    var binder = Binder();
+    $(document).ready(function() {
+        binder.bind('#text', item, 'text');
+    });
+  </script>
+</body>

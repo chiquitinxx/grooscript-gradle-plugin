@@ -91,3 +91,26 @@ uploadArchives {
     }
 }*/
 //End Sonar
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath group: 'org.grooscript', name: 'grooscript-gradle-plugin', version: '0.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'grooscript'
+
+task convertBinderJs(type: org.grooscript.gradle.ConvertTask) {
+    source = ['src/main/groovy/org/grooscript/web/Binder.groovy']
+    destination = 'src/main/resources/META-INF/resources'
+}
+
+task generateGrooscriptBinderJs(dependsOn: convertBinderJs) << {
+    ant.rename(src: 'src/main/resources/META-INF/resources/Binder.js',
+            dest: 'src/main/resources/META-INF/resources/grooscript-binder.js')
+    ant.copy(file: 'src/main/resources/META-INF/resources/grooscript-binder.js',
+            tofile: 'src/test/resources/js/grooscript-binder.js')
+}
