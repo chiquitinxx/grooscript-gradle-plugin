@@ -10,7 +10,8 @@ requirejs.config({
 requirejs(['jquery', 'grooscript', 'grooscript-binder'], function($) {
 
     item = {
-        text: ''
+        text: '',
+        area: ''
     };
     console.log('Exists a variable item with a property text in main context.')
 
@@ -18,5 +19,9 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder'], function($) {
     $(document).ready(function() {
         binder.bind('#text', item, 'text');
         console.log('#text changes are binded to item.text. Now, item has a method setText(newValue) binded to #text.');
+        binder.bind('#area', item, 'area');
+        console.log('Area binded too.');
     });
+
+    console.log('Textarea:' + $('#area').is("textarea"));
 });

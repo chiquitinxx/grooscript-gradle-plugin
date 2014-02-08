@@ -112,5 +112,5 @@ task generateGrooscriptBinderJs(dependsOn: convertBinderJs) << {
     ant.rename(src: 'src/main/resources/META-INF/resources/Binder.js',
             dest: 'src/main/resources/META-INF/resources/grooscript-binder.js')
     ant.copy(file: 'src/main/resources/META-INF/resources/grooscript-binder.js',
-            tofile: 'src/test/resources/js/grooscript-binder.js')
+            tofile: 'src/test/resources/js/lib/grooscript-binder.js')
 }
