@@ -50,8 +50,17 @@ class Binder {
                 var current = $(this);
                 target[nameProperty] = current.val();
             });
+        } else if (sourceDom.is("select")) {
+            target[nameSetMethod] = function(newValue) {
+                this[nameProperty] = newValue;
+                sourceDom.val(newValue);
+            };
+            sourceDom.bind('change', function() {
+                var current = $(this);
+                target[nameProperty] = current.val();
+            });
         } else {
-
+            console.log('Not supporting bind for selector ' + selector);
         }
     */}
 }

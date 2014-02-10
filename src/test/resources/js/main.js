@@ -14,22 +14,19 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder'], function($) {
         area: '',
         bike: false,
         car: false,
-        radio: ''
+        radio: '',
+        combo: ''
     };
-    console.log('Exists a variable item with a property text in main context.')
+    console.log('Exists a variable item with a property text in main context: ' + item)
 
     var binder = Binder();
     $(document).ready(function() {
         binder.bind('#text', item, 'text');
-        console.log('#text changes are binded to item.text. Now, item has a method setText(newValue) binded to #text.');
         binder.bind('#area', item, 'area');
-        console.log('Area binded too.');
         binder.bind('#bike', item, 'bike');
         binder.bind('#car', item, 'car');
-        console.log('Bike and Car binded too.');
         binder.bind('input:radio[name=group1]', item, 'radio');
-        console.log('Radio too.');
+        binder.bind('#combo', item, 'combo');
+        console.log('Binds done.');
     });
-
-    console.log('Textarea:' + $('#area').is("textarea"));
 });
