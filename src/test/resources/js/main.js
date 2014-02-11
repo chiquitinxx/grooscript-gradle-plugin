@@ -21,7 +21,7 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder'], function($) {
 
     var binder = Binder();
     $(document).ready(function() {
-        binder.bind('#text', item, 'text');
+        binder.bind('#text', item, 'text', function(newValue) { console.log('Change in text to: '+newValue);});
         binder.bind('#area', item, 'area');
         binder.bind('#bike', item, 'bike');
         binder.bind('#car', item, 'car');
