@@ -8,7 +8,7 @@ import org.grooscript.asts.GsNative
  */
 class Binder {
     @GsNative
-    def bind(String selector, target, String nameProperty, closure) { /*
+    def bind(String selector, target, String nameProperty, closure = null) { /*
 
         var sourceDom = $(selector);
         //Create set method
@@ -20,7 +20,6 @@ class Binder {
                 sourceDom.val(newValue);
                 if (closure) { closure(newValue); };
             };
-            setMethod(sourceDom.val);
             sourceDom.bind('input', function() {
                 var currentVal = $(this).val();
                 target[nameProperty] = currentVal;
@@ -74,4 +73,10 @@ class Binder {
             console.log('Not supporting bind for selector ' + selector);
         }
     */}
+
+    /*def bindAllProperties(target) {
+        target.properties.each { name, value ->
+            println 'Property:' + name + ' - value: ' + value
+        }
+    }*/
 }

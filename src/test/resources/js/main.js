@@ -7,16 +7,9 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'grooscript', 'grooscript-binder'], function($) {
+requirejs(['jquery', 'grooscript', 'grooscript-binder', 'app/Item'], function($) {
 
-    item = {
-        text: '',
-        area: '',
-        bike: false,
-        car: false,
-        radio: '',
-        combo: ''
-    };
+    item = Item();
     console.log('Exists a variable item with a property text in main context: ' + item)
 
     var binder = Binder();
@@ -28,5 +21,6 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder'], function($) {
         binder.bind('input:radio[name=group1]', item, 'radio');
         binder.bind('#combo', item, 'combo');
         console.log('Binds done.');
+        //binder.bindAllProperties(item);
     });
 });

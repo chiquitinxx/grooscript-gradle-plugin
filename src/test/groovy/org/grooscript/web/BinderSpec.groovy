@@ -22,6 +22,7 @@ class BinderSpec extends Specification {
 
         when:
         binder.bind(SELECTOR, item, 'name')
+        binder.bind(SELECTOR, item, 'name', { -> true})
 
         then:
         noExceptionThrown()
