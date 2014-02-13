@@ -6,7 +6,7 @@ function Item() {
     gSobject.area = "";
     gSobject.bike = false;
     gSobject.car = false;
-    gSobject.radio = "";
+    gSobject.group1 = "";
     gSobject.combo = "";
     gSobject.Item1 = function(map) { gs.passMapToObject(map,this); return this;};
     if (arguments.length==1) {gSobject.Item1(arguments[0]); }

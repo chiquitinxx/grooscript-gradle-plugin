@@ -74,9 +74,24 @@ class Binder {
         }
     */}
 
-    /*def bindAllProperties(target) {
+    def bindAllProperties(target, closure = null) {
         target.properties.each { name, value ->
-            println 'Property:' + name + ' - value: ' + value
+            if (existsId(name)) {
+                bind("#$name", target, name, closure)
+            }
+            if (existsGroup(name)) {
+                bind("input:radio[name=${name}]", target, name, closure)
+            }
         }
-    }*/
+    }
+
+    @GsNative
+    private existsId(name) {/*
+        return $("#" + name).length > 0
+    */}
+
+    @GsNative
+    private existsGroup(name) {/*
+        return $('input:radio[name=' + name + ']').length > 0
+    */}
 }

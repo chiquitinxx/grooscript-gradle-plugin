@@ -14,13 +14,14 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder', 'app/Item'], function($)
 
     var binder = Binder();
     $(document).ready(function() {
-        binder.bind('#text', item, 'text', function(newValue) { console.log('Change in text to: '+newValue);});
+        /*binder.bind('#text', item, 'text', function(newValue) { console.log('Change in text to: '+newValue);});
         binder.bind('#area', item, 'area');
         binder.bind('#bike', item, 'bike');
         binder.bind('#car', item, 'car');
         binder.bind('input:radio[name=group1]', item, 'radio');
         binder.bind('#combo', item, 'combo');
+        console.log('Binds done.');*/
+        binder.bindAllProperties(item);
         console.log('Binds done.');
-        //binder.bindAllProperties(item);
     });
 });
