@@ -14,6 +14,9 @@ class BinderSpec extends Specification {
 
     class Item {
         def name
+        def buttonClick() {
+            println 'Button clicked!'
+        }
     }
 
     def 'bind selector to object property'() {
@@ -23,6 +26,17 @@ class BinderSpec extends Specification {
         when:
         binder.bind(SELECTOR, item, 'name')
         binder.bind(SELECTOR, item, 'name', { -> true})
+
+        then:
+        noExceptionThrown()
+    }
+
+    def 'bind all methods'() {
+        given:
+        def item = new Item()
+
+        when:
+        binder.bindAllMethods(item)
 
         then:
         noExceptionThrown()

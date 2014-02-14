@@ -94,4 +94,20 @@ class Binder {
     private existsGroup(name) {/*
         return $('input:radio[name=' + name + ']').length > 0
     */}
+
+    @GsNative
+    private bindEvent(id, name, func) {/*
+        $('#'+id).on(name, func);
+    */}
+
+    def bindAllMethods(target) {
+        target.metaClass.methods.each { method ->
+            if (method.name.endsWith('Click')) {
+                def shortName = method.name.substring(0, method.name.length() - 5)
+                if (existsId(shortName)) {
+                    bindEvent(shortName, 'click', item.&"${method.name}")
+                }
+            }
+        }
+    }
 }

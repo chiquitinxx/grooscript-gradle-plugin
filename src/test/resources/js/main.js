@@ -11,6 +11,10 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder', 'app/Item'], function($)
 
     item = Item();
     console.log('Exists a variable item with a property text in main context: ' + item)
+    var i, list = item.getMethods();
+    list.each(function (item) {
+        console.log('Method:' + item.name);
+    });
 
     var binder = Binder();
     $(document).ready(function() {
@@ -22,6 +26,9 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder', 'app/Item'], function($)
         binder.bind('#combo', item, 'combo');
         console.log('Binds done.');*/
         binder.bindAllProperties(item);
-        console.log('Binds done.');
+        console.log('Bind properties done.');
+        binder.bindAllMethods(item);
+        console.log('Bind methods done.');
     });
+
 });

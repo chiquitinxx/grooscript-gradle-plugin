@@ -8,6 +8,9 @@ function Item() {
     gSobject.car = false;
     gSobject.group1 = "";
     gSobject.combo = "";
+    gSobject.buttonClick = function() {
+        console.log('Button clicked!');
+    };
     gSobject.Item1 = function(map) { gs.passMapToObject(map,this); return this;};
     if (arguments.length==1) {gSobject.Item1(arguments[0]); }
 
