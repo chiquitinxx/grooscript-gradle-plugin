@@ -16,7 +16,7 @@ dependencies {
     testCompile "org.spockframework:spock-core:0.7-groovy-1.8", {
         exclude module: "groovy-all"
     }
-    testCompile 'cglib:cglib-nodep:2.2'
+    compile 'cglib:cglib-nodep:2.2'
     compile 'org.grooscript:grooscript:0.4.3', {
         exclude module: "groovy"
     }
@@ -105,8 +105,11 @@ buildscript {
 apply plugin: 'grooscript'
 
 task convertBinderJs(type: org.grooscript.gradle.ConvertTask) {
-    source = ['src/main/groovy/org/grooscript/web/Binder.groovy']
+    source = ['src/main/groovy/org/grooscript/web/Binder.groovy',
+            'src/main/groovy/org/grooscript/web/JQueryUtils.groovy']
     destination = 'src/main/resources/META-INF/resources'
+    classPath = ['src/main/groovy']
+    convertDependencies = false
 }
 
 task generateGrooscriptBinderJs(dependsOn: convertBinderJs) << {
@@ -114,4 +117,6 @@ task generateGrooscriptBinderJs(dependsOn: convertBinderJs) << {
             dest: 'src/main/resources/META-INF/resources/grooscript-binder.js')
     ant.copy(file: 'src/main/resources/META-INF/resources/grooscript-binder.js',
             tofile: 'src/test/resources/js/lib/grooscript-binder.js')
+    ant.copy(file: 'src/main/resources/META-INF/resources/JQueryUtils.js',
+            tofile: 'src/test/resources/js/lib/JQueryUtils.js')
 }

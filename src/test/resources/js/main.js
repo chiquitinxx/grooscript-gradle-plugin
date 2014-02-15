@@ -7,16 +7,13 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'grooscript', 'grooscript-binder', 'app/Item'], function($) {
-
+requirejs(['jquery', 'grooscript', 'JQueryUtils', 'grooscript-binder', 'app/Item'], function($) {
+    var jQueryUtils = JQueryUtils();
     item = Item();
     console.log('Exists a variable item with a property text in main context: ' + item)
-    var i, list = item.getMethods();
-    list.each(function (item) {
-        console.log('Method:' + item.name);
-    });
 
     var binder = Binder();
+    binder.jQueryUtils = jQueryUtils;
     $(document).ready(function() {
         /*binder.bind('#text', item, 'text', function(newValue) { console.log('Change in text to: '+newValue);});
         binder.bind('#area', item, 'area');
@@ -27,6 +24,7 @@ requirejs(['jquery', 'grooscript', 'grooscript-binder', 'app/Item'], function($)
         console.log('Binds done.');*/
         binder.bindAllProperties(item);
         console.log('Bind properties done.');
+        console.log('2');
         binder.bindAllMethods(item);
         console.log('Bind methods done.');
     });
