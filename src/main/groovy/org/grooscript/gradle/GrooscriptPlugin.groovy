@@ -16,6 +16,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         project.extensions.create("grooscript", GrooscriptPluginExtension)
         configureConvertTask(project)
         configureDaemonTask(project)
+        configureInitStaticWeb(project)
     }
 
     private configureConvertTask(Project project) {
@@ -28,5 +29,11 @@ class GrooscriptPlugin implements Plugin<Project> {
         DaemonTask daemonTask = project.tasks.create('daemon', DaemonTask)
         daemonTask.description = 'Launch grooscript conversion daemon.'
         daemonTask.group = GROOSCRIPT_GROUP
+    }
+
+    private configureInitStaticWeb(Project project) {
+        InitStaticWebTask initStaticWebTask = project.tasks.create('initStaticWeb', InitStaticWebTask)
+        initStaticWebTask.description = 'Init static web project.'
+        initStaticWebTask.group = GROOSCRIPT_GROUP
     }
 }
