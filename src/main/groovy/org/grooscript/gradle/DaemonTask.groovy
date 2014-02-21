@@ -20,6 +20,7 @@ class DaemonTask extends GrooscriptTask {
             throw new GradleException("Need define source and destination.")
         } else {
             configureAndStartDaemon()
+            return daemon
         }
     }
 
@@ -47,12 +48,13 @@ class DaemonTask extends GrooscriptTask {
 
     private startDaemon() {
         daemon.start()
-
+        Thread.sleep(100)
         def thread = Thread.start {
-            while (daemon.continueExecution) {
+            while (daemon.convertActor?.isActive()) {
                 sleep(100)
             }
         }
-        thread.run()
+        thread.join()
+        //println 'Stopping daemon.'
     }
 }

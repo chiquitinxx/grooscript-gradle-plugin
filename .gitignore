@@ -3,3 +3,5 @@ grooscript-gradle-plugin.iws
 grooscript-gradle-plugin.iml
 grooscript-binder.js
 grooscript.js
+src/test/resources/js/lib/JQueryUtils.js
+src/test/resources/js/lib/grooscript-builder.js

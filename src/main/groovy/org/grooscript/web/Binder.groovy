@@ -1,7 +1,5 @@
 package org.grooscript.web
 
-import org.grooscript.asts.GsNative
-
 /**
  * User: jorgefrancoleza
  * Date: 06/02/14

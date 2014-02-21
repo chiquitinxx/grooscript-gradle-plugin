@@ -5,7 +5,7 @@ package org.grooscript.gradle
  */
 class GrooscriptPluginExtension {
     def source = ['src/main/groovy']
-    String destination = 'src/main/webapp/js'
+    String destination = 'src/main/webapp/js/app'
     List<String> classPath
     boolean convertDependencies = false
     Closure customization

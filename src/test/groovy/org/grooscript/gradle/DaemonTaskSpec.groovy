@@ -4,7 +4,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.grooscript.daemon.ConversionDaemon
-import spock.lang.Ignore
+import org.grooscript.util.GsConsole
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -14,8 +14,10 @@ import spock.lang.Unroll
  */
 class DaemonTaskSpec extends Specification {
 
-    static final SOURCE = ['source']
-    static final DESTINATION = 'destination'
+    static final ANY_SOURCE = ['source']
+    static final ANY_DESTINATION = 'destination'
+    static final GOOD_SOURCE = ['src/test/resources/groovy']
+    static final GOOD_DESTINATION = 'src/test/resources/js/app'
 
     Project project
     DaemonTask task
@@ -47,29 +49,36 @@ class DaemonTaskSpec extends Specification {
         null    |'two'
     }
 
-    @Ignore
-    def 'test launch daemon'() {
+    def 'test launch daemon with bad options'() {
         given:
-        def daemonStarted = false
-        task.metaClass.startDaemon = { -> daemonStarted = true }
-        task.source = SOURCE
-        task.destination = DESTINATION
-        task.classPath = ['.']
-        task.convertDependencies = true
-        task.customization = { true }
-        task.initialText = 'initial'
-        task.finalText = 'final'
-        task.recursive = true
-        task.mainContextScope = ['7']
+        GroovySpy(GsConsole, global: true)
+        task.source = ANY_SOURCE
+        task.destination = ANY_DESTINATION
 
         when:
-        task.launchDaemon()
+        def daemon
+        daemon = task.launchDaemon()
 
         then:
-        //1 * daemon.setSource(SOURCE)
-        //1 * daemon.setDestinationFolder(DESTINATION)
-        //1 * daemon.setDoAfter(_ instanceof Closure)
-        //1 * daemon.setConversionOptions([:])
-        daemonStarted
+        1 * GsConsole.message('Daemon Started.')
+        1 * GsConsole.exception('Exception in daemon: null')
+        daemon
+        daemon.convertActor.isActive() == false
+    }
+
+    def 'test launch daemon and do conversion'() {
+        given:
+        GroovySpy(GsConsole, global: true)
+        task.source = GOOD_SOURCE
+        task.destination = GOOD_DESTINATION
+
+        when:
+        Thread.start {
+            task.launchDaemon()
+        }
+        sleep(1000)
+
+        then:
+        1 * GsConsole.info(_)
     }
 }
