@@ -4,7 +4,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'org.grooscript'
-version = '0.2-SNAPSHOT'
+version = '0.2'
 
 repositories {
     mavenCentral()
@@ -21,14 +21,6 @@ dependencies {
         exclude module: "groovy"
     }
 }
-
-/*uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "file://localhost/Users/jorgefrancoleza/.m2/repository")
-        }
-    }
-}*/
 
 //Sonar repository stuff
 /*task javadocJar(type: Jar, dependsOn: javadoc) {
