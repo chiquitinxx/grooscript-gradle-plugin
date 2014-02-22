@@ -10,4 +10,4 @@ interface InitTools {
     boolean extractGrooscriptJarFile(String fileName, String fileDestinationRelative)
     boolean extractJarFile(String fileName, String fileDestinationRelative)
     boolean saveRemoteFile(String fileRelative, String url)
-    }
+}

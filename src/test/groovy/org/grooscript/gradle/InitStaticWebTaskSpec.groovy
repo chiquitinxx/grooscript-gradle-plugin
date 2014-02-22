@@ -45,14 +45,16 @@ class InitStaticWebTaskSpec extends Specification {
         1 * initTools.existsFile('src/main/webapp/index.html') >> false
         1 * initTools.createDirs('src/main/webapp/js/lib') >> true
         1 * initTools.createDirs('src/main/webapp/js/app') >> true
+        1 * initTools.createDirs('src/main/groovy') >> true
         1 * initTools.saveFile('src/main/webapp/index.html', task.HTML_TEXT) >> true
+        1 * initTools.saveFile('src/main/groovy/Presenter.groovy', task.PRESENTER_TEXT) >> true
         1 * initTools.saveFile('src/main/webapp/js/main.js', task.MAIN_REQUIRE_TEXT) >> true
         1 * initTools.extractGrooscriptJarFile('grooscript.js', 'src/main/webapp/js/lib/grooscript.js') >> true
         1 * initTools.extractGrooscriptJarFile('grooscript-builder.js', 'src/main/webapp/js/lib/grooscript-builder.js') >> true
         1 * initTools.extractJarFile('grooscript-binder.js', 'src/main/webapp/js/lib/grooscript-binder.js') >> true
         1 * initTools.extractJarFile('JQueryUtils.js', 'src/main/webapp/js/lib/JQueryUtils.js') >> true
-        1 * initTools.saveRemoteFile('src/main/webapp/js/lib/require.js', task.REQUIRE_JS_REMOTE) >> true
-        1 * initTools.saveRemoteFile('src/main/webapp/js/lib/jquery.js', task.JQUERY_JS_REMOTE) >> true
+        1 * initTools.saveRemoteFile('src/main/webapp/js/lib/require.min.js', task.REQUIRE_JS_REMOTE) >> true
+        1 * initTools.saveRemoteFile('src/main/webapp/js/lib/jquery.min.js', task.JQUERY_JS_REMOTE) >> true
         0 * initTools._
         noExceptionThrown()
     }

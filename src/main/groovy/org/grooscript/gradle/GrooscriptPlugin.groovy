@@ -2,6 +2,7 @@ package org.grooscript.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.grooscript.gradle.util.InitToolsImpl
 
 /**
  * User: jorgefrancoleza
@@ -33,6 +34,7 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     private configureInitStaticWeb(Project project) {
         InitStaticWebTask initStaticWebTask = project.tasks.create('initStaticWeb', InitStaticWebTask)
+        initStaticWebTask.initTools = new InitToolsImpl()
         initStaticWebTask.description = 'Init static web project.'
         initStaticWebTask.group = GROOSCRIPT_GROUP
     }

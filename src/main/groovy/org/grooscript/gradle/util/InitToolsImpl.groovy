@@ -13,6 +13,7 @@ class InitToolsImpl implements InitTools {
 
     boolean createDirs(String dirRelative) {
         new File(dirRelative).mkdirs()
+        true
     }
 
     boolean saveFile(String fileRelative, String content) {
@@ -33,7 +34,7 @@ class InitToolsImpl implements InitTools {
     }
 
     boolean saveRemoteFile(String fileRelative, String url) {
-        new File(fileRelative).text = url
+        new File(fileRelative).text = url.toURL().text
         true
     }
 }
