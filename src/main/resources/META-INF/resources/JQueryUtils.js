@@ -76,8 +76,7 @@ function JQueryUtils() {
   gSobject.bindEvent = function(id, name, func) {
     $('#'+id).on(name, func);
   }
-  gSobject.JQueryUtils1 = function(map) { gs.passMapToObject(map,this); return this;};
-  if (arguments.length==1) {gSobject.JQueryUtils1(arguments[0]); }
+  if (arguments.length == 1) {gs.passMapToObject(arguments[0],gSobject);};
   
   return gSobject;
 };
