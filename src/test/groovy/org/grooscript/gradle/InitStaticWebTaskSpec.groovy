@@ -51,8 +51,8 @@ class InitStaticWebTaskSpec extends Specification {
         1 * initTools.saveFile('src/main/webapp/js/main.js', task.MAIN_REQUIRE_TEXT) >> true
         1 * initTools.extractGrooscriptJarFile('grooscript.js', 'src/main/webapp/js/lib/grooscript.js') >> true
         1 * initTools.extractGrooscriptJarFile('grooscript-builder.js', 'src/main/webapp/js/lib/grooscript-builder.js') >> true
-        1 * initTools.extractJarFile('grooscript-binder.js', 'src/main/webapp/js/lib/grooscript-binder.js') >> true
-        1 * initTools.extractJarFile('JQueryUtils.js', 'src/main/webapp/js/lib/JQueryUtils.js') >> true
+        1 * initTools.extractGrooscriptJarFile('grooscript-binder.js', 'src/main/webapp/js/lib/grooscript-binder.js') >> true
+        1 * initTools.extractGrooscriptJarFile('gQueryImpl.js', 'src/main/webapp/js/lib/gQueryImpl.js') >> true
         1 * initTools.saveRemoteFile('src/main/webapp/js/lib/require.min.js', task.REQUIRE_JS_REMOTE) >> true
         1 * initTools.saveRemoteFile('src/main/webapp/js/lib/jquery.min.js', task.JQUERY_JS_REMOTE) >> true
         0 * initTools._

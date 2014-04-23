@@ -4,9 +4,10 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'org.grooscript'
-version = '0.2.1'
+version = '0.3-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -17,9 +18,13 @@ dependencies {
         exclude module: "groovy-all"
     }
     compile 'cglib:cglib-nodep:2.2'
-    compile 'org.grooscript:grooscript:0.4.5', {
+    compile 'org.grooscript:grooscript:0.5-SNAPSHOT', {
         exclude module: "groovy"
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
 }
 
 //Sonar repository stuff
@@ -83,32 +88,3 @@ uploadArchives {
     }
 }*/
 //End Sonar
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'org.grooscript', name: 'grooscript-gradle-plugin', version: '0.2.1'
-    }
-}
-
-apply plugin: 'grooscript'
-
-task convertBinderJs(type: org.grooscript.gradle.ConvertTask) {
-    source = ['src/main/groovy/org/grooscript/web/Binder.groovy',
-            'src/main/groovy/org/grooscript/web/JQueryUtils.groovy']
-    destination = 'src/main/resources/META-INF/resources'
-    classPath = ['src/main/groovy']
-    convertDependencies = false
-}
-
-task generateGrooscriptBinderJs(dependsOn: convertBinderJs) << {
-    ant.rename(src: 'src/main/resources/META-INF/resources/Binder.js',
-            dest: 'src/main/resources/META-INF/resources/grooscript-binder.js')
-    ant.copy(file: 'src/main/resources/META-INF/resources/grooscript-binder.js',
-            tofile: 'src/test/resources/js/lib/grooscript-binder.js')
-    ant.copy(file: 'src/main/resources/META-INF/resources/JQueryUtils.js',
-            tofile: 'src/test/resources/js/lib/JQueryUtils.js')
-}

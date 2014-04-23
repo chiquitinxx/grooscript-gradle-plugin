@@ -12,7 +12,7 @@ import org.grooscript.GrooScript
 class ConvertTask extends GrooscriptTask {
 
     @TaskAction
-    def convert() {
+    void convert() {
         checkProperties()
         if (!source || !destination) {
             throw new GradleException("Need define source and destination.")
@@ -21,7 +21,7 @@ class ConvertTask extends GrooscriptTask {
         }
     }
 
-    private doConversion() {
+    private void doConversion() {
         GrooScript.clearAllOptions()
         GrooScript.setConversionProperty('customization', customization)
         GrooScript.setConversionProperty('classPath', classPath)

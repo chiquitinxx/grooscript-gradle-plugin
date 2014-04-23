@@ -11,8 +11,7 @@ function Item() {
   gSobject['buttonClick'] = function(it) {
     return gs.println("Button clicked!");
   }
-  gSobject.Item1 = function(map) { gs.passMapToObject(map,this); return this;};
-  if (arguments.length==1) {gSobject.Item1(arguments[0]); }
+  if (arguments.length == 1) {gs.passMapToObject(arguments[0],gSobject);};
   
   return gSobject;
 };

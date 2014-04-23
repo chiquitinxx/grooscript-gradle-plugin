@@ -23,7 +23,7 @@ class ConvertTaskSpec extends Specification {
 
         task = project.task('convert', type: ConvertTask)
         task.project = project
-        task.project.grooscript = [:]
+        task.project.ext.set('grooscript', [:])
     }
 
     def 'create the task'() {
@@ -34,10 +34,9 @@ class ConvertTaskSpec extends Specification {
     def 'by default properties come from project.grooscript'() {
         given:
         GroovySpy(GrooScript, global: true)
-        project.grooscript = [source: ['1'], destination: '2', customization: { -> },
+        project.ext.set('grooscript', [source: ['1'], destination: '2', customization: { -> },
                 classPath: ['3'], convertDependencies: true, initialText: 'initial', finalText: 'final',
-                recursive: true, mainContextScope: ['7']
-        ]
+                recursive: true, mainContextScope: ['7']])
 
         when:
         task.convert()
@@ -51,22 +50,22 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('finalText', project.grooscript.finalText)
         1 * GrooScript.setConversionProperty('recursive', project.grooscript.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
-        1 * GrooScript.convert(project.grooscript.source, project.grooscript.destination) >> true
+        1 * GrooScript.convert(project.grooscript.source, project.grooscript.destination) >> null
         0 * _
     }
 
     def 'don\'t override task properties'() {
         given:
         GroovySpy(GrooScript, global: true)
-        project.grooscript = [source: ['1'], destination: '2', customization: { -> },
-                classPath: ['3'], convertDependencies: true]
+        project.ext.set('grooscript', [source: ['1'], destination: '2', customization: { -> },
+                classPath: ['3'], convertDependencies: true])
         task.source = SOURCE
 
         when:
         task.convert()
 
         then:
-        1 * GrooScript.convert(SOURCE, project.grooscript.destination) >> true
+        1 * GrooScript.convert(SOURCE, project.grooscript.destination) >> null
     }
 
     @Unroll
@@ -96,7 +95,7 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
-        1 * GrooScript.convert(SOURCE, DESTINATION) >> true
+        1 * GrooScript.convert(SOURCE, DESTINATION) >> null
     }
 
     def 'convert tasks with options'() {
@@ -124,7 +123,7 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('finalText', task.finalText)
         1 * GrooScript.setConversionProperty('recursive', task.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
-        1 * GrooScript.convert(SOURCE, DESTINATION) >> true
+        1 * GrooScript.convert(SOURCE, DESTINATION) >> null
         0 * _
     }
 }

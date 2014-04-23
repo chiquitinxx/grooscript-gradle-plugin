@@ -7,19 +7,16 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'grooscript', 'JQueryUtils', 'grooscript-binder', 'app/Item'], function($) {
-    var jQueryUtils = JQueryUtils();
+requirejs(['jquery', 'grooscript', 'gQueryImpl', 'grooscript-binder', 'app/Item'], function($) {
+    var jQueryUtils = GQueryImpl();
     item = Item();
     console.log('Exists a variable item with a property text in main context: ' + item)
 
     var binder = Binder();
-    binder.jQueryUtils = jQueryUtils;
+    binder.gQuery = jQueryUtils;
     $(document).ready(function() {
-        binder.bindAllProperties(item);
-        console.log('Bind properties done.');
-        console.log('2');
-        binder.bindAllMethods(item);
-        console.log('Bind methods done.');
+        binder.call(item);
+        console.log('Bind all done.');
     });
 
 });
