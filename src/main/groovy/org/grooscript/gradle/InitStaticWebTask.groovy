@@ -18,10 +18,7 @@ class InitStaticWebTask extends DefaultTask {
     static final JS_APP_DIR = "${JS_DIR}/app"
     static final HTML_FILE = "${WEBAPP_DIR}/index.html"
     static final MAIN_REQUIRE_FILE = "${JS_DIR}/main.js"
-    static final GROOSCRIPT_JS_NAME = 'grooscript.js'
-    static final GROOSCRIPT_BUILDER_JS_NAME = 'grooscript-builder.js'
-    static final GROOSCRIPT_BINDER_JS_NAME = 'grooscript-binder.js'
-    static final GROOSCRIPT_GQUERY_JS_NAME = 'gQueryImpl.js'
+    static final GROOSCRIPT_ALL_JS_NAME = 'grooscript-all.js'
     static final REQUIRE_JS_FILE = "${JS_LIB_DIR}/require.min.js"
     static final JQUERY_JS_FILE = "${JS_LIB_DIR}/jquery.min.js"
     static final REQUIRE_JS_REMOTE = 'http://requirejs.org/docs/release/2.1.11/minified/require.js'
@@ -55,10 +52,9 @@ class Presenter {
       jquery: 'jquery.min'
     }
 });
-requirejs(['jquery', 'grooscript', 'gQueryImpl', 'grooscript-binder', 'app/Presenter'], function($) {
+requirejs(['jquery', 'grooscript-all', 'app/Presenter'], function($) {
     presenter = Presenter();
     var binder = Binder();
-    binder.gQuery = GQueryImpl();
     $(document).ready(function() {
         binder.call(presenter);
         console.log('All binds done.');
@@ -81,15 +77,7 @@ requirejs(['jquery', 'grooscript', 'gQueryImpl', 'grooscript-binder', 'app/Prese
             initTools.createDirs(GROOVY_DIR) &&
             initTools.saveFile(HTML_FILE, HTML_TEXT) && initTools.saveFile(MAIN_REQUIRE_FILE, MAIN_REQUIRE_TEXT) &&
             initTools.saveFile(PRESENTER_FILE, PRESENTER_TEXT) &&
-            initTools.extractGrooscriptJarFile(GROOSCRIPT_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_JS_NAME}") &&
-            initTools.extractGrooscriptJarFile(
-                    GROOSCRIPT_BUILDER_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_BUILDER_JS_NAME}") &&
-            initTools.extractGrooscriptJarFile(
-                    GROOSCRIPT_BINDER_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_BINDER_JS_NAME}") &&
-            initTools.extractGrooscriptJarFile(
-                    GROOSCRIPT_GQUERY_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_GQUERY_JS_NAME}") &&
-            //initTools.extractJarFile(PLUGIN_BINDER_JS_NAME, "${JS_LIB_DIR}/${PLUGIN_BINDER_JS_NAME}") &&
-            //initTools.extractJarFile(PLUGIN_JQUERY_JS_NAME, "${JS_LIB_DIR}/${PLUGIN_JQUERY_JS_NAME}") &&
+            initTools.extractGrooscriptJarFile(GROOSCRIPT_ALL_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_ALL_JS_NAME}") &&
             initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE) &&
             initTools.saveRemoteFile(REQUIRE_JS_FILE, REQUIRE_JS_REMOTE)) {
             println 'Generation completed.'

@@ -11,7 +11,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.grooscript:grooscript-gradle-plugin:0.2.1'
+        classpath 'org.grooscript:grooscript-gradle-plugin:0.3'
     }
 }
 
