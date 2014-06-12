@@ -12,6 +12,7 @@ import org.grooscript.util.GsConsole
 class DaemonTask extends GrooscriptTask {
 
     ConversionDaemon daemon
+    boolean waitInfinite = true
 
     @TaskAction
     def launchDaemon() {
@@ -49,12 +50,13 @@ class DaemonTask extends GrooscriptTask {
     private startDaemon() {
         daemon.start()
         Thread.sleep(100)
-        def thread = Thread.start {
-            while (daemon.convertActor?.isActive()) {
-                sleep(100)
+        if (waitInfinite) {
+            def thread = Thread.start {
+                while (daemon.convertActor?.isActive()) {
+                    sleep(100)
+                }
             }
+            thread.join()
         }
-        thread.join()
-        //println 'Stopping daemon.'
     }
 }

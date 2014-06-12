@@ -23,7 +23,6 @@ class ConvertTaskSpec extends Specification {
 
         task = project.task('convert', type: ConvertTask)
         task.project = project
-        task.project.ext.set('grooscript', [:])
     }
 
     def 'create the task'() {
@@ -34,9 +33,9 @@ class ConvertTaskSpec extends Specification {
     def 'by default properties come from project.grooscript'() {
         given:
         GroovySpy(GrooScript, global: true)
-        project.ext.set('grooscript', [source: ['1'], destination: '2', customization: { -> },
+        project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
                 classPath: ['3'], convertDependencies: true, initialText: 'initial', finalText: 'final',
-                recursive: true, mainContextScope: ['7']])
+                recursive: true, mainContextScope: ['7'], includeJsLib: 'grooscript']
 
         when:
         task.convert()
@@ -50,15 +49,16 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('finalText', project.grooscript.finalText)
         1 * GrooScript.setConversionProperty('recursive', project.grooscript.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
+        1 * GrooScript.setConversionProperty('includeJsLib', project.grooscript.includeJsLib)
         1 * GrooScript.convert(project.grooscript.source, project.grooscript.destination) >> null
         0 * _
     }
 
-    def 'don\'t override task properties'() {
+    def 'doesn\'t override task properties'() {
         given:
         GroovySpy(GrooScript, global: true)
-        project.ext.set('grooscript', [source: ['1'], destination: '2', customization: { -> },
-                classPath: ['3'], convertDependencies: true])
+        project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
+                classPath: ['3'], convertDependencies: true]
         task.source = SOURCE
 
         when:
@@ -88,6 +88,7 @@ class ConvertTaskSpec extends Specification {
     def 'run the task with correct data'() {
         given:
         GroovySpy(GrooScript, global: true)
+        project.extensions.grooscript = [:]
 
         when:
         task.source = SOURCE
@@ -110,6 +111,7 @@ class ConvertTaskSpec extends Specification {
         task.finalText = 'final'
         task.recursive = true
         task.mainContextScope = [',']
+        task.includeJsLib = 'include'
 
         when:
         task.convert()
@@ -123,6 +125,7 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('finalText', task.finalText)
         1 * GrooScript.setConversionProperty('recursive', task.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
+        1 * GrooScript.setConversionProperty('includeJsLib', task.includeJsLib)
         1 * GrooScript.convert(SOURCE, DESTINATION) >> null
         0 * _
     }

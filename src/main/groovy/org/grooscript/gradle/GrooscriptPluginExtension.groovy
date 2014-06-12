@@ -13,4 +13,5 @@ class GrooscriptPluginExtension {
     String finalText
     boolean recursive = false
     List<String> mainContextScope
+    String includeJsLib
 }

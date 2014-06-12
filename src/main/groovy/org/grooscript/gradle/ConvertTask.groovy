@@ -30,6 +30,7 @@ class ConvertTask extends GrooscriptTask {
         GrooScript.setConversionProperty('finalText', finalText)
         GrooScript.setConversionProperty('recursive', recursive)
         GrooScript.setConversionProperty('mainContextScope', mainContextScope)
+        GrooScript.setConversionProperty('includeJsLib', includeJsLib)
         GrooScript.convert(source, destination)
     }
 }

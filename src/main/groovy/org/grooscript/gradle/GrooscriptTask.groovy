@@ -17,16 +17,18 @@ class GrooscriptTask extends DefaultTask {
     String finalText
     boolean recursive
     List<String> mainContextScope
+    String includeJsLib
 
     def checkProperties() {
-        source = source ?: project.grooscript?.source
-        destination = destination ?: project.grooscript?.destination
-        classPath = classPath ?: project.grooscript?.classPath
-        convertDependencies = convertDependencies ?: project.grooscript?.convertDependencies
-        customization = customization ?: project.grooscript?.customization
-        initialText = initialText ?: project.grooscript?.initialText
-        finalText = finalText ?: project.grooscript?.finalText
-        recursive = recursive ?: project.grooscript?.recursive
-        mainContextScope = mainContextScope ?: project.grooscript?.mainContextScope
+        source = source ?: project.extensions.grooscript?.source
+        destination = destination ?: project.extensions.grooscript?.destination
+        classPath = classPath ?: project.extensions.grooscript?.classPath
+        convertDependencies = convertDependencies ?: project.extensions.grooscript?.convertDependencies
+        customization = customization ?: project.extensions.grooscript?.customization
+        initialText = initialText ?: project.extensions.grooscript?.initialText
+        finalText = finalText ?: project.extensions.grooscript?.finalText
+        recursive = recursive ?: project.extensions.grooscript?.recursive
+        mainContextScope = mainContextScope ?: project.extensions.grooscript?.mainContextScope
+        includeJsLib = includeJsLib ?: project.extensions.grooscript?.includeJsLib
     }
 }
