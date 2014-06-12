@@ -57,9 +57,9 @@ class DaemonTaskSpec extends Specification {
         task.destination = ANY_DESTINATION
 
         when:
-        def daemon
-        daemon = task.launchDaemon()
-        Thread.sleep(200)
+        def daemon = task.launchDaemon()
+        //Wait until raise error in conversion
+        Thread.sleep(350)
 
         then:
         1 * GsConsole.message('Daemon Started.')
