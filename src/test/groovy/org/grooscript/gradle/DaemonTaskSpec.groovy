@@ -29,6 +29,7 @@ class DaemonTaskSpec extends Specification {
         task.project = project
         task.project.extensions.grooscript = [:]
         task.daemon = daemon
+        task.waitInfinite = false
     }
 
     @Unroll
@@ -58,6 +59,7 @@ class DaemonTaskSpec extends Specification {
         when:
         def daemon
         daemon = task.launchDaemon()
+        Thread.sleep(200)
 
         then:
         1 * GsConsole.message('Daemon Started.')
@@ -73,12 +75,9 @@ class DaemonTaskSpec extends Specification {
         task.destination = GOOD_DESTINATION
 
         when:
-        Thread.start {
-            task.launchDaemon()
-        }
-        sleep(1000)
+        task.launchDaemon()
 
         then:
-        1 * GsConsole.info(_)
+        1 * GsConsole.message('Daemon Started.')
     }
 }

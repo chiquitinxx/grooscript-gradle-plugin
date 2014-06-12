@@ -18,6 +18,7 @@ class GrooscriptPluginSpec extends Specification {
         expect:
         project.tasks.convert instanceof ConvertTask
         project.tasks.daemon instanceof DaemonTask
+        project.tasks.thread instanceof ThreadTask
         project.tasks.initStaticWeb instanceof InitStaticWebTask
     }
 }
