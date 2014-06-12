@@ -27,7 +27,7 @@ class DaemonTaskSpec extends Specification {
         project = ProjectBuilder.builder().build()
         task = project.task('daemon', type: DaemonTask)
         task.project = project
-        task.project.grooscript = [:]
+        task.project.extensions.grooscript = [:]
         task.daemon = daemon
     }
 

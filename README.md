@@ -1,9 +1,9 @@
-grooscript-gradle-plugin 0.3
-============================
+grooscript-gradle-plugin 0.4-SNAPSHOT
+=====================================
 
 Gradle plugin with grooscript tasks. To convert groovy files to javascript.
 
-__Important: plugin uses Groovy 1.8 when running task form a project. Will fail any conversion that need Groovy 2.0+__
+__Important: plugin requires Gradle 2__
 
 build.gradle example:
 
@@ -13,7 +13,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.grooscript:grooscript-gradle-plugin:0.3'
+        classpath 'org.grooscript:grooscript-gradle-plugin:0.4-SNAPSHOT'
     }
 }
 

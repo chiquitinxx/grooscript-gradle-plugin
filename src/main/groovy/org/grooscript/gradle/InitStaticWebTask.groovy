@@ -17,11 +17,8 @@ class InitStaticWebTask extends DefaultTask {
     static final JS_LIB_DIR = "${JS_DIR}/lib"
     static final JS_APP_DIR = "${JS_DIR}/app"
     static final HTML_FILE = "${WEBAPP_DIR}/index.html"
-    static final MAIN_REQUIRE_FILE = "${JS_DIR}/main.js"
     static final GROOSCRIPT_ALL_JS_NAME = 'grooscript-all.js'
-    static final REQUIRE_JS_FILE = "${JS_LIB_DIR}/require.min.js"
     static final JQUERY_JS_FILE = "${JS_LIB_DIR}/jquery.min.js"
-    static final REQUIRE_JS_REMOTE = 'http://requirejs.org/docs/release/2.1.11/minified/require.js'
     static final JQUERY_JS_REMOTE = 'http://code.jquery.com/jquery-1.11.0.min.js'
 
     static final PRESENTER_TEXT = '''
@@ -37,29 +34,23 @@ class Presenter {
     static final HTML_TEXT = '''<html>
 <head>
     <title>Initial static web page</title>
-    <script data-main="js/main" src="js/lib/require.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="js/lib/grooscript-all.js"></script>
+    <script type="text/javascript" src="js/app/Presenter.js"></script>
 </head>
 <body>
     <p>Name:<input type="text" id="name"/></p>
     <input type="button" id="button" value="Say hello!"/>
     <div id="salutes"/>
+    <script type="text/javascript">
+        presenter = Presenter();
+        var binder = Binder();
+        $(document).ready(function() {
+            binder.call(presenter);
+            console.log('All binds done.');
+        });
+    </script>
 </body>'''
-
-    static final MAIN_REQUIRE_TEXT = '''requirejs.config({
-    baseUrl: 'js/lib',
-    paths: {
-      app: '../app',
-      jquery: 'jquery.min'
-    }
-});
-requirejs(['jquery', 'grooscript-all', 'app/Presenter'], function($) {
-    presenter = Presenter();
-    var binder = Binder();
-    $(document).ready(function() {
-        binder.call(presenter);
-        console.log('All binds done.');
-    });
-});'''
 
     InitTools initTools
 
@@ -75,11 +66,10 @@ requirejs(['jquery', 'grooscript-all', 'app/Presenter'], function($) {
     private init() {
         if (initTools.createDirs(JS_LIB_DIR) && initTools.createDirs(JS_APP_DIR) &&
             initTools.createDirs(GROOVY_DIR) &&
-            initTools.saveFile(HTML_FILE, HTML_TEXT) && initTools.saveFile(MAIN_REQUIRE_FILE, MAIN_REQUIRE_TEXT) &&
+            initTools.saveFile(HTML_FILE, HTML_TEXT) &&
             initTools.saveFile(PRESENTER_FILE, PRESENTER_TEXT) &&
             initTools.extractGrooscriptJarFile(GROOSCRIPT_ALL_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_ALL_JS_NAME}") &&
-            initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE) &&
-            initTools.saveRemoteFile(REQUIRE_JS_FILE, REQUIRE_JS_REMOTE)) {
+            initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE)) {
             println 'Generation completed.'
         } else {
             throw new GradleException('Error creating files and dirs.')

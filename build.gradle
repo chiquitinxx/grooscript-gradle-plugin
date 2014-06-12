@@ -4,7 +4,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'org.grooscript'
-version = '0.3'
+version = '0.4-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -13,17 +13,17 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    testCompile "org.spockframework:spock-core:0.7-groovy-1.8", {
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
         exclude module: "groovy-all"
     }
     compile 'cglib:cglib-nodep:2.2'
-    compile 'org.grooscript:grooscript:0.5', {
+    compile 'org.grooscript:grooscript:0.5.1', {
         exclude module: "groovy"
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+    gradleVersion = "2.0-rc-1"
 }
 
 //Sonar repository stuff
