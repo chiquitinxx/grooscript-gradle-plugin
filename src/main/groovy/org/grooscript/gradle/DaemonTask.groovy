@@ -42,7 +42,7 @@ class DaemonTask extends GrooscriptTask {
                 }
             }
             startDaemon()
-        } finally {
+        } catch (e) {
             daemon.stop()
         }
     }
@@ -56,7 +56,9 @@ class DaemonTask extends GrooscriptTask {
                     sleep(100)
                 }
             }
+            println 'Waiting...'
             thread.join()
+            daemon.stop()
         }
     }
 }

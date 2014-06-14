@@ -5,5 +5,7 @@ package org.grooscript.gradle
  * Date: 13/06/14
  */
 class ThreadTask extends DaemonTask {
-    boolean waitInfinite = false
+    ThreadTask() {
+        waitInfinite = false
+    }
 }
