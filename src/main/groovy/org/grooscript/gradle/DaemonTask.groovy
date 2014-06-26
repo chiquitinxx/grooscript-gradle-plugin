@@ -56,7 +56,6 @@ class DaemonTask extends GrooscriptTask {
                     sleep(100)
                 }
             }
-            println 'Waiting...'
             thread.join()
             daemon.stop()
         }
