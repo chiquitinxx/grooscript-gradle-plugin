@@ -1,9 +1,9 @@
-grooscript-gradle-plugin 0.4-SNAPSHOT
-=====================================
+grooscript-gradle-plugin 0.4
+============================
 
-Gradle plugin with grooscript tasks. To convert groovy files to javascript.
+Gradle plugin to convert your groovy files to javascript using grooscript.
 
-__Important: plugin requires Gradle 2__
+__Important: plugin requires Gradle 2, grooscript requires Groovy 2__
 
 build.gradle example:
 
@@ -13,7 +13,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.grooscript:grooscript-gradle-plugin:0.4-SNAPSHOT'
+        classpath 'org.grooscript:grooscript-gradle-plugin:0.4'
     }
 }
 
@@ -32,12 +32,14 @@ grooscript {
 }
 </pre>
 
-There are 3 tasks:
+There are 4 tasks:
 
-convert - to convert groovy files
+__convert__ - to convert groovy files to javascript
 
-daemon - to run daemon that detect file changes and convert the files
+__daemon__ - to run daemon that detect file changes and convert the files. This task blocks execution, so use it alone.
 
-initStaticWeb - create a static web project with index.htlm in src/main/webabb, to work with require.js and grooscript
+__initStaticWeb__ - create a static web project with index.html in src/main/webabb, to work with grooscript
+
+__thread__ - run daemon to convert files to javascript. Executes daemon in a thread, so is perfect to use with other task
 
 More info about grooscript in http://grooscript.org

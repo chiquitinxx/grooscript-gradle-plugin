@@ -4,7 +4,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'org.grooscript'
-version = '0.4-SNAPSHOT'
+version = '0.4'
 
 repositories {
     mavenCentral()
@@ -23,7 +23,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.0-rc-2"
+    gradleVersion = "2.0"
 }
 
 //Sonar repository stuff
