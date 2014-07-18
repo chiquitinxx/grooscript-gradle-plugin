@@ -13,7 +13,7 @@ class GrooscriptPluginSpec extends Specification {
     def 'test initialization of plugin'() {
         given:
         Project project = ProjectBuilder.builder().build()
-        project.apply plugin: 'grooscript'
+        project.apply plugin: 'org.grooscript.conversion'
 
         expect:
         project.tasks.convert instanceof ConvertTask
