@@ -19,7 +19,7 @@ class GrooscriptTask extends DefaultTask {
     List<String> mainContextScope
     String includeJsLib
 
-    def checkProperties() {
+    void checkProperties() {
         source = source ?: project.extensions.grooscript?.source
         destination = destination ?: project.extensions.grooscript?.destination
         classPath = classPath ?: project.extensions.grooscript?.classPath
@@ -30,5 +30,18 @@ class GrooscriptTask extends DefaultTask {
         recursive = recursive ?: project.extensions.grooscript?.recursive
         mainContextScope = mainContextScope ?: project.extensions.grooscript?.mainContextScope
         includeJsLib = includeJsLib ?: project.extensions.grooscript?.includeJsLib
+    }
+
+    Map getConversionProperties() {
+        [
+            classPath: classPath,
+            convertDependencies: convertDependencies,
+            customization: customization,
+            initialText: initialText,
+            finalText: finalText,
+            recursive: recursive,
+            mainContextScope: mainContextScope,
+            includeJsLib: includeJsLib
+        ]
     }
 }

@@ -80,4 +80,42 @@ class DaemonTaskSpec extends Specification {
         then:
         1 * GsConsole.message('Daemon Started.')
     }
+
+    def 'test launch daemon with all conversion options'() {
+        given:
+        def conversionDaemon = Mock(ConversionDaemon)
+        task.metaClass.getNewConversionDaemon = { ->
+            conversionDaemon
+        }
+        task.source = GOOD_SOURCE
+        task.destination = GOOD_DESTINATION
+        task.classPath = ['src']
+        task.convertDependencies = true
+        task.customization = { -> }
+        task.initialText = 'initial'
+        task.finalText = 'final'
+        task.recursive = true
+        task.mainContextScope = ['$']
+        task.includeJsLib = 'gs'
+
+        when:
+        task.launchDaemon()
+
+        then:
+        1 * conversionDaemon.setSource(GOOD_SOURCE)
+        1 * conversionDaemon.setDestinationFolder(GOOD_DESTINATION)
+        1 * conversionDaemon.setConversionOptions({ map ->
+            map.classPath == ['src'] &&
+            map.convertDependencies == true &&
+            map.customization instanceof Closure &&
+            map.initialText == 'initial' &&
+            map.finalText == 'final' &&
+            map.recursive == true &&
+            map.mainContextScope == ['$'] &&
+            map.includeJsLib == 'gs'
+        })
+        1 * conversionDaemon.setDoAfter({ it instanceof Closure})
+        1 * conversionDaemon.start()
+        0 * _
+    }
 }

@@ -23,14 +23,9 @@ class ConvertTask extends GrooscriptTask {
 
     private void doConversion() {
         GrooScript.clearAllOptions()
-        GrooScript.setConversionProperty('customization', customization)
-        GrooScript.setConversionProperty('classPath', classPath)
-        GrooScript.setConversionProperty('convertDependencies', convertDependencies)
-        GrooScript.setConversionProperty('initialText', initialText)
-        GrooScript.setConversionProperty('finalText', finalText)
-        GrooScript.setConversionProperty('recursive', recursive)
-        GrooScript.setConversionProperty('mainContextScope', mainContextScope)
-        GrooScript.setConversionProperty('includeJsLib', includeJsLib)
+        conversionProperties.each { key, value ->
+            GrooScript.setConversionProperty(key, value)
+        }
         GrooScript.convert(source, destination)
     }
 }

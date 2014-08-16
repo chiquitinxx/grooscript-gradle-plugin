@@ -15,7 +15,7 @@ class DaemonTask extends GrooscriptTask {
     boolean waitInfinite = true
 
     @TaskAction
-    def launchDaemon() {
+    ConversionDaemon launchDaemon() {
         checkProperties()
         if (!source || !destination) {
             throw new GradleException("Need define source and destination.")
@@ -27,15 +27,10 @@ class DaemonTask extends GrooscriptTask {
 
     private configureAndStartDaemon() {
         try {
-            def conversionOptions = [:]
-            conversionOptions.classPath = classPath
-            conversionOptions.customization = customization
-            conversionOptions.convertDependencies = convertDependencies
-
-            daemon = new ConversionDaemon()
+            daemon = newConversionDaemon
             daemon.source = source
             daemon.destinationFolder = destination
-            daemon.conversionOptions = conversionOptions
+            daemon.conversionOptions = conversionProperties
             daemon.doAfter = { listFiles ->
                 listFiles.each {
                     GsConsole.info('File changed: '+it)
@@ -43,8 +38,13 @@ class DaemonTask extends GrooscriptTask {
             }
             startDaemon()
         } catch (e) {
+            GsConsole.error("Error starting daemon: ${e.message}")
             daemon.stop()
         }
+    }
+
+    ConversionDaemon getNewConversionDaemon() {
+        new ConversionDaemon()
     }
 
     private startDaemon() {
