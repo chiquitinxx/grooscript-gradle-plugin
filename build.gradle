@@ -14,10 +14,9 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'org.grooscript'
-version = '0.5.1-SNAPSHOT'
+version = '0.5.1'
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
