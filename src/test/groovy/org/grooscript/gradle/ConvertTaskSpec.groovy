@@ -41,6 +41,7 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
+        1 * GrooScript.getDefaultOptions()
         1 * GrooScript.clearAllOptions()
         1 * GrooScript.setConversionProperty('customization', project.grooscript.customization)
         1 * GrooScript.setConversionProperty('classPath', project.grooscript.classPath)
@@ -117,6 +118,7 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
+        1 * GrooScript.getDefaultOptions()
         1 * GrooScript.clearAllOptions()
         1 * GrooScript.setConversionProperty('customization', task.customization)
         1 * GrooScript.setConversionProperty('classPath', task.classPath)

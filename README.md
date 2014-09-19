@@ -1,11 +1,11 @@
-grooscript-gradle-plugin 0.6-SNAPSHOT
-=====================================
+grooscript-gradle-plugin 0.6
+============================
 
 Gradle plugin to convert your groovy files to javascript using grooscript.
 
 __Important: plugin requires Gradle 2, grooscript requires Groovy 2__
 
-build.gradle with Gradle example:
+build.gradle to use the plugin with any gradle version:
 
 <pre>
 buildscript {
@@ -13,12 +13,24 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.grooscript:grooscript-gradle-plugin:0.5.1'
+        classpath 'org.grooscript:grooscript-gradle-plugin:0.6'
     }
 }
 
 apply plugin: 'org.grooscript.conversion'
+</pre>
 
+build.gradle to use the plugin with gradle 2.1+:
+
+<pre>
+plugins {
+  id "org.grooscript.conversion" version "0.6"
+}
+</pre>
+
+To change any conversion option:
+
+<pre>
 //If you need to change any conversion option, can do this way, optional
 grooscript {
     source = ['src/main/groovy/presenters'] //Sources to be converted(List<String>), default is ['src/main/groovy']

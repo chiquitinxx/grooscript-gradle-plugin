@@ -17,7 +17,8 @@ class InitStaticWebTask extends DefaultTask {
     static final JS_LIB_DIR = "${JS_DIR}/lib"
     static final JS_APP_DIR = "${JS_DIR}/app"
     static final HTML_FILE = "${WEBAPP_DIR}/index.html"
-    static final GROOSCRIPT_ALL_JS_NAME = 'grooscript-all.js'
+    static final GROOSCRIPT_MIN_JS_NAME = 'grooscript.min.js'
+    static final GROOSCRIPT_TOOLS_JS_NAME = 'grooscript-tools.js'
     static final JQUERY_JS_FILE = "${JS_LIB_DIR}/jquery.min.js"
     static final JQUERY_JS_REMOTE = 'http://code.jquery.com/jquery-1.11.0.min.js'
 
@@ -35,7 +36,8 @@ class Presenter {
 <head>
     <title>Initial static web page</title>
     <script type="text/javascript" src="js/lib/jquery.min.js"></script>
-    <script type="text/javascript" src="js/lib/grooscript-all.js"></script>
+    <script type="text/javascript" src="js/lib/grooscript.min.js"></script>
+    <script type="text/javascript" src="js/lib/grooscript-tools.js"></script>
     <script type="text/javascript" src="js/app/Presenter.js"></script>
 </head>
 <body>
@@ -68,7 +70,8 @@ class Presenter {
             initTools.createDirs(GROOVY_DIR) &&
             initTools.saveFile(HTML_FILE, HTML_TEXT) &&
             initTools.saveFile(PRESENTER_FILE, PRESENTER_TEXT) &&
-            initTools.extractGrooscriptJarFile(GROOSCRIPT_ALL_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_ALL_JS_NAME}") &&
+            initTools.extractGrooscriptJarFile(GROOSCRIPT_MIN_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_MIN_JS_NAME}") &&
+            initTools.extractJarFile(GROOSCRIPT_TOOLS_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_TOOLS_JS_NAME}") &&
             initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE)) {
             println 'Generation completed.'
         } else {
