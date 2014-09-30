@@ -1,6 +1,7 @@
 package org.grooscript.gradle
 
 import org.gradle.api.DefaultTask
+import org.grooscript.convert.ConversionOptions
 
 /**
  * User: jorgefrancoleza
@@ -11,11 +12,10 @@ class GrooscriptTask extends DefaultTask {
     List<String> source
     String destination
     List<String> classPath
-    boolean convertDependencies
     Closure customization
     String initialText
     String finalText
-    boolean recursive
+    boolean recursive = false
     List<String> mainContextScope
     String includeJsLib
 
@@ -23,7 +23,6 @@ class GrooscriptTask extends DefaultTask {
         source = source ?: project.extensions.grooscript?.source
         destination = destination ?: project.extensions.grooscript?.destination
         classPath = classPath ?: project.extensions.grooscript?.classPath
-        convertDependencies = convertDependencies ?: project.extensions.grooscript?.convertDependencies
         customization = customization ?: project.extensions.grooscript?.customization
         initialText = initialText ?: project.extensions.grooscript?.initialText
         finalText = finalText ?: project.extensions.grooscript?.finalText
@@ -33,15 +32,9 @@ class GrooscriptTask extends DefaultTask {
     }
 
     Map getConversionProperties() {
-        [
-            classPath: classPath,
-            convertDependencies: convertDependencies,
-            customization: customization,
-            initialText: initialText,
-            finalText: finalText,
-            recursive: recursive,
-            mainContextScope: mainContextScope,
-            includeJsLib: includeJsLib
-        ]
+        ConversionOptions.values().collect { it.text }.inject([:]) { properties, property ->
+            properties.put(property, this."$property")
+            properties
+        }
     }
 }

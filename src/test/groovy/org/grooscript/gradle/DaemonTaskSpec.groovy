@@ -90,7 +90,6 @@ class DaemonTaskSpec extends Specification {
         task.source = GOOD_SOURCE
         task.destination = GOOD_DESTINATION
         task.classPath = ['src']
-        task.convertDependencies = true
         task.customization = { -> }
         task.initialText = 'initial'
         task.finalText = 'final'
@@ -106,7 +105,6 @@ class DaemonTaskSpec extends Specification {
         1 * conversionDaemon.setDestinationFolder(GOOD_DESTINATION)
         1 * conversionDaemon.setConversionOptions({ map ->
             map.classPath == ['src'] &&
-            map.convertDependencies == true &&
             map.customization instanceof Closure &&
             map.initialText == 'initial' &&
             map.finalText == 'final' &&

@@ -2,6 +2,7 @@ package org.grooscript.gradle
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
+import org.grooscript.convert.ConversionOptions
 import spock.lang.Specification
 
 /**
@@ -20,5 +21,9 @@ class GrooscriptPluginSpec extends Specification {
         project.tasks.daemon instanceof DaemonTask
         project.tasks.thread instanceof ThreadTask
         project.tasks.initStaticWeb instanceof InitStaticWebTask
+
+        and: 'without changes in conversion options'
+        ConversionOptions.values().collect { it.text } ==
+            ['classPath', 'customization', 'mainContextScope', 'initialText', 'finalText', 'recursive', 'includeJsLib']
     }
 }

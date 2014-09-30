@@ -7,7 +7,6 @@ class GrooscriptPluginExtension {
     def source = ['src/main/groovy']
     String destination = 'src/main/webapp/js/app'
     List<String> classPath = ['src/main/groovy']
-    boolean convertDependencies = false
     Closure customization
     String initialText
     String finalText
