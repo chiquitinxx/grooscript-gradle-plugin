@@ -53,7 +53,7 @@ bintray {
         issueTrackerUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin/issues'
         vcsUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin.git'
         licenses = ['Apache-2.0']
-        labels = ['groovy', 'javascript', 'grooscript', 'gradle']
+        labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             vcsTag = project.version
             attributes = [

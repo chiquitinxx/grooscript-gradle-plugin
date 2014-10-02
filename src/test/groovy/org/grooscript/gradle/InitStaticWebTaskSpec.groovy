@@ -49,7 +49,7 @@ class InitStaticWebTaskSpec extends Specification {
         1 * initTools.saveFile('src/main/webapp/index.html', task.HTML_TEXT) >> true
         1 * initTools.saveFile('src/main/groovy/Presenter.groovy', task.PRESENTER_TEXT) >> true
         1 * initTools.extractGrooscriptJarFile('grooscript.min.js', 'src/main/webapp/js/lib/grooscript.min.js') >> true
-        1 * initTools.extractJarFile('grooscript-tools.js', 'src/main/webapp/js/lib/grooscript-tools.js') >> true
+        1 * initTools.extractGrooscriptJarFile('grooscript-tools.js', 'src/main/webapp/js/lib/grooscript-tools.js') >> true
         1 * initTools.saveRemoteFile('src/main/webapp/js/lib/jquery.min.js', task.JQUERY_JS_REMOTE) >> true
         0 * initTools._
         noExceptionThrown()

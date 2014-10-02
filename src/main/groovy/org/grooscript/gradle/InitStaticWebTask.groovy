@@ -46,9 +46,10 @@ class Presenter {
     <div id="salutes"/>
     <script type="text/javascript">
         presenter = Presenter();
-        var binder = Binder();
         $(document).ready(function() {
-            binder.call(presenter);
+            var gQuery = GQueryImpl();
+            gQuery.attachMethodsToDomEvents(presenter);
+            gQuery.bindAllProperties(presenter);
             console.log('All binds done.');
         });
     </script>
@@ -71,7 +72,7 @@ class Presenter {
             initTools.saveFile(HTML_FILE, HTML_TEXT) &&
             initTools.saveFile(PRESENTER_FILE, PRESENTER_TEXT) &&
             initTools.extractGrooscriptJarFile(GROOSCRIPT_MIN_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_MIN_JS_NAME}") &&
-            initTools.extractJarFile(GROOSCRIPT_TOOLS_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_TOOLS_JS_NAME}") &&
+            initTools.extractGrooscriptJarFile(GROOSCRIPT_TOOLS_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_TOOLS_JS_NAME}") &&
             initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE)) {
             println 'Generation completed.'
         } else {
