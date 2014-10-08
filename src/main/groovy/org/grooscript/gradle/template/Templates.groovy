@@ -1,8 +1,5 @@
 package org.grooscript.gradle.template
 
-import org.grooscript.asts.GsNotConvert
-import org.grooscript.builder.HtmlBuilder
-
 /**
  * Created by jorge on 04/10/14.
  */
