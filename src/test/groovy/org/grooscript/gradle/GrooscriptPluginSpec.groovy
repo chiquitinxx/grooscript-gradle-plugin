@@ -21,6 +21,7 @@ class GrooscriptPluginSpec extends Specification {
         project.tasks.daemon instanceof DaemonTask
         project.tasks.thread instanceof ThreadTask
         project.tasks.initStaticWeb instanceof InitStaticWebTask
+        project.tasks.templates instanceof TemplatesTask
 
         and: 'without changes in conversion options'
         ConversionOptions.values().collect { it.text } ==

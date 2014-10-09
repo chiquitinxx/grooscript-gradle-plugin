@@ -8,7 +8,9 @@ import groovy.text.SimpleTemplateEngine
  */
 class Generator {
 
-    String TEMPLATES_TEMPLATE = '''class Templates {
+    String TEMPLATES_TEMPLATE = '''package org.grooscript.gradle.template
+
+class Templates {
 
   static Map templates = $templates
 
@@ -19,11 +21,11 @@ class Generator {
   }
 }'''
 
-    String generate(List<Map<String, String>> templates) {
+    String generateClassCode(Map<String, String> templates) {
         def templatesFormat = templates.collect { entry ->
-            [first: "'${entry.keySet().first()}'",
+            [first: "'${entry.key}'",
              second: "{ model = [:] ->\n      HtmlBuilder.build {\n" +
-                    "        ${entry.values().first()}\n" +
+                    "        ${entry.value}\n" +
                     "      }\n    }"]
         }.collect { strings ->
             '\n    ' + strings.first + ": " + strings.second

@@ -10,10 +10,12 @@ class GeneratorSpec extends Specification {
 
     def 'generate first template'() {
         given:
-        def templates = [['one.gtpl': "p 'Hello!'"]]
+        def templates = ['one.gtpl': "p 'Hello!'"]
 
         expect:
-        generator.generate(templates) == '''class Templates {
+        generator.generateClassCode(templates) == '''package org.grooscript.gradle.template
+
+class Templates {
 
   static Map templates = [
     'one.gtpl': { model = [:] ->
@@ -33,10 +35,12 @@ class GeneratorSpec extends Specification {
 
     def 'generate two templates'() {
         given:
-        def templates = [['one.gtpl': "p 'Hello!'"], ['two.gtpl': "p 'Bye!'"]]
+        def templates = ['one.gtpl': "p 'Hello!'", 'two.gtpl': "p 'Bye!'"]
 
         expect:
-        generator.generate(templates) == '''class Templates {
+        generator.generateClassCode(templates) == '''package org.grooscript.gradle.template
+
+class Templates {
 
   static Map templates = [
     'one.gtpl': { model = [:] ->
