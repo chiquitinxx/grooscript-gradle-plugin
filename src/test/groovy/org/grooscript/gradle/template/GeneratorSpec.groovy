@@ -15,6 +15,7 @@ class GeneratorSpec extends Specification {
         expect:
         generator.generateClassCode(templates) == '''package org.grooscript.gradle.template
 
+@org.grooscript.gradle.asts.TemplateEnhancer
 class Templates {
 
   static Map templates = [
@@ -40,6 +41,7 @@ class Templates {
         expect:
         generator.generateClassCode(templates) == '''package org.grooscript.gradle.template
 
+@org.grooscript.gradle.asts.TemplateEnhancer
 class Templates {
 
   static Map templates = [

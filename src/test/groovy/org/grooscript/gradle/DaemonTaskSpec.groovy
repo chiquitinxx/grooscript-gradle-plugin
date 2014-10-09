@@ -59,7 +59,7 @@ class DaemonTaskSpec extends Specification {
         when:
         def daemon = task.launchDaemon()
         //Wait until raise error in conversion
-        Thread.sleep(350)
+        Thread.sleep(450)
 
         then:
         1 * GsConsole.message('Daemon Started.')

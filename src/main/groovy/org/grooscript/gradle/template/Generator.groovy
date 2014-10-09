@@ -10,6 +10,7 @@ class Generator {
 
     String TEMPLATES_TEMPLATE = '''package org.grooscript.gradle.template
 
+@org.grooscript.gradle.asts.TemplateEnhancer
 class Templates {
 
   static Map templates = $templates

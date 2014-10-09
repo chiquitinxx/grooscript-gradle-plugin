@@ -28,12 +28,12 @@ public class TemplateEnhancerImpl implements ASTTransformation {
 
         ClassNode classNode = (ClassNode) nodes[1]
 
-        def visitor = new MethodCallsVisitor()
+        def visitor = new ReplaceIncludeCallsVisitor()
         classNode.visitContents(visitor)
     }
 }
 
-class MethodCallsVisitor extends ClassCodeVisitorSupport {
+class ReplaceIncludeCallsVisitor extends ClassCodeVisitorSupport {
 
     @Override
     public void visitExpressionStatement(ExpressionStatement statement) {
@@ -44,7 +44,7 @@ class MethodCallsVisitor extends ClassCodeVisitorSupport {
                 def args = statement.expression.arguments
 
                 args.expressions[0].mapEntryExpressions.each { MapEntryExpression mapEntryExpression ->
-                    if (mapEntryExpression.keyExpression.text) {
+                    if (mapEntryExpression.keyExpression.text == 'template') {
                         template = mapEntryExpression.valueExpression.text
                     }
                 }
@@ -68,6 +68,8 @@ class MethodCallsVisitor extends ClassCodeVisitorSupport {
             } catch (e) {
                 e.printStackTrace()
             }
+        } else {
+            super.visitExpressionStatement(statement)
         }
     }
 
