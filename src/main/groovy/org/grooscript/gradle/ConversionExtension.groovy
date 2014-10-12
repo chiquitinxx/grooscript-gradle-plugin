@@ -3,7 +3,7 @@ package org.grooscript.gradle
 /**
  * Created by jorge on 06/01/14.
  */
-class GrooscriptPluginExtension {
+class ConversionExtension {
     def source = ['src/main/groovy']
     String destination = 'src/main/webapp/js/app'
     List<String> classPath = ['src/main/groovy']

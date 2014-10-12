@@ -1,20 +1,11 @@
 package org.grooscript.gradle
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import org.grooscript.GrooScript
-import org.grooscript.convert.ConversionOptions
 import org.grooscript.gradle.template.Generator
 
-class TemplatesTask extends DefaultTask {
-
-    String templatesPath
-    List<String> templates
-    String destinationPath
-    String classPath
-
-    static final TEMPLATES_JS_FILENAME = 'gstemplates.js'
+class TemplatesTask extends TemplatesAbstractTask {
 
     @TaskAction
     void generateTemplatesJs() {
@@ -26,12 +17,7 @@ class TemplatesTask extends DefaultTask {
             }
             new File(pathDestination.absolutePath + '/' + TEMPLATES_JS_FILENAME).text = doConversion(classCode)
         } else {
-            throw new GradleException(
-                    'Have to define task properties: templatesPath, templates, destinationPath\n'+
-                    "  templatesPath 'src/main/resources/templates'\n"+
-                    "  templates ['one.gtpl', 'folder/two.tpl']\n"+
-                    "  destinationPath 'src/main/webapp/js'"
-            )
+            errorParameters()
         }
     }
 
@@ -47,8 +33,9 @@ class TemplatesTask extends DefaultTask {
 
     private String doConversion(classCode) {
         GrooScript.clearAllOptions()
-        GrooScript.setConversionProperty(ConversionOptions.CLASSPATH.text, classPath)
-        GrooScript.setConversionProperty(ConversionOptions.MAIN_CONTEXT_SCOPE.text, ['HtmlBuilder'])
+        conversionOptions.each { key, value ->
+            GrooScript.setConversionProperty(key, value)
+        }
         GrooScript.convert(classCode)
     }
 }

@@ -14,7 +14,8 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.extensions.create("grooscript", GrooscriptPluginExtension)
+        project.extensions.create("grooscript", ConversionExtension)
+        project.extensions.create("templates", TemplatesExtension)
         configureConvertTask(project)
         configureDaemonTask(project)
         configureThreadTask(project)
