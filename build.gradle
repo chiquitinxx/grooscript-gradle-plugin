@@ -9,7 +9,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'org.grooscript'
-version = '0.6.1-SNAPSHOT'
+version = '0.7.0-SNAPSHOT'
 
 repositories {
     mavenLocal()

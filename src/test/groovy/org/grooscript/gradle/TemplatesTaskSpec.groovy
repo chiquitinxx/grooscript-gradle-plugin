@@ -46,8 +46,8 @@ class TemplatesTaskSpec extends Specification {
         then:
         generatedFile.text.contains '''Templates.templates = gs.map().add("one.gtpl",function(model) {
   if (model === undefined) model = gs.map();
-  return gs.mc(gs.fs('HtmlBuilder', this),"build",[function(it) {
-    return gs.mc(this,"p",["Hello!"], gSobject);
+  return gs.mc(HtmlBuilder,"build",[function(it) {
+    return gs.mc(Templates,"p",["Hello!"]);
   }]);
 });'''
 

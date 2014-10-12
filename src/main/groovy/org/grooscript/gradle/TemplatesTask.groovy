@@ -29,7 +29,7 @@ class TemplatesTask extends DefaultTask {
             throw new GradleException(
                     'Have to define task properties: templatesPath, templates, destinationPath\n'+
                     "  templatesPath 'src/main/resources/templates'\n"+
-                    "  templates ['one.gtlp', 'folder/two.tpl']\n"+
+                    "  templates ['one.gtpl', 'folder/two.tpl']\n"+
                     "  destinationPath 'src/main/webapp/js'"
             )
         }
@@ -48,6 +48,7 @@ class TemplatesTask extends DefaultTask {
     private String doConversion(classCode) {
         GrooScript.clearAllOptions()
         GrooScript.setConversionProperty(ConversionOptions.CLASSPATH.text, classPath)
+        GrooScript.setConversionProperty(ConversionOptions.MAIN_CONTEXT_SCOPE.text, ['HtmlBuilder'])
         GrooScript.convert(classCode)
     }
 }

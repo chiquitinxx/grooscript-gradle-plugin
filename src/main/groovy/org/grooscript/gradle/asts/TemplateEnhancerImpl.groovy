@@ -16,7 +16,7 @@ import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.ASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
-import org.grooscript.gradle.template.Templates
+import org.grooscript.templates.Templates
 
 @GroovyASTTransformation(phase=CompilePhase.SEMANTIC_ANALYSIS)
 public class TemplateEnhancerImpl implements ASTTransformation {
@@ -51,18 +51,18 @@ class ReplaceIncludeCallsVisitor extends ClassCodeVisitorSupport {
 
                 if (template) {
                     statement.expression = new MethodCallExpression(
-                            new VariableExpression('this', ClassHelper.OBJECT_TYPE),
-                            'yieldUnescaped',
-                            new ArgumentListExpression([
-                                    new MethodCallExpression(
-                                            new ClassExpression(new ClassNode(Templates)),
-                                            'applyTemplate',
-                                            new ArgumentListExpression([
-                                                    new ConstantExpression(template),
-                                                    new VariableExpression('model', ClassHelper.MAP_TYPE)
-                                            ])
-                                    )
-                            ])
+                        new VariableExpression('this', ClassHelper.OBJECT_TYPE),
+                        'yieldUnescaped',
+                        new ArgumentListExpression([
+                            new MethodCallExpression(
+                                new ClassExpression(new ClassNode(Templates)),
+                                'applyTemplate',
+                                new ArgumentListExpression([
+                                        new ConstantExpression(template),
+                                        new VariableExpression('model', ClassHelper.MAP_TYPE)
+                                ])
+                            )
+                        ])
                     )
                 }
             } catch (e) {

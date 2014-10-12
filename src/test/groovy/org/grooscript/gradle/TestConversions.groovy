@@ -7,6 +7,7 @@ import org.grooscript.GrooScript
  * Date: 25/09/14
  */
 class TestConversions extends GroovyTestCase {
+
     void testConvertClassWithASTAtSemanticPhase() {
         def result = GrooScript.convert '''
     @org.grooscript.asts.GQuery
