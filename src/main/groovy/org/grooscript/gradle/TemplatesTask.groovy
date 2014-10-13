@@ -4,18 +4,22 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import org.grooscript.GrooScript
 import org.grooscript.gradle.template.Generator
+import org.grooscript.util.GsConsole
 
 class TemplatesTask extends TemplatesAbstractTask {
 
     @TaskAction
     void generateTemplatesJs() {
+        checkProperties()
         if (templatesPath && templates && destinationPath) {
             String classCode = new Generator().generateClassCode(getTemplatesMap())
             def pathDestination = new File(destinationPath)
             if (!pathDestination.isDirectory()) {
                 throw new GradleException('destinationPath has to be a folder: ' + destinationPath)
             }
-            new File(pathDestination.absolutePath + '/' + TEMPLATES_JS_FILENAME).text = doConversion(classCode)
+            def fileName = pathDestination.absolutePath + '/' + TEMPLATES_JS_FILENAME
+            new File(fileName).text = doConversion(classCode)
+            GsConsole.message("Generated template ${fileName}.")
         } else {
             errorParameters()
         }

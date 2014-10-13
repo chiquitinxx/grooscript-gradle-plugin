@@ -20,18 +20,16 @@ class TemplatesAbstractTask extends DefaultTask {
     void checkProperties() {
         templatesPath = templatesPath ?: project.extensions.templates?.templatesPath
         destinationPath = destinationPath ?: project.extensions.templates?.destinationPath
+        templates = templates ?: project.extensions.templates?.templates
         classPath = classPath ?: project.extensions.templates?.classPath
-        if (!templates) {
-            throw new GrooScriptException("Need to define templates to be converted with 'templates' property. Ex: templates = ['myTemplate.gtpl']")
-        }
     }
 
     void errorParameters() {
         throw new GradleException(
-                'Have to define task properties: templatesPath, templates, destinationPath\n'+
-                        "  templatesPath 'src/main/resources/templates'\n"+
-                        "  templates ['one.gtpl', 'folder/two.tpl']\n"+
-                        "  destinationPath 'src/main/webapp/js'"
+            'Have to define task properties: templatesPath, templates, destinationPath\n'+
+                    "  templatesPath 'src/main/resources/templates'\n"+
+                    "  templates ['one.gtpl', 'folder/two.tpl']\n"+
+                    "  destinationPath 'src/main/webapp/js'"
         )
     }
 

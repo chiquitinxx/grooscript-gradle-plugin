@@ -19,6 +19,7 @@ class TemplatesTaskSpec extends Specification {
 
     def setup() {
         project = ProjectBuilder.builder().build()
+        project.extensions.templates = [:]
 
         task = project.task('templates', type: TemplatesTask)
         task.project = project
@@ -52,7 +53,8 @@ class TemplatesTaskSpec extends Specification {
 });'''
 
         cleanup:
-        generatedFile.delete()
+        if (generatedFile)
+            generatedFile.delete()
     }
 
     @Unroll
