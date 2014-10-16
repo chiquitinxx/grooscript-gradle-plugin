@@ -12,7 +12,7 @@ group = 'org.grooscript'
 version = '0.7-SNAPSHOT'
 
 repositories {
-    //mavenLocal()
+    mavenLocal()
     mavenCentral()
 }
 
@@ -23,7 +23,7 @@ dependencies {
         exclude module: "groovy-all"
     }
     compile 'cglib:cglib-nodep:2.2'
-    compile 'org.grooscript:grooscript:0.6.1', {
+    compile 'org.grooscript:grooscript:0.6.2-SNAPSHOT', {
         exclude module: "groovy"
     }
 }
