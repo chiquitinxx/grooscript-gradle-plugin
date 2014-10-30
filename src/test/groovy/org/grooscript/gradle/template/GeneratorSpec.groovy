@@ -110,5 +110,19 @@ class Templates {
         result.console == '<p>Hello Jorge!</p><p>Hello Jorge!</p>'
     }
 
+    def 'convert a template with a closure'() {
+        given:
+        def templates = ['hello.gtpl': "3.times { p 'Hi!' }; p 'Hello ' + name+ '!'"]
+        def code = generator.generateClassCode(templates)
+        code += "\nprintln Templates.applyTemplate('hello.gtpl', [name: 'Jorge'])\n"
+
+        when:
+        JsTestResult result = GrooScript.evaluateGroovyCode(code, 'grooscript-tools')
+
+        then:
+        !result.exception
+        result.console == '<p>Hi!</p><p>Hi!</p><p>Hi!</p><p>Hello Jorge!</p>'
+    }
+
     Generator generator = new Generator()
 }
