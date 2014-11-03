@@ -44,7 +44,7 @@ grooscript {
 }
 </pre>
 
-There are 4 tasks:
+There are 5 tasks:
 
 __convert__ - to convert groovy files to javascript
 
@@ -54,6 +54,6 @@ __initStaticWeb__ - create a static web project with index.html in src/main/weba
 
 __thread__ - run daemon to convert files to javascript. Executes daemon in a thread, so is perfect to use with other task
 
-__TemplatesTask__ - (experimental) generate gstemplates.js file with groovy templates defined
+__templates__ - (experimental) generate gstemplates.js file with groovy templates defined
 
 Guide about using this plugin [here](http://grooscript.org/starting_gradle.html)

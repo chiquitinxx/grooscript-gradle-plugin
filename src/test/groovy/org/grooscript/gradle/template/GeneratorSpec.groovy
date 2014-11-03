@@ -124,5 +124,19 @@ class Templates {
         result.console == '<p>Hi!</p><p>Hi!</p><p>Hi!</p><p>Hello Jorge!</p>'
     }
 
+    def 'convert yield text'() {
+        given:
+        def templates = ['hello.gtpl': "yieldUnescaped '<!DOCTYPE html>'; yield 'GOAL<>'"]
+        def code = generator.generateClassCode(templates)
+        code += "\nprintln Templates.applyTemplate('hello.gtpl')\n"
+
+        when:
+        JsTestResult result = GrooScript.evaluateGroovyCode(code, 'grooscript-tools')
+
+        then:
+        !result.exception
+        result.console == '<!DOCTYPE html>GOAL&lt;&gt;'
+    }
+
     Generator generator = new Generator()
 }
