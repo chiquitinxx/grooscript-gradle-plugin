@@ -21,6 +21,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         configureThreadTask(project)
         configureInitStaticWeb(project)
         configureTemplates(project)
+        configureTemplatesThread(project)
     }
 
     private configureConvertTask(Project project) {
@@ -52,5 +53,11 @@ class GrooscriptPlugin implements Plugin<Project> {
         TemplatesTask templatesTask = project.tasks.create('templates', TemplatesTask)
         templatesTask.description = 'Generate templates js file.'
         templatesTask.group = GROOSCRIPT_GROUP
+    }
+
+    private configureTemplatesThread(Project project) {
+        TemplatesThreadTask templatesThreadTask = project.tasks.create('templatesThread', TemplatesThreadTask)
+        templatesThreadTask.description = 'Launch templates templates thread. Main thread continues.'
+        templatesThreadTask.group = GROOSCRIPT_GROUP
     }
 }

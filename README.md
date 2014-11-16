@@ -64,4 +64,6 @@ __thread__ - run daemon to convert files to javascript. Executes daemon in a thr
 
 __templates__ - (experimental) generate gstemplates.js file with groovy templates defined
 
+__templatesThread__ - (experimental) run daemon to convert templates. Executes daemon in a thread, so is perfect to use with other task
+
 Guide about using this plugin [here](http://grooscript.org/starting_gradle.html)
