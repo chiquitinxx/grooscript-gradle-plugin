@@ -1,5 +1,5 @@
-grooscript-gradle-plugin 0.7
-============================
+grooscript-gradle-plugin 0.8-SNAPSHOT
+=====================================
 
 Gradle plugin to convert your groovy files to javascript using grooscript.
 
@@ -40,7 +40,15 @@ grooscript {
     initialText = '//Grooscript converted file'
     initialText = '//End converted file'
     recursive = true //Default is false
-    includeJsLib = 'grooscript' //Include a grooscript js lib in the result, default is null
+    addGsLib = 'grooscript' //Include a grooscript js lib in the result, default is null
+}
+
+//Templates options
+templates {
+    templatesPath = 'src/main/webapp/templates'
+    templates = ['main.gtpl', 'little/small.tpl']
+    destinationPath = 'src/main/webapp/js/lib'
+    classPath = ['src/main/groovy']
 }
 </pre>
 

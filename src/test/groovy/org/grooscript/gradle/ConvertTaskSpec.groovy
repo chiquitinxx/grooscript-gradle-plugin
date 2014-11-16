@@ -35,7 +35,7 @@ class ConvertTaskSpec extends Specification {
         GroovySpy(GrooScript, global: true)
         project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
                 classPath: ['3'], initialText: 'initial', finalText: 'final',
-                recursive: true, mainContextScope: ['7'], includeJsLib: 'grooscript']
+                recursive: true, mainContextScope: ['7'], addGsLib: 'grooscript']
 
         when:
         task.convert()
@@ -49,7 +49,7 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('finalText', project.grooscript.finalText)
         1 * GrooScript.setConversionProperty('recursive', project.grooscript.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
-        1 * GrooScript.setConversionProperty('includeJsLib', project.grooscript.includeJsLib)
+        1 * GrooScript.setConversionProperty('addGsLib', project.grooscript.addGsLib)
         1 * GrooScript.convert(project.grooscript.source, project.grooscript.destination) >> null
         0 * _
     }
@@ -110,7 +110,7 @@ class ConvertTaskSpec extends Specification {
         task.finalText = 'final'
         task.recursive = true
         task.mainContextScope = [',']
-        task.includeJsLib = 'include'
+        task.addGsLib = 'include'
 
         when:
         task.convert()
@@ -124,7 +124,7 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('finalText', task.finalText)
         1 * GrooScript.setConversionProperty('recursive', task.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
-        1 * GrooScript.setConversionProperty('includeJsLib', task.includeJsLib)
+        1 * GrooScript.setConversionProperty('addGsLib', task.addGsLib)
         1 * GrooScript.convert(SOURCE, DESTINATION) >> null
         0 * _
     }

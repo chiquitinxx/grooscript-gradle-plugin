@@ -12,5 +12,5 @@ class ConversionExtension {
     String finalText
     boolean recursive = false
     List<String> mainContextScope
-    String includeJsLib
+    String addGsLib
 }

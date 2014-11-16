@@ -21,14 +21,13 @@ class DaemonTaskSpec extends Specification {
 
     Project project
     DaemonTask task
-    ConversionDaemon daemon = Mock(ConversionDaemon)
 
     def setup() {
+        GroovySpy(ConversionDaemon, global:true)
         project = ProjectBuilder.builder().build()
         task = project.task('daemon', type: DaemonTask)
         task.project = project
         task.project.extensions.grooscript = [:]
-        task.daemon = daemon
         task.waitInfinite = false
     }
 
@@ -40,7 +39,7 @@ class DaemonTaskSpec extends Specification {
         task.launchDaemon()
 
         then:
-        0 * daemon.start()
+        0 * _
         thrown(GradleException)
 
         where:
@@ -57,15 +56,14 @@ class DaemonTaskSpec extends Specification {
         task.destination = ANY_DESTINATION
 
         when:
-        def daemon = task.launchDaemon()
+        task.launchDaemon()
         //Wait until raise error in conversion
         Thread.sleep(450)
 
         then:
-        1 * GsConsole.message('Daemon Started.')
-        1 * GsConsole.exception('Exception in daemon: null')
-        daemon
-        daemon.convertActor.isActive() == false
+        1 * GsConsole.exception('FilesActor Error in file/folder source')
+        1 * GsConsole.info('[0] Conversion daemon has converted files.')
+        1 * ConversionDaemon.start(ANY_SOURCE, ANY_DESTINATION, _)
     }
 
     def 'test launch daemon and do conversion'() {
@@ -78,42 +76,34 @@ class DaemonTaskSpec extends Specification {
         task.launchDaemon()
 
         then:
-        1 * GsConsole.message('Daemon Started.')
+        1 * GsConsole.message('Listening file changes in : [src/test/resources/groovy]')
     }
 
     def 'test launch daemon with all conversion options'() {
         given:
-        def conversionDaemon = Mock(ConversionDaemon)
-        task.metaClass.getNewConversionDaemon = { ->
-            conversionDaemon
-        }
+        def customization = { -> }
         task.source = GOOD_SOURCE
         task.destination = GOOD_DESTINATION
         task.classPath = ['src']
-        task.customization = { -> }
+        task.customization = customization
         task.initialText = 'initial'
         task.finalText = 'final'
         task.recursive = true
         task.mainContextScope = ['$']
-        task.includeJsLib = 'gs'
+        task.addGsLib = 'gs'
 
         when:
         task.launchDaemon()
 
         then:
-        1 * conversionDaemon.setSource(GOOD_SOURCE)
-        1 * conversionDaemon.setDestinationFolder(GOOD_DESTINATION)
-        1 * conversionDaemon.setConversionOptions({ map ->
-            map.classPath == ['src'] &&
-            map.customization instanceof Closure &&
-            map.initialText == 'initial' &&
-            map.finalText == 'final' &&
-            map.recursive == true &&
-            map.mainContextScope == ['$'] &&
-            map.includeJsLib == 'gs'
-        })
-        1 * conversionDaemon.setDoAfter({ it instanceof Closure})
-        1 * conversionDaemon.start()
-        0 * _
+        1 * ConversionDaemon.start(GOOD_SOURCE, GOOD_DESTINATION, [
+                classPath : ['src'],
+                customization: customization,
+                initialText: 'initial',
+                finalText: 'final',
+                recursive: true,
+                mainContextScope: ['$'],
+                addGsLib: 'gs'
+        ])
     }
 }

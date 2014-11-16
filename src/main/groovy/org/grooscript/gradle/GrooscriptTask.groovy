@@ -17,7 +17,7 @@ class GrooscriptTask extends DefaultTask {
     String finalText
     boolean recursive = false
     List<String> mainContextScope
-    String includeJsLib
+    String addGsLib
 
     void checkProperties() {
         source = source ?: project.extensions.grooscript?.source
@@ -28,7 +28,7 @@ class GrooscriptTask extends DefaultTask {
         finalText = finalText ?: project.extensions.grooscript?.finalText
         recursive = recursive ?: project.extensions.grooscript?.recursive
         mainContextScope = mainContextScope ?: project.extensions.grooscript?.mainContextScope
-        includeJsLib = includeJsLib ?: project.extensions.grooscript?.includeJsLib
+        addGsLib = addGsLib ?: project.extensions.grooscript?.addGsLib
     }
 
     Map getConversionProperties() {
