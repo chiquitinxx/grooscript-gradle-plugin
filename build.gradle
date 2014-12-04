@@ -1,5 +1,5 @@
 plugins {
-    id "com.jfrog.bintray" version "0.6"
+    id "com.jfrog.bintray" version "1.0"
 }
 
 apply plugin: 'idea'
@@ -8,10 +8,9 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'org.grooscript'
-version = '0.8-SNAPSHOT'
+version = '0.8'
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -22,7 +21,7 @@ dependencies {
         exclude module: "groovy-all"
     }
     compile 'cglib:cglib-nodep:2.2'
-    compile 'org.grooscript:grooscript:0.6.3-SNAPSHOT', {
+    compile 'org.grooscript:grooscript:0.6.3', {
         exclude module: "groovy"
     }
 }
@@ -54,6 +53,8 @@ bintray {
         licenses = ['Apache-2.0']
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
+            name = project.version
+            desc = 'Templates improvements, added daemon'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
