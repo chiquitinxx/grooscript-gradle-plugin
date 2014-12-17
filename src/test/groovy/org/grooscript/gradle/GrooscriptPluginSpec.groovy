@@ -11,7 +11,7 @@ import spock.lang.Specification
  */
 class GrooscriptPluginSpec extends Specification {
 
-    def 'test initialization of plugin'() {
+    def 'initialization of plugin'() {
         given:
         Project project = ProjectBuilder.builder().build()
         project.apply plugin: 'org.grooscript.conversion'
@@ -23,6 +23,13 @@ class GrooscriptPluginSpec extends Specification {
         project.tasks.initStaticWeb instanceof InitStaticWebTask
         project.tasks.templates instanceof TemplatesTask
         project.tasks.templatesThread instanceof TemplatesThreadTask
+        project.tasks.modifications instanceof UpdatesTask
+        project.tasks.size() == 7
+
+        and:
+        project.extensions.grooscript instanceof ConversionExtension
+        project.extensions.templates instanceof TemplatesExtension
+        project.extensions.modifications instanceof UpdatesExtension
 
         and: 'without changes in conversion options'
         ConversionOptions.values().collect { it.text } ==

@@ -14,14 +14,16 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.extensions.create("grooscript", ConversionExtension)
-        project.extensions.create("templates", TemplatesExtension)
+        project.extensions.create('grooscript', ConversionExtension)
+        project.extensions.create('templates', TemplatesExtension)
+        project.extensions.create('modifications', UpdatesExtension)
         configureConvertTask(project)
         configureDaemonTask(project)
         configureThreadTask(project)
         configureInitStaticWeb(project)
         configureTemplates(project)
         configureTemplatesThread(project)
+        configureUpdatesTask(project)
     }
 
     private configureConvertTask(Project project) {
@@ -59,5 +61,11 @@ class GrooscriptPlugin implements Plugin<Project> {
         TemplatesThreadTask templatesThreadTask = project.tasks.create('templatesThread', TemplatesThreadTask)
         templatesThreadTask.description = 'Launch templates templates thread. Main thread continues.'
         templatesThreadTask.group = GROOSCRIPT_GROUP
+    }
+
+    private configureUpdatesTask(Project project) {
+        UpdatesTask updatesTask = project.tasks.create('modifications', UpdatesTask)
+        updatesTask.description = 'Check changes in files and send notifications.'
+        updatesTask.group = GROOSCRIPT_GROUP
     }
 }
