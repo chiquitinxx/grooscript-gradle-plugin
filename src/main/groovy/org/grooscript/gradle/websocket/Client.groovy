@@ -1,4 +1,4 @@
-package org.grooscript.websocket
+package org.grooscript.gradle.websocket
 
 import org.grooscript.util.GsConsole
 import org.springframework.messaging.Message

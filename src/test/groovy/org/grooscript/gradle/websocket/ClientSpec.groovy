@@ -1,4 +1,4 @@
-package org.grooscript.websocket
+package org.grooscript.gradle.websocket
 
 import spock.lang.Specification
 
