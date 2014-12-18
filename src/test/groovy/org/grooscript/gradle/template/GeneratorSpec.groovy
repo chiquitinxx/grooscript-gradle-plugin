@@ -138,5 +138,22 @@ class Templates {
         result.console == '<!DOCTYPE html>GOAL&lt;&gt;'
     }
 
+    def 'convert a template with a layout'() {
+        given:
+        def templates = ['hello.tpl': "layout 'layout.tpl', salute: 'Hello ' + name +'!', bye: contents { p 'Bye '+ name + '.' }",
+                         'layout.tpl': "p(salute); bye()"]
+        def code = generator.generateClassCode(templates)
+        //println code
+        code += "\nprintln Templates.applyTemplate('hello.tpl', [name: 'Jorge'])\n"
+
+        when:
+        //println GrooScript.convert(code)
+        JsTestResult result = GrooScript.evaluateGroovyCode(code, 'grooscript-tools')
+
+        then:
+        !result.exception
+        result.console == '<p>Hello Jorge!</p><p>Bye Jorge.</p>'
+    }
+
     Generator generator = new Generator()
 }
