@@ -13,7 +13,7 @@ class TemplatesThreadTask extends TemplatesAbstractTask {
     @TaskAction
     void launchThread() {
         checkProperties()
-        if (templatesPath && templates && destinationPath) {
+        if (templatesPath && templates && destinationFile) {
             configureAndStartThread()
         } else {
             errorParameters()

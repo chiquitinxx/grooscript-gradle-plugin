@@ -7,7 +7,7 @@ class TemplatesTask extends TemplatesAbstractTask {
     @TaskAction
     void generateTemplatesJs() {
         checkProperties()
-        if (templatesPath && templates && destinationPath) {
+        if (templatesPath && templates && destinationFile) {
             generateTemplate()
         } else {
             errorParameters()

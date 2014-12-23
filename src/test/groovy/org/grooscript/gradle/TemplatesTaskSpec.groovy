@@ -6,28 +6,31 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static org.grooscript.gradle.TemplatesTask.TEMPLATES_JS_FILENAME
-
 /**
  * User: jorgefrancoleza
  * Date: 14/12/13
  */
 class TemplatesTaskSpec extends Specification {
 
-    Project project
-    TemplatesTask task
-
-    def setup() {
-        project = ProjectBuilder.builder().build()
-        project.extensions.templates = [:]
-
-        task = project.task('templates', type: TemplatesTask)
-        task.project = project
-    }
-
     def 'create the task'() {
         expect:
         task instanceof TemplatesTask
+    }
+
+    def 'default properties'() {
+        when:
+        def extension = new TemplatesExtension()
+        project.extensions.templates.templatesPath = extension.templatesPath
+        project.extensions.templates.templates = extension.templates
+        project.extensions.templates.destinationFile = extension.destinationFile
+        project.extensions.templates.classPath = extension.classPath
+        task.checkProperties()
+
+        then:
+        task.templatesPath == 'src/main/webapp/templates'
+        task.templates == null
+        task.destinationFile == 'src/main/webapp/js/lib/Templates.js'
+        task.classPath == ['src/main/groovy']
     }
 
     def 'generates templates needs variables setted'() {
@@ -40,9 +43,9 @@ class TemplatesTaskSpec extends Specification {
         when:
         task.templatesPath = 'src/test/resources'
         task.templates = ['one.gtpl']
-        task.destinationPath = '.'
+        task.destinationFile = FILE_NAME
         task.generateTemplatesJs()
-        def generatedFile = new File(TEMPLATES_JS_FILENAME)
+        def generatedFile = new File(FILE_NAME)
 
         then:
         generatedFile.text.contains '''Templates.templates = gs.map().add("one.gtpl",function(model) {
@@ -62,7 +65,7 @@ class TemplatesTaskSpec extends Specification {
         given:
         task.templatesPath = 'src/test/resources'
         task.templates = ['one.gtpl']
-        task.destinationPath = '.'
+        task.destinationFile = FILE_NAME
 
         when:
         task."$property" = value
@@ -74,21 +77,33 @@ class TemplatesTaskSpec extends Specification {
         where:
         property          | value
         'templatesPath'   | 'build.gradle'
-        'destinationPath' | 'build.gradle'
+        'destinationFile' | 'build.gradle'
     }
 
     def 'generates templates with an include'() {
         when:
         task.templatesPath = 'src/test/resources'
         task.templates = ['three.gtpl']
-        task.destinationPath = '.'
+        task.destinationFile = FILE_NAME
         task.generateTemplatesJs()
-        def generatedFile = new File(TEMPLATES_JS_FILENAME)
+        def generatedFile = new File(FILE_NAME)
 
         then:
         generatedFile.text.contains "Templates,'applyTemplate'"
 
         cleanup:
         generatedFile.delete()
+    }
+
+    Project project
+    TemplatesTask task
+    private static final FILE_NAME = 'Templates.js'
+
+    def setup() {
+        project = ProjectBuilder.builder().build()
+        project.extensions.templates = [:]
+
+        task = project.task('templates', type: TemplatesTask)
+        task.project = project
     }
 }

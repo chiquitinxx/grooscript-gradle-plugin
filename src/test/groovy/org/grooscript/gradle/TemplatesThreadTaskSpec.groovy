@@ -5,24 +5,11 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-import static org.grooscript.gradle.TemplatesTask.TEMPLATES_JS_FILENAME
-
 /**
  * User: jorgefrancoleza
  * Date: 16/11/14
  */
 class TemplatesThreadTaskSpec extends Specification {
-
-    Project project
-    TemplatesThreadTask task
-
-    def setup() {
-        project = ProjectBuilder.builder().build()
-        project.extensions.templates = [:]
-
-        task = project.task('templatesThread', type: TemplatesThreadTask)
-        task.project = project
-    }
 
     def 'create the task'() {
         expect:
@@ -39,9 +26,9 @@ class TemplatesThreadTaskSpec extends Specification {
         when:
         task.templatesPath = 'src/test/resources'
         task.templates = ['one.gtpl']
-        task.destinationPath = '.'
+        task.destinationFile = TEMPLATES_FILE
         task.launchThread()
-        def generatedFile = new File(TEMPLATES_JS_FILENAME)
+        def generatedFile = new File(TEMPLATES_FILE)
 
         then:
         generatedFile.text.contains '''Templates.templates = gs.map().add("one.gtpl",function(model) {
@@ -53,5 +40,17 @@ class TemplatesThreadTaskSpec extends Specification {
 
         cleanup:
         generatedFile.delete()
+    }
+
+    Project project
+    TemplatesThreadTask task
+    private static final TEMPLATES_FILE = 'Templates.js'
+
+    def setup() {
+        project = ProjectBuilder.builder().build()
+        project.extensions.templates = [:]
+
+        task = project.task('templatesThread', type: TemplatesThreadTask)
+        task.project = project
     }
 }
