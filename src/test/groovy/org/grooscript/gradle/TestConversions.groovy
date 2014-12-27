@@ -10,9 +10,10 @@ class TestConversions extends GroovyTestCase {
 
     void testConvertClassWithASTAtSemanticPhase() {
         def result = GrooScript.convert '''
-    @org.grooscript.asts.GQuery
-    class A {}
+    import org.grooscript.jquery.GQueryTrait
+
+    class A implements GQueryTrait {}
 '''
-        assert result.contains('gSobject.gQuery = GQueryImpl();')
+        assert result.contains('name: \'org.grooscript.jquery.GQueryTrait\'')
     }
 }
