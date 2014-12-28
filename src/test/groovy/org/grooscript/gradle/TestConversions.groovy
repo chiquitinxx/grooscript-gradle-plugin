@@ -8,12 +8,16 @@ import org.grooscript.GrooScript
  */
 class TestConversions extends GroovyTestCase {
 
-    void testConvertClassWithASTAtSemanticPhase() {
+    void testConvertTrait() {
         def result = GrooScript.convert '''
-    import org.grooscript.jquery.GQueryTrait
+    import org.grooscript.jquery.*
 
-    class A implements GQueryTrait {}
+    trait Jquery {
+        GQuery gquery = new GQueryImpl()
+    }
+
+    class A implements Jquery {}
 '''
-        assert result.contains('name: \'org.grooscript.jquery.GQueryTrait\'')
+        assert result.contains('Jquery.$init$(gSobject);')
     }
 }
