@@ -40,6 +40,7 @@ grooscript {
     initialText = '//Grooscript converted file'
     initialText = '//End converted file'
     recursive = true //Default is false
+    mainContextScope = ['$'] //Variables available in main scope (List<String>), default is null
     addGsLib = 'grooscript' //Include a grooscript js lib in the result, default is null
 }
 

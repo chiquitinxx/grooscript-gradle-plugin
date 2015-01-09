@@ -1,0 +1,124 @@
+= Gradle plugin tasks
+
+This plugin convert groovy files to javascript, convert groovy templates to a .js file, generate a little web
+static project to start with grooscript, and listen for changes in
+files. To do this tasks, uses http://grooscript.org[grooscript], a library that converts groovy code to javascript.
+
+== Convert files
+
+There are 3 tasks:
+
+* *convert* (org.grooscript.gradle.ConvertTask) to convert groovy files to javascript
+* *daemon* (org.grooscript.gradle.DaemonTask) standalone task, listen changes in groovy files and convert them to javascript
+* *thread* (org.grooscript.gradle.ThreadTask) same that daemon task, but don't stop execution, must be used with other tasks
+
+There is an extension to configure this tasks
+
+[source,groovy]
+--
+grooscript {
+    source = ['src/main/groovy']
+    destination = 'js'
+}
+--
+
+If you execute `>gradle convert`, will convert groovy and java files in `src/main/groovy` to .js files, and will
+be saved in `./js` folder.
+
+If you execute *daemon* task, gradle will be running forever doing conversions if files in `src/main/groovy` change.
+
+You will use *thread* task when other task keeps gradle up, like a web application server.
+
+Apart from `source` and `destination`, mandatory properties, you can define conversion options:
+
+[source,groovy]
+--
+grooscript {
+    source = ['src/main/groovy/presenters'] //Sources to be converted(List<String>), default is ['src/main/groovy']
+    destination = 'js' //Target directory for js files, default is 'src/main/webapp/js/app'
+    classPath = ['src/main/groovy'] //Needed classpath to compile source files(List<String>), default is ['src/main/groovy']
+    customization = null //Customization in files, it's a closure, as for example { -> ast(groovy.transform.TypeChecked) }
+    initialText = '//Grooscript converted file'
+    initialText = '//End converted file'
+    recursive = true //Default is false
+    mainContextScope = ['$'] //Variables available in main scope (List<String>), default is null
+    addGsLib = 'grooscript' //Include a grooscript.js lib in the result, default is null
+}
+--
+
+Also you can create distinct conversion tasks to use in your gradle build:
+
+[source,groovy]
+--
+task convertCountries(type: org.grooscript.gradle.ConvertTask) {
+    source = ['src/main/groovy/countries']
+    mainContextScope = ['Snap']
+    destination = 'src/main/webapp/js'
+}
+
+task convertChatServer(type: org.grooscript.gradle.ConvertTask) {
+    source = ['src/main/groovy/chat/NodeServer.groovy', 'src/main/groovy/startServer.groovy']
+    destination = 'js/allTogether.js'
+}
+
+build.dependsOn convertCountries, convertChatServer
+--
+
+== Create static project
+
+There is 1 tasks:
+
+* *initStaticWeb* that will create files and folder to generate a little static web project to start with grooscript.
+
+Read this link:starting_gradle.html[guide]
+
+== Convert groovy templates
+
+There are 2 tasks:
+
+* *templatesJs* (org.grooscript.gradle.TemplatesTask) to convert groovy templates to a .js file
+* *templatesThread* (org.grooscript.gradle.TemplatesThreadTask) listen changes in groovy templates, and generate .js file if some file changes
+
+There is an extension to configure this task:
+
+[source,groovy]
+--
+templates {
+    templatesPath = 'src/main/webapp/templates'
+    templates = ['main.gtpl', 'little/small.tpl']
+    destinationFile = 'src/main/webapp/js/lib/Templates.js'
+    classPath = ['src/main/groovy']
+}
+--
+
+== Spy file changes
+
+There is 1 tasks:
+
+* *spyChanges* (org.grooscript.gradle.ChangesTask) listen to changes on files
+
+There is an extension to configure this task:
+
+[source,groovy]
+--
+spy {
+    files = ['anyFolder', 'aFile']
+    onChanges = { list ->
+        println 'Changes!! ' + list
+    }
+}
+--
+
+I have introduced spring websockets support in the plugin. Now you can send a groovy object to a spring websocket
+server that uses Stomp protocol. So you can notify by websockets changes on files, in this example I want to send to
+server a reload message.
+
+[source,groovy]
+--
+spy {
+    files = ['Templates.js']
+    onChanges = { list ->
+        springWebsocketTo 'http://localhost:8080/demo' data 'templates' onChannel '/app/reload'
+    }
+}
+--
