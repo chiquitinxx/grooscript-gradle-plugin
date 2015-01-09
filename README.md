@@ -1,4 +1,4 @@
-grooscript-gradle-plugin 0.8
+grooscript-gradle-plugin 0.9
 ============================
 
 Gradle plugin to convert your groovy files to javascript using grooscript.
@@ -13,7 +13,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.grooscript:grooscript-gradle-plugin:0.8'
+        classpath 'org.grooscript:grooscript-gradle-plugin:0.9'
     }
 }
 
@@ -24,7 +24,7 @@ build.gradle to use the plugin with gradle 2.1+:
 
 <pre>
 plugins {
-  id "org.grooscript.conversion" version "0.8"
+  id "org.grooscript.conversion" version "0.9"
 }
 </pre>
 
@@ -52,7 +52,7 @@ templates {
 }
 </pre>
 
-There are 5 tasks:
+There are 7 tasks:
 
 __convert__ - to convert groovy files to javascript
 
@@ -64,6 +64,8 @@ __thread__ - run daemon to convert files to javascript. Executes daemon in a thr
 
 __templates__ - generate gstemplates.js file with groovy templates defined
 
-__templatesThread__ - (experimental) run daemon to convert templates. Executes daemon in a thread, so is perfect to use with other task
+__templatesThread__ - run daemon to convert templates. Executes daemon in a thread, so is perfect to use with other task
+
+__modifications__ - (experimental) listen changes in files
 
 Guide about using this plugin [here](http://grooscript.org/starting_gradle.html)

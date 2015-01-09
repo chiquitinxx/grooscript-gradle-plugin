@@ -48,8 +48,7 @@ class Presenter {
         presenter = Presenter();
         $(document).ready(function() {
             var gQuery = GQueryImpl();
-            gQuery.attachMethodsToDomEvents(presenter);
-            gQuery.bindAllProperties(presenter);
+            gQuery.bindAll(presenter);
             console.log('All binds done.');
         });
     </script>
