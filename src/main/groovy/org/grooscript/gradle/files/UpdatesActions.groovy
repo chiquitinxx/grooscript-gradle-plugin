@@ -6,7 +6,7 @@ import org.grooscript.gradle.websocket.Client
  * Created by jorgefrancoleza on 18/12/14.
  */
 class UpdatesActions {
-    WebsocketAddress websocketTo(String url) {
+    WebsocketAddress springWebsocketTo(String url) {
         new WebsocketAddress(url)
     }
 }
@@ -32,7 +32,7 @@ class WebsocketAddressData {
         this.data = data
     }
 
-    def via(String channel) {
+    def onChannel(String channel) {
         Client.connectAndSend(url, channel, data)
     }
 }

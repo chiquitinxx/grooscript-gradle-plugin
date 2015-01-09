@@ -73,7 +73,7 @@ class MyWebSocketHandler implements WebSocketHandler {
 
     @Override
     void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        GsConsole.error("Error sending message: '$message' via WebSocket - ${exception.message}")
+        GsConsole.error("Error sending message: '$message' on Spring WebSocket - ${exception.message}")
     }
 
     @Override

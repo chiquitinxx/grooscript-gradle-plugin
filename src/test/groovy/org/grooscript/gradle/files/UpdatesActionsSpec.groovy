@@ -13,7 +13,7 @@ class UpdatesActionsSpec extends Specification {
         GroovySpy(Client, global: true)
 
         when:
-        actions.websocketTo(url).data(data).via(channel)
+        actions.springWebsocketTo(url).data(data).onChannel(channel)
 
         then:
         1 * Client.connectAndSend(url, channel, data) >> null
