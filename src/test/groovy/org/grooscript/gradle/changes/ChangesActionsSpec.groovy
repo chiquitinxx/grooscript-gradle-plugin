@@ -1,4 +1,4 @@
-package org.grooscript.gradle.files
+package org.grooscript.gradle.changes
 
 import org.grooscript.gradle.websocket.Client
 import spock.lang.Specification
@@ -6,7 +6,7 @@ import spock.lang.Specification
 /**
  * Created by jorgefrancoleza on 18/12/14.
  */
-class UpdatesActionsSpec extends Specification {
+class ChangesActionsSpec extends Specification {
 
     void 'test send via websocket'() {
         given:
@@ -22,5 +22,5 @@ class UpdatesActionsSpec extends Specification {
     String url = 'ws://localhost'
     def data = 'any data'
     def channel = '/channel'
-    UpdatesActions actions = new UpdatesActions()
+    ChangesActions actions = new ChangesActions()
 }

@@ -4,35 +4,35 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import org.grooscript.daemon.FilesDaemon
-import org.grooscript.gradle.files.UpdatesActions
+import org.grooscript.gradle.changes.ChangesActions
 
 /**
  * User: jorgefrancoleza
  * Date: 17/12/14
  */
-class UpdatesTask extends DefaultTask {
+class ChangesTask extends DefaultTask {
 
     List<String> files
     Closure onChanges
 
     @TaskAction
-    void checkUpdates() {
+    void detectChanges() {
         checkProperties()
         if (!files || !onChanges) {
             throw new GradleException("Need define files an action on changes.")
         } else {
-            checkingUpdates()
+            checkingChanges()
         }
     }
 
     private checkProperties() {
-        files = files ?: project.extensions.modifications?.files
-        onChanges = onChanges ?: project.extensions.modifications?.onChanges
+        files = files ?: project.extensions.spy?.files
+        onChanges = onChanges ?: project.extensions.spy?.onChanges
     }
 
-    private void checkingUpdates() {
+    private void checkingChanges() {
         new FilesDaemon(files, { listFiles ->
-            onChanges.delegate = new UpdatesActions()
+            onChanges.delegate = new ChangesActions()
             onChanges(listFiles)
         }).start()
     }

@@ -75,7 +75,7 @@ class Presenter {
             initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE)) {
             println 'Generation completed.'
         } else {
-            throw new GradleException('Error creating files and dirs.')
+            throw new GradleException('Error creating changes and dirs.')
         }
     }
 }

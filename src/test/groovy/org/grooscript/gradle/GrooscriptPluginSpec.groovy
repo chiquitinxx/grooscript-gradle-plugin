@@ -21,15 +21,15 @@ class GrooscriptPluginSpec extends Specification {
         project.tasks.daemon instanceof DaemonTask
         project.tasks.thread instanceof ThreadTask
         project.tasks.initStaticWeb instanceof InitStaticWebTask
-        project.tasks.templates instanceof TemplatesTask
+        project.tasks.templatesJs instanceof TemplatesTask
         project.tasks.templatesThread instanceof TemplatesThreadTask
-        project.tasks.modifications instanceof UpdatesTask
+        project.tasks.spyChanges instanceof ChangesTask
         project.tasks.size() == 7
 
         and:
         project.extensions.grooscript instanceof ConversionExtension
         project.extensions.templates instanceof TemplatesExtension
-        project.extensions.modifications instanceof UpdatesExtension
+        project.extensions.spy instanceof ChangesExtension
 
         and: 'without changes in conversion options'
         ConversionOptions.values().collect { it.text } ==

@@ -10,21 +10,21 @@ import spock.lang.Unroll
  * User: jorgefrancoleza
  * Date: 14/12/13
  */
-class UpdatesTaskSpec extends Specification {
+class ChangesTaskSpec extends Specification {
 
     Project project
-    UpdatesTask task
+    ChangesTask task
 
     def setup() {
         project = ProjectBuilder.builder().build()
 
-        task = project.task('modifications', type: UpdatesTask)
+        task = project.task('spyChanges', type: ChangesTask)
         task.project = project
     }
 
     def 'create the task'() {
         expect:
-        task instanceof UpdatesTask
+        task instanceof ChangesTask
     }
 
     @Unroll
@@ -32,7 +32,7 @@ class UpdatesTaskSpec extends Specification {
         when:
         task.files = files
         task.onChanges = actions
-        task.checkUpdates()
+        task.detectChanges()
 
         then:
         thrown(GradleException)
@@ -51,7 +51,7 @@ class UpdatesTaskSpec extends Specification {
         when:
         task.files = ['file']
         task.onChanges = { it -> println it }
-        task.checkUpdates()
+        task.detectChanges()
 
         then:
         notThrown(GradleException)

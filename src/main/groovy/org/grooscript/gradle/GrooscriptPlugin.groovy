@@ -16,7 +16,7 @@ class GrooscriptPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.extensions.create('grooscript', ConversionExtension)
         project.extensions.create('templates', TemplatesExtension)
-        project.extensions.create('modifications', UpdatesExtension)
+        project.extensions.create('spy', ChangesExtension)
         configureConvertTask(project)
         configureDaemonTask(project)
         configureThreadTask(project)
@@ -28,7 +28,7 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     private configureConvertTask(Project project) {
         ConvertTask convertTask = project.tasks.create('convert', ConvertTask)
-        convertTask.description = 'Convert groovy files to javascript files.'
+        convertTask.description = 'Convert groovy changes to javascript changes.'
         convertTask.group = GROOSCRIPT_GROUP
     }
 
@@ -52,7 +52,7 @@ class GrooscriptPlugin implements Plugin<Project> {
     }
 
     private configureTemplates(Project project) {
-        TemplatesTask templatesTask = project.tasks.create('templates', TemplatesTask)
+        TemplatesTask templatesTask = project.tasks.create('templatesJs', TemplatesTask)
         templatesTask.description = 'Generate templates js file.'
         templatesTask.group = GROOSCRIPT_GROUP
     }
@@ -64,8 +64,8 @@ class GrooscriptPlugin implements Plugin<Project> {
     }
 
     private configureUpdatesTask(Project project) {
-        UpdatesTask updatesTask = project.tasks.create('modifications', UpdatesTask)
-        updatesTask.description = 'Check changes in files and send notifications.'
+        ChangesTask updatesTask = project.tasks.create('spyChanges', ChangesTask)
+        updatesTask.description = 'Listen changes in files and send notifications.'
         updatesTask.group = GROOSCRIPT_GROUP
     }
 }

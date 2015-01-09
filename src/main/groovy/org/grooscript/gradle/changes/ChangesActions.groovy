@@ -1,11 +1,11 @@
-package org.grooscript.gradle.files
+package org.grooscript.gradle.changes
 
 import org.grooscript.gradle.websocket.Client
 
 /**
  * Created by jorgefrancoleza on 18/12/14.
  */
-class UpdatesActions {
+class ChangesActions {
     WebsocketAddress springWebsocketTo(String url) {
         new WebsocketAddress(url)
     }

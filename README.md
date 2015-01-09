@@ -1,7 +1,7 @@
-grooscript-gradle-plugin 0.9
-============================
+grooscript-gradle-plugin 1.0.0-SNAPSHOT
+===
 
-Gradle plugin to convert your groovy files to javascript using grooscript.
+Gradle plugin to convert your groovy files to javascript using grooscript. Last version published is 0.9.
 
 __Important: plugin requires Gradle 2, grooscript requires Groovy 2__
 
@@ -28,10 +28,10 @@ plugins {
 }
 </pre>
 
-To change any conversion option:
+There are 3 extension, convert files, convert templates and spy changes in files.
 
 <pre>
-//If you need to change any conversion option, can do this way, optional
+//Convert files, you can change options
 grooscript {
     source = ['src/main/groovy/presenters'] //Sources to be converted(List<String>), default is ['src/main/groovy']
     destination = 'js' //Target directory for js files, default is 'src/main/webapp/js/app'
@@ -50,6 +50,14 @@ templates {
     destinationPath = 'src/main/webapp/js/lib'
     classPath = ['src/main/groovy']
 }
+
+//Spy files changes
+spy {
+    files = ['anyFolder', 'aFile']
+    onChanges = { list ->
+        println 'Changes!! ' + list
+    }
+}
 </pre>
 
 There are 7 tasks:
@@ -62,10 +70,10 @@ __initStaticWeb__ - create a static web project with index.html in src/main/weba
 
 __thread__ - run daemon to convert files to javascript. Executes daemon in a thread, so is perfect to use with other task
 
-__templates__ - generate gstemplates.js file with groovy templates defined
+__templatesJs__ - generate gstemplates.js file with groovy templates defined
 
 __templatesThread__ - run daemon to convert templates. Executes daemon in a thread, so is perfect to use with other task
 
-__modifications__ - (experimental) listen changes in files
+__spyChanges__ - listen changes in files
 
 Guide about using this plugin [here](http://grooscript.org/starting_gradle.html)

@@ -103,7 +103,7 @@ class TemplatesTaskSpec extends Specification {
         project = ProjectBuilder.builder().build()
         project.extensions.templates = [:]
 
-        task = project.task('templates', type: TemplatesTask)
+        task = project.task('templatesJs', type: TemplatesTask)
         task.project = project
     }
 }
