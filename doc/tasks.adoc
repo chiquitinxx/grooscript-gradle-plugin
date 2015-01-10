@@ -91,6 +91,26 @@ templates {
 }
 --
 
+The support in convert templates is a bit limited, you can't use code out of the template's engine. You can't use
+imports, or insert data from other files. The destination js is the next class, converted, with templates
+filled with all converted templates:
+
+[source,groovy]
+--
+package org.grooscript.templates
+
+class Templates {
+
+    static Map<String, Closure> templates
+
+    static String applyTemplate(String name, model = [:]) {
+        Closure cl = templates[name]
+        cl.delegate = model
+        cl(model)
+    }
+}
+--
+
 == Spy file changes
 
 There is 1 tasks:

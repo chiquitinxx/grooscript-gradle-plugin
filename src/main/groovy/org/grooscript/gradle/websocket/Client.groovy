@@ -68,7 +68,7 @@ class MyWebSocketHandler implements WebSocketHandler {
 
     @Override
     void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        println ' *** MSG ***'+message
+        //println ' *** MSG ***'+message
     }
 
     @Override

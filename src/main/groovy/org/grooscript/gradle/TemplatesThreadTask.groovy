@@ -30,7 +30,6 @@ class TemplatesThreadTask extends TemplatesAbstractTask {
                 if (listFilesChanged) {
                     try {
                         generateTemplate()
-                        GsConsole.info 'Templates generated from thread.'
                     } catch(e) {
                         GsConsole.exception "Exception generating templates from thread: ${e.message}"
                     }
