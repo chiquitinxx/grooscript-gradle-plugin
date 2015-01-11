@@ -65,7 +65,7 @@ bintray {
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             name = project.version
-            desc = 'Websocket features'
+            desc = 'Paths improvements, last extensions/tasks renaming'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')

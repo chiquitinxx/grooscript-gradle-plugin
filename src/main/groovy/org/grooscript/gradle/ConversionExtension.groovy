@@ -1,8 +1,5 @@
 package org.grooscript.gradle
 
-/**
- * Created by jorge on 06/01/14.
- */
 class ConversionExtension {
     def source = ['src/main/groovy']
     String destination = 'src/main/webapp/js/app'
