@@ -61,9 +61,9 @@ class DaemonTaskSpec extends Specification {
         Thread.sleep(450)
 
         then:
-        1 * GsConsole.exception('FilesActor Error in file/folder source')
+        1 * GsConsole.exception({ it.startsWith('FilesActor Error in file/folder')})
         1 * GsConsole.info('[0] Conversion daemon has converted files.')
-        1 * ConversionDaemon.start(ANY_SOURCE, ANY_DESTINATION, _)
+        1 * ConversionDaemon.start([project.file(ANY_SOURCE[0]).path], project.file(ANY_DESTINATION).path, _)
     }
 
     def 'test launch daemon and do conversion'() {
@@ -76,7 +76,7 @@ class DaemonTaskSpec extends Specification {
         task.launchDaemon()
 
         then:
-        1 * GsConsole.message('Listening file changes in : [src/test/resources/groovy]')
+        1 * GsConsole.message({ it.startsWith('Listening file changes in : [')})
     }
 
     def 'test launch daemon with all conversion options'() {
@@ -96,14 +96,16 @@ class DaemonTaskSpec extends Specification {
         task.launchDaemon()
 
         then:
-        1 * ConversionDaemon.start(GOOD_SOURCE, GOOD_DESTINATION, [
-                classPath : [],
-                customization: customization,
-                initialText: 'initial',
-                finalText: 'final',
-                recursive: true,
-                mainContextScope: ['$'],
-                addGsLib: 'gs'
+        1 * ConversionDaemon.start({ it.size() == 1 && it[0].endsWith(GOOD_SOURCE) },
+                { it.endsWith(GOOD_DESTINATION) },
+                [
+                    classPath : [],
+                    customization: customization,
+                    initialText: 'initial',
+                    finalText: 'final',
+                    recursive: true,
+                    mainContextScope: ['$'],
+                    addGsLib: 'gs'
         ])
     }
 }

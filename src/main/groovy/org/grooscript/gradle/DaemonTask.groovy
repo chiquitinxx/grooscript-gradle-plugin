@@ -27,7 +27,8 @@ class DaemonTask extends GrooscriptTask {
     private configureAndStartDaemon() {
         FilesDaemon filesDaemon
         try {
-            filesDaemon = ConversionDaemon.start(source, destination, conversionProperties)
+            filesDaemon = ConversionDaemon.start(source.collect { project.file(it).path },
+                    project.file(destination).path, conversionProperties)
             Thread.sleep(100)
             if (waitInfinite) {
                 def thread = Thread.start {
