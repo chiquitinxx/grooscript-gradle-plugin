@@ -1,3 +1,5 @@
+[![Build Status](https://snap-ci.com/chiquitinxx/grooscript-gradle-plugin/branch/master/build_image)](https://snap-ci.com/chiquitinxx/grooscript-gradle-plugin/branch/master)
+
 grooscript-gradle-plugin 1.0.0-SNAPSHOT
 ===
 
