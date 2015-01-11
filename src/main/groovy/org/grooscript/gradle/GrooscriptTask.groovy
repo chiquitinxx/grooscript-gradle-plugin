@@ -23,6 +23,7 @@ class GrooscriptTask extends DefaultTask {
         source = source ?: project.extensions.grooscript?.source
         destination = destination ?: project.extensions.grooscript?.destination
         classPath = classPath ?: project.extensions.grooscript?.classPath
+        classPath = classPath.collect { project.file(it).path }
         customization = customization ?: project.extensions.grooscript?.customization
         initialText = initialText ?: project.extensions.grooscript?.initialText
         finalText = finalText ?: project.extensions.grooscript?.finalText

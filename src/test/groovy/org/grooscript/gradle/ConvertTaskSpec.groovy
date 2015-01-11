@@ -44,13 +44,13 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.getDefaultOptions()
         1 * GrooScript.clearAllOptions()
         1 * GrooScript.setConversionProperty('customization', project.grooscript.customization)
-        1 * GrooScript.setConversionProperty('classPath', project.grooscript.classPath)
+        1 * GrooScript.setConversionProperty('classPath', { it.size() == 1 && it[0].endsWith('3') })
         1 * GrooScript.setConversionProperty('initialText', project.grooscript.initialText)
         1 * GrooScript.setConversionProperty('finalText', project.grooscript.finalText)
         1 * GrooScript.setConversionProperty('recursive', project.grooscript.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
         1 * GrooScript.setConversionProperty('addGsLib', project.grooscript.addGsLib)
-        1 * GrooScript.convert(project.grooscript.source, project.grooscript.destination) >> null
+        1 * GrooScript.convert({ it instanceof List<File> && it.size() == 1}, { it instanceof File }) >> null
         0 * _
     }
 
@@ -65,7 +65,8 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
-        1 * GrooScript.convert(SOURCE, project.grooscript.destination) >> null
+        1 * GrooScript.convert({ it instanceof List<File> && it.collect { file -> file.name} == SOURCE},
+                { it instanceof File })
     }
 
     @Unroll
@@ -96,7 +97,8 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
-        1 * GrooScript.convert(SOURCE, DESTINATION) >> null
+        1 * GrooScript.convert({ it instanceof List<File> && it.collect { file -> file.name} == SOURCE},
+                { it instanceof File && it.name == DESTINATION })
     }
 
     def 'convert tasks with options'() {
@@ -104,7 +106,7 @@ class ConvertTaskSpec extends Specification {
         GroovySpy(GrooScript, global: true)
         task.source = SOURCE
         task.destination = DESTINATION
-        task.classPath = ['.']
+        task.classPath = ['d']
         task.customization = { true }
         task.initialText = 'initial'
         task.finalText = 'final'
@@ -119,13 +121,13 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.getDefaultOptions()
         1 * GrooScript.clearAllOptions()
         1 * GrooScript.setConversionProperty('customization', task.customization)
-        1 * GrooScript.setConversionProperty('classPath', task.classPath)
+        1 * GrooScript.setConversionProperty('classPath', { it.size() == 1 && it[0].endsWith(task.classPath) })
         1 * GrooScript.setConversionProperty('initialText', task.initialText)
         1 * GrooScript.setConversionProperty('finalText', task.finalText)
         1 * GrooScript.setConversionProperty('recursive', task.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
         1 * GrooScript.setConversionProperty('addGsLib', task.addGsLib)
-        1 * GrooScript.convert(SOURCE, DESTINATION) >> null
+        1 * GrooScript.convert(_, _) >> null
         0 * _
     }
 }

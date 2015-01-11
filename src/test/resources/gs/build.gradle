@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.grooscript:grooscript-gradle-plugin:1.0.0-SNAPSHOT') {
+            exclude module: "groovy"
+            exclude module: "groovy-json"
+        }
+    }
+}
+
+apply plugin: 'org.grooscript.conversion'
+
+grooscript {
+    source = ['src/script.groovy']
+    destination = 'js/script.js'
+}
+
+task gs << { task ->
+    println "Project: $project"
+    println "File: ${project.file('src/script.groovy')}"
+    println "I'm $task.project.name"
+}

@@ -84,7 +84,7 @@ class DaemonTaskSpec extends Specification {
         def customization = { -> }
         task.source = GOOD_SOURCE
         task.destination = GOOD_DESTINATION
-        task.classPath = ['src']
+        task.classPath = null
         task.customization = customization
         task.initialText = 'initial'
         task.finalText = 'final'
@@ -97,7 +97,7 @@ class DaemonTaskSpec extends Specification {
 
         then:
         1 * ConversionDaemon.start(GOOD_SOURCE, GOOD_DESTINATION, [
-                classPath : ['src'],
+                classPath : [],
                 customization: customization,
                 initialText: 'initial',
                 finalText: 'final',
