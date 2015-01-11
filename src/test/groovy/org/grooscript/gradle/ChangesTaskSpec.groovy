@@ -3,6 +3,9 @@ package org.grooscript.gradle
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
+import org.grooscript.GrooScript
+import org.grooscript.daemon.FilesDaemon
+import org.grooscript.util.GsConsole
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -46,6 +49,7 @@ class ChangesTaskSpec extends Specification {
 
     def 'run the task with correct data'() {
         given:
+        GroovySpy(GsConsole, global: true)
         project.extensions.modifications = [:]
 
         when:
@@ -55,5 +59,6 @@ class ChangesTaskSpec extends Specification {
 
         then:
         notThrown(GradleException)
+        1 * GsConsole.message({ it.startsWith('Listening file changes in : [')})
     }
 }

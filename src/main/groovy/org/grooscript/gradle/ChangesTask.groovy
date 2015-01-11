@@ -27,6 +27,8 @@ class ChangesTask extends DefaultTask {
 
     private checkProperties() {
         files = files ?: project.extensions.spy?.files
+        if (files)
+            files = files.collect { project.file(it).path }
         onChanges = onChanges ?: project.extensions.spy?.onChanges
     }
 
