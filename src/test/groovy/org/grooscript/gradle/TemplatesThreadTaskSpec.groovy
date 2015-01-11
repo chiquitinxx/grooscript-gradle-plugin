@@ -27,7 +27,7 @@ class TemplatesThreadTaskSpec extends Specification {
         task.templatesPath = 'src/test/resources'
         task.templates = ['one.gtpl']
         task.destinationFile = TEMPLATES_FILE
-        task.launchThread()
+        task.configureAndStartThread()
         def generatedFile = new File(TEMPLATES_FILE)
 
         then:

@@ -16,9 +16,15 @@ class TemplatesAbstractTask extends DefaultTask {
 
     void checkProperties() {
         templatesPath = templatesPath ?: project.extensions.templates?.templatesPath
+        if (templatesPath)
+            templatesPath = project.file(templatesPath).path
         destinationFile = destinationFile ?: project.extensions.templates?.destinationFile
+        if (destinationFile)
+            destinationFile = project.file(destinationFile).path
         templates = templates ?: project.extensions.templates?.templates
         classPath = classPath ?: project.extensions.templates?.classPath
+        if (classPath)
+            classPath = classPath.collect { project.file(it).path }
     }
 
     void errorParameters() {
@@ -56,7 +62,7 @@ class TemplatesAbstractTask extends DefaultTask {
         }
     }
 
-    private String doConversion(classCode) {
+    private String doConversion(String classCode) {
         GrooScript.clearAllOptions()
         conversionOptions.each { key, value ->
             GrooScript.setConversionProperty(key, value)

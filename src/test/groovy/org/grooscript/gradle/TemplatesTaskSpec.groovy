@@ -27,10 +27,14 @@ class TemplatesTaskSpec extends Specification {
         task.checkProperties()
 
         then:
-        task.templatesPath == 'src/main/webapp/templates'
+        task.templatesPath != 'src/main/webapp/templates'
+        task.templatesPath.endsWith 'src/main/webapp/templates'
         task.templates == null
-        task.destinationFile == 'src/main/webapp/js/lib/Templates.js'
-        task.classPath == ['src/main/groovy']
+        task.destinationFile != 'src/main/webapp/js/lib/Templates.js'
+        task.destinationFile.endsWith 'src/main/webapp/js/lib/Templates.js'
+        task.classPath.size() == 1
+        task.classPath[0] != 'src/main/groovy'
+        task.classPath[0].endsWith 'src/main/groovy'
     }
 
     def 'generates templates needs variables setted'() {
@@ -44,7 +48,7 @@ class TemplatesTaskSpec extends Specification {
         task.templatesPath = 'src/test/resources'
         task.templates = ['one.gtpl']
         task.destinationFile = FILE_NAME
-        task.generateTemplatesJs()
+        task.generateTemplate()
         def generatedFile = new File(FILE_NAME)
 
         then:
@@ -61,7 +65,7 @@ class TemplatesTaskSpec extends Specification {
     }
 
     @Unroll
-    def 'templatesPath and destination have to be folders'() {
+    def 'templatesPath has to be a folder and destination has to be a .js file'() {
         given:
         task.templatesPath = 'src/test/resources'
         task.templates = ['one.gtpl']
@@ -69,7 +73,7 @@ class TemplatesTaskSpec extends Specification {
 
         when:
         task."$property" = value
-        task.generateTemplatesJs()
+        task.generateTemplate()
 
         then:
         thrown(GradleException)
@@ -85,7 +89,7 @@ class TemplatesTaskSpec extends Specification {
         task.templatesPath = 'src/test/resources'
         task.templates = ['three.gtpl']
         task.destinationFile = FILE_NAME
-        task.generateTemplatesJs()
+        task.generateTemplate()
         def generatedFile = new File(FILE_NAME)
 
         then:

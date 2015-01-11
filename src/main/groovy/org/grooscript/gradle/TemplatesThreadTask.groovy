@@ -20,7 +20,7 @@ class TemplatesThreadTask extends TemplatesAbstractTask {
         }
     }
 
-    private configureAndStartThread() {
+    protected configureAndStartThread() {
         FilesDaemon filesDaemon
         try {
             def files = templates.collect {
