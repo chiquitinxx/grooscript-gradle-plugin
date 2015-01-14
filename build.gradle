@@ -9,7 +9,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'org.grooscript'
-version = '1.0.0-SNAPSHOT'
+version = '0.10-SNAPSHOT'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
