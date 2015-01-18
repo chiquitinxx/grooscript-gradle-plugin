@@ -22,12 +22,18 @@ class Client {
      * @return
      */
     static connectAndSend(String webSocketUrl, String destination, message) {
-        List<Transport> transports = new ArrayList<>(2)
-        transports.add(new WebSocketTransport(new StandardWebSocketClient()))
-        transports.add(new RestTemplateXhrTransport())
+        try {
+            //Try connect to URL
+            webSocketUrl.toURL().text
+            List<Transport> transports = new ArrayList<>(2)
+            transports.add(new WebSocketTransport(new StandardWebSocketClient()))
+            transports.add(new RestTemplateXhrTransport())
 
-        SockJsClient sockJsClient = new SockJsClient(transports)
-        sockJsClient.doHandshake(new MyWebSocketHandler(destination, message), webSocketUrl)
+            SockJsClient sockJsClient = new SockJsClient(transports)
+            sockJsClient.doHandshake(new MyWebSocketHandler(destination, message), webSocketUrl)
+        } catch (e) {
+            GsConsole.error "Error connecting to websocket: $webSocketUrl"
+        }
     }
 }
 
