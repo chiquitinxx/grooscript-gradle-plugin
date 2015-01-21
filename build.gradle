@@ -9,13 +9,12 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'org.grooscript'
-version = '0.10-SNAPSHOT'
+version = '0.10'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -65,7 +64,7 @@ bintray {
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             name = project.version
-            desc = 'Paths improvements, last extensions/tasks renaming'
+            desc = 'Task renames and improve path resolution'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
@@ -95,7 +94,7 @@ asciidoctor {
     sources { include 'starting_gradle.adoc', 'tasks.adoc' }
     attributes 'plugin-version': version,
             'gradle-version': '2.2.1',
-            'grooscript-version': '1.0.0-rc-1',
+            'grooscript-version': '1.0.0-rc-2',
             author: 'Jorge Franco',
             email: 'grooscript@gmail.com',
             'source-highlighter': 'prettify',
