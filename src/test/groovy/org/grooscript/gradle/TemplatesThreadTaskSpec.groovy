@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
+import static org.grooscript.util.Util.SEP
 /**
  * User: jorgefrancoleza
  * Date: 16/11/14
@@ -24,7 +25,7 @@ class TemplatesThreadTaskSpec extends Specification {
         thrown(GradleException)
 
         when:
-        task.templatesPath = 'src/test/resources'
+        task.templatesPath = "src${SEP}test${SEP}resources"
         task.templates = ['one.gtpl']
         task.destinationFile = TEMPLATES_FILE
         task.configureAndStartThread()

@@ -4,9 +4,12 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.grooscript.daemon.ConversionDaemon
+import org.grooscript.daemon.FilesDaemon
 import org.grooscript.util.GsConsole
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import static org.grooscript.util.Util.SEP
 
 /**
  * User: jorgefrancoleza
@@ -16,8 +19,8 @@ class DaemonTaskSpec extends Specification {
 
     static final ANY_SOURCE = ['source']
     static final ANY_DESTINATION = 'destination'
-    static final GOOD_SOURCE = ['src/test/resources/groovy']
-    static final GOOD_DESTINATION = 'src/test/resources/js/app'
+    static final GOOD_SOURCE = ["src${SEP}test${SEP}resources${SEP}groovy"]
+    static final GOOD_DESTINATION = "src${SEP}test${SEP}resources${SEP}js${SEP}app"
 
     Project project
     DaemonTask task
@@ -81,7 +84,9 @@ class DaemonTaskSpec extends Specification {
 
     def 'test launch daemon with all conversion options'() {
         given:
+        GroovySpy(GsConsole, global: true)
         def customization = { -> }
+        def filesDaemon = Mock(FilesDaemon)
         task.source = GOOD_SOURCE
         task.destination = GOOD_DESTINATION
         task.classPath = null
@@ -96,16 +101,17 @@ class DaemonTaskSpec extends Specification {
         task.launchDaemon()
 
         then:
-        1 * ConversionDaemon.start({ it.size() == 1 && it[0].endsWith(GOOD_SOURCE) },
-                { it.endsWith(GOOD_DESTINATION) },
-                [
-                    classPath : [],
-                    customization: customization,
-                    initialText: 'initial',
-                    finalText: 'final',
-                    recursive: true,
-                    mainContextScope: ['$'],
-                    addGsLib: 'gs'
-        ])
+        1 * ConversionDaemon.start({ it.size() == 1 && it[0].endsWith(GOOD_SOURCE[0]) },
+                { it.endsWith(GOOD_DESTINATION) }, [
+                classPath : [],
+                customization: customization,
+                initialText: 'initial',
+                finalText: 'final',
+                recursive: true,
+                mainContextScope: ['$'],
+                addGsLib: 'gs'
+        ]) >> filesDaemon
+        0 * filesDaemon._
+        0 * GsConsole._
     }
 }

@@ -6,6 +6,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static org.grooscript.util.Util.SEP
 /**
  * User: jorgefrancoleza
  * Date: 14/12/13
@@ -86,7 +87,7 @@ class TemplatesTaskSpec extends Specification {
 
     def 'generates templates with an include'() {
         when:
-        task.templatesPath = 'src/test/resources'
+        task.templatesPath = "src${SEP}test${SEP}resources"
         task.templates = ['three.gtpl']
         task.destinationFile = FILE_NAME
         task.generateTemplate()
