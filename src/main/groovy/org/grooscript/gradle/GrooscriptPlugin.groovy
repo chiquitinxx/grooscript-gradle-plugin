@@ -24,6 +24,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         configureTemplates(project)
         configureTemplatesThread(project)
         configureUpdatesTask(project)
+        configureSyncGsLibsTask(project)
     }
 
     private configureConvertTask(Project project) {
@@ -67,5 +68,12 @@ class GrooscriptPlugin implements Plugin<Project> {
         ChangesTask updatesTask = project.tasks.create('spyChanges', ChangesTask)
         updatesTask.description = 'Listen changes in files and send notifications.'
         updatesTask.group = GROOSCRIPT_GROUP
+    }
+
+    private configureSyncGsLibsTask(Project project) {
+        SyncGrooscriptLibsTask syncGsLibsTask = project.tasks.create('syncGsLibs', SyncGrooscriptLibsTask)
+        syncGsLibsTask.description = 'Syncronize grooscript libraries (grooscript.js, grooscript.min.js and ' +
+                'grooscript-tools.js) with grooscript plugin version.'
+        syncGsLibsTask.group = GROOSCRIPT_GROUP
     }
 }

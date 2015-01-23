@@ -24,7 +24,8 @@ class GrooscriptPluginSpec extends Specification {
         project.tasks.templatesJs instanceof TemplatesTask
         project.tasks.templatesThread instanceof TemplatesThreadTask
         project.tasks.spyChanges instanceof ChangesTask
-        project.tasks.size() == 7
+        project.tasks.syncGsLibs instanceof SyncGrooscriptLibsTask
+        project.tasks.size() == 8
 
         and:
         project.extensions.grooscript instanceof ConversionExtension
