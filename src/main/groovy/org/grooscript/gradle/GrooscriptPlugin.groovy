@@ -72,6 +72,7 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     private configureSyncGsLibsTask(Project project) {
         SyncGrooscriptLibsTask syncGsLibsTask = project.tasks.create('syncGsLibs', SyncGrooscriptLibsTask)
+        syncGsLibsTask.initTools = new InitToolsImpl()
         syncGsLibsTask.description = 'Syncronize grooscript libraries (grooscript.js, grooscript.min.js and ' +
                 'grooscript-tools.js) with grooscript plugin version.'
         syncGsLibsTask.group = GROOSCRIPT_GROUP
