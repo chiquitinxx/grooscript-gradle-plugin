@@ -1,5 +1,14 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
+    }
+}
+
 plugins {
-    id "com.jfrog.bintray" version "1.0"
+    //id "com.jfrog.bintray" version "1.0"
     id "org.asciidoctor.convert" version "1.5.2"
 }
 
@@ -7,9 +16,10 @@ apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '0.12-SNAPSHOT'
+version = '0.12'
 
 def compatibilityVersion = 1.6
 sourceCompatibility = compatibilityVersion
@@ -47,7 +57,7 @@ bintray {
     user = project.hasProperty('bintray_user') ? bintray_user : ''
     key = project.hasProperty('bintray_key') ? bintray_key : ''
 
-    publications = ['mavenJava'] //When uploading Maven-based publication changes
+    publications = ['mavenJava']
 
     dryRun = false //Whether to run this as dry-run, without deploying
     publish = true //If version should be auto published after an upload
