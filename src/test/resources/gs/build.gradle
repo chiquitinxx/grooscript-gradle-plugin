@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('org.grooscript:grooscript-gradle-plugin:1.0.0-SNAPSHOT') {
+        classpath('org.grooscript:grooscript-gradle-plugin:0.12-SNAPSHOT') {
             exclude module: "groovy"
             exclude module: "groovy-json"
         }

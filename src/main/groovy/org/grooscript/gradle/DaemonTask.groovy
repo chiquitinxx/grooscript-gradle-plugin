@@ -41,7 +41,7 @@ class DaemonTask extends GrooscriptTask {
             }
         } catch (e) {
             GsConsole.error("Error in converion daemon: ${e.message}")
-            filesDaemon.stop()
+            filesDaemon?.stop()
         }
     }
 }

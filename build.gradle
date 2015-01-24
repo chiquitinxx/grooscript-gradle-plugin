@@ -9,7 +9,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'org.grooscript'
-version = '0.11'
+version = '0.12-SNAPSHOT'
 
 def compatibilityVersion = 1.6
 sourceCompatibility = compatibilityVersion
@@ -26,10 +26,7 @@ dependencies {
         exclude module: "groovy-all"
     }
     compile 'cglib:cglib-nodep:2.2'
-    compile 'org.grooscript:grooscript:1.0.0-rc-2', {
-        exclude module: "groovy"
-        exclude module: "groovy-json"
-    }
+    compile 'org.grooscript:grooscript:1.0.0-rc-2'
     compile "org.springframework:spring-websocket:4.1.4.RELEASE"
     compile "org.springframework:spring-messaging:4.1.4.RELEASE"
     compile 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
@@ -65,7 +62,7 @@ bintray {
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             name = project.version
-            desc = 'Strange error converting AST'
+            desc = 'Add new task to sync grooscript js libs'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
