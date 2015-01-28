@@ -1,14 +1,5 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
-    }
-}
-
 plugins {
-    //id "com.jfrog.bintray" version "1.0"
+    id "com.jfrog.bintray" version "1.1"
     id "org.asciidoctor.convert" version "1.5.2"
 }
 
@@ -19,7 +10,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '0.12'
+version = '1.0.0'
 
 def compatibilityVersion = 1.6
 sourceCompatibility = compatibilityVersion
@@ -36,7 +27,7 @@ dependencies {
         exclude module: "groovy-all"
     }
     compile 'cglib:cglib-nodep:2.2'
-    compile 'org.grooscript:grooscript:1.0.0-rc-2'
+    compile 'org.grooscript:grooscript:1.0.0'
     compile "org.springframework:spring-websocket:4.1.4.RELEASE"
     compile "org.springframework:spring-messaging:4.1.4.RELEASE"
     compile 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
@@ -102,7 +93,7 @@ asciidoctor {
     sources { include 'starting_gradle.adoc', 'tasks.adoc' }
     attributes 'plugin-version': version,
             'gradle-version': '2.2.1',
-            'grooscript-version': '1.0.0-rc-2',
+            'grooscript-version': '1.0.0',
             author: 'Jorge Franco',
             email: 'grooscript@gmail.com',
             'source-highlighter': 'prettify',
