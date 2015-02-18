@@ -10,7 +10,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.0.0'
+version = '1.0.1-SNAPSHOT'
 
 def compatibilityVersion = 1.6
 sourceCompatibility = compatibilityVersion
@@ -36,7 +36,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.2.1"
+    gradleVersion = "2.3"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -63,7 +63,7 @@ bintray {
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             name = project.version
-            desc = 'Add new task to sync grooscript js libs'
+            desc = 'Improve templates generation'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
@@ -92,7 +92,7 @@ asciidoctor {
     sourceDir = project.file 'doc'
     sources { include 'starting_gradle.adoc', 'tasks.adoc' }
     attributes 'plugin-version': version,
-            'gradle-version': '2.2.1',
+            'gradle-version': '2.3',
             'grooscript-version': '1.0.0',
             author: 'Jorge Franco',
             email: 'grooscript@gmail.com',
