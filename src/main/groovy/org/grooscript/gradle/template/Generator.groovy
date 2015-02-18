@@ -1,6 +1,13 @@
 package org.grooscript.gradle.template
 
 import groovy.text.SimpleTemplateEngine
+import groovy.transform.TypeChecked
+import org.codehaus.groovy.control.CompilationUnit
+import org.codehaus.groovy.control.CompilePhase
+import org.codehaus.groovy.control.CompilerConfiguration
+import org.codehaus.groovy.control.customizers.ASTTransformationCustomizer
+import org.codehaus.groovy.control.customizers.SecureASTCustomizer
+import org.grooscript.util.GrooScriptException
 
 /**
  * User: jorgefrancoleza
@@ -21,8 +28,11 @@ class Templates {
     cl(model)
   }
 }'''
+    def classPath
+    String customTypeChecker
 
     String generateClassCode(Map<String, String> templates) {
+        compileTemplates(templates)
         def templatesFormat = templates.collect { entry ->
             [first: "'${entry.key}'",
              second: "{ model = [:] ->\n      HtmlBuilder.build {\n" +
@@ -33,5 +43,50 @@ class Templates {
         }.join ','
         def engine = new SimpleTemplateEngine()
         engine.createTemplate(TEMPLATES_TEMPLATE).make([templates: '[' + templatesFormat + '\n  ]'])
+    }
+
+    private compileTemplates(Map<String, String> templates) {
+        templates.each { entry ->
+            try {
+                CompilerConfiguration conf = new CompilerConfiguration()
+                conf.addCompilationCustomizers(new SecureASTCustomizer(importsWhitelist: []))
+                if (customTypeChecker) {
+                    def acz = new ASTTransformationCustomizer(TypeChecked, extensions: customTypeChecker)
+                    conf.addCompilationCustomizers(acz)
+                }
+
+                def scriptClassName = 'script' + System.currentTimeMillis()
+                def parent = new GroovyClassLoader()
+                addClassPathToGroovyClassLoader(parent)
+                GroovyClassLoader classLoader = new GroovyClassLoader(parent, conf)
+                addClassPathToGroovyClassLoader(classLoader)
+                compileCode(conf, scriptClassName, classLoader, entry.value)
+            } catch (Exception e) {
+                throw new GrooScriptException("Templates generator, failed compile template ${entry.key}: ${e.message}")
+            }
+        }
+    }
+
+    private addClassPathToGroovyClassLoader(classLoader) {
+        if (classPath) {
+            if (!(classPath instanceof String || classPath instanceof Collection)) {
+                throw new GrooScriptException('The classpath must be a String or a List')
+            }
+
+            if (classPath instanceof Collection) {
+                classPath.each {
+                    classLoader.addClasspath(it)
+                }
+            } else {
+                classLoader.addClasspath(classPath)
+            }
+        }
+    }
+
+    private CompilationUnit compileCode(conf, scriptClassName, classLoader, String code) {
+        def compilationUnitFinal = new CompilationUnit(conf, null, classLoader)
+        compilationUnitFinal.addSource(scriptClassName, code)
+        compilationUnitFinal.compile(CompilePhase.INSTRUCTION_SELECTION.phaseNumber)
+        compilationUnitFinal
     }
 }

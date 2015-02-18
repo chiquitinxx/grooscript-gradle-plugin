@@ -2,6 +2,7 @@ package org.grooscript.gradle.template
 
 import org.grooscript.GrooScript
 import org.grooscript.test.JsTestResult
+import org.grooscript.util.GrooScriptException
 import spock.lang.Specification
 
 /**
@@ -9,6 +10,41 @@ import spock.lang.Specification
  * Date: 08/10/14
  */
 class GeneratorSpec extends Specification {
+
+    def 'templates are compiled before generate code'() {
+        given:
+        def templates = ['one.gtpl': "p 'Hello!"]
+
+        when:
+        generator.generateClassCode(templates)
+
+        then:
+        thrown(GrooScriptException)
+    }
+
+    def 'not supporting imports in templates'() {
+        given:
+        def templates = ['one.gtpl': "import org.grooscript.GrooScript;p 'Hello!'"]
+
+        when:
+        generator.generateClassCode(templates)
+
+        then:
+        thrown(GrooScriptException)
+    }
+
+    def 'custom type checking'() {
+        given:
+        def templates = ['one.gtpl': "p 'Hello!'"]
+
+        when:
+        generator.classPath = 'src/test/resources'
+        generator.customTypeChecker = 'testTypeChecker.groovy'
+        generator.generateClassCode(templates)
+
+        then:
+        thrown(GrooScriptException)
+    }
 
     def 'generate first template'() {
         given:
@@ -143,11 +179,9 @@ class Templates {
         def templates = ['hello.tpl': "layout 'layout.tpl', salute: 'Hello ' + name +'!', bye: contents { p 'Bye '+ name + '.' }",
                          'layout.tpl': "p(salute); bye()"]
         def code = generator.generateClassCode(templates)
-        //println code
         code += "\nprintln Templates.applyTemplate('hello.tpl', [name: 'Jorge'])\n"
 
         when:
-        //println GrooScript.convert(code)
         JsTestResult result = GrooScript.evaluateGroovyCode(code, 'grooscript-tools')
 
         then:

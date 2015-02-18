@@ -5,4 +5,5 @@ class TemplatesExtension {
     List<String> templates
     String destinationFile = 'src/main/webapp/js/lib/Templates.js'
     List<String> classPath = ['src/main/groovy']
+    String customTypeChecker
 }

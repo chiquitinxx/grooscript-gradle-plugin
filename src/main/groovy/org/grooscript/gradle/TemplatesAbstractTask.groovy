@@ -13,6 +13,7 @@ class TemplatesAbstractTask extends DefaultTask {
     List<String> templates
     String destinationFile
     List<String> classPath
+    String customTypeChecker
 
     void checkProperties() {
         templatesPath = templatesPath ?: project.extensions.templates?.templatesPath
@@ -44,7 +45,8 @@ class TemplatesAbstractTask extends DefaultTask {
     }
 
     protected generateTemplate() {
-        String classCode = new Generator().generateClassCode(getTemplatesMap())
+        String classCode = new Generator(classPath: classPath, customTypeChecker: customTypeChecker).
+                generateClassCode(getTemplatesMap())
         if (!destinationFile.toUpperCase().endsWith('.JS')) {
             throw new GradleException('destinationFile has to be a js file: ' + destinationFile)
         }

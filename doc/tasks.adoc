@@ -95,7 +95,16 @@ templates {
     templates = ['main.gtpl', 'little/small.tpl'] //Files from templatesPath
     destinationFile = 'js/Templates.js'
     classPath = ['src/groovy']
+    customTypeChecker = 'aCustomTypeCheckerFile.groovy'
 }
+--
+
+You can type check your templates with custom type checker, more info
+http://docs.codehaus.org/display/GROOVY/Type+checking+extensions[here]. Example:
+
+[source,groovy]
+--
+include::../src/test/resources/testTypeChecker.groovy[]
 --
 
 The support in convert templates is a bit limited, you can't use code out of the template's engine. You can't use

@@ -25,6 +25,7 @@ class TemplatesTaskSpec extends Specification {
         project.extensions.templates.templates = extension.templates
         project.extensions.templates.destinationFile = extension.destinationFile
         project.extensions.templates.classPath = extension.classPath
+        project.extensions.templates.customTypeChecker = extension.customTypeChecker
         task.checkProperties()
 
         then:
@@ -36,6 +37,7 @@ class TemplatesTaskSpec extends Specification {
         task.classPath.size() == 1
         task.classPath[0] != 'src/main/groovy'
         task.classPath[0].endsWith 'src/main/groovy'
+        task.customTypeChecker == null
     }
 
     def 'generates templates needs variables setted'() {
