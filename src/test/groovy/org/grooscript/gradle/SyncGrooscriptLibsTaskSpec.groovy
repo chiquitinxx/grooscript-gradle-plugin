@@ -18,6 +18,7 @@ class SyncGrooscriptLibsTaskSpec extends Specification {
     InitTools initTools
 
     private final static EMPTY_CONTENT = ''
+    private final static TEMP_FOLDER = 'one'
 
     def setup() {
         initTools = Mock(InitTools)
@@ -42,15 +43,16 @@ class SyncGrooscriptLibsTaskSpec extends Specification {
         task.sync()
 
         then:
-        1 * initTools.extractGrooscriptJarFile(new File(nameFile).name, { it.endsWith nameFile})
+        1 * initTools.extractGrooscriptJarFile(new File(nameFile).name, new File(nameFile).absolutePath )
 
         cleanup:
         new File(nameFile).delete()
-        new File('one').deleteDir()
+        new File(TEMP_FOLDER).deleteDir()
 
         where:
         nameFile << ['grooscript.js', 'grooscript.min.js', 'grooscript-tools.js',
-                "one${SEP}grooscript.js", "one${SEP}grooscript.min.js", "one${SEP}two${SEP}grooscript-tools.js"]
+                     "${TEMP_FOLDER}${SEP}grooscript.js", "${TEMP_FOLDER}${SEP}grooscript.min.js",
+                     "${TEMP_FOLDER}${SEP}two${SEP}grooscript-tools.js"]
     }
 
     @Unroll
@@ -62,18 +64,18 @@ class SyncGrooscriptLibsTaskSpec extends Specification {
         task.sync()
 
         then:
-        0 * _
+        0 * initTools.extractGrooscriptJarFile(new File(nameFile).name, new File(nameFile).absolutePath )
 
         cleanup:
         new File(nameFile).delete()
-        new File('one').deleteDir()
+        new File(TEMP_FOLDER).deleteDir()
 
         where:
-        nameFile << ['pepe.js', 'grooscript.gol', "one${SEP}jquery.min.js", 'grooscript.min']
+        nameFile << ['pepe.js', 'grooscript.gol', "${TEMP_FOLDER}${SEP}jquery.min.js", 'grooscript.min']
     }
 
     private createFileEmpty(name) {
-        new File("one${SEP}two").mkdirs()
+        new File("${TEMP_FOLDER}${SEP}two").mkdirs()
         new File(name).text = EMPTY_CONTENT
     }
 }

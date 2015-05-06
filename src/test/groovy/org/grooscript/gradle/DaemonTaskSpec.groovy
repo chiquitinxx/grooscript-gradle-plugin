@@ -1,5 +1,6 @@
 package org.grooscript.gradle
 
+import org.apache.tomcat.jni.Thread
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
@@ -65,7 +66,6 @@ class DaemonTaskSpec extends Specification {
 
         then:
         1 * GsConsole.exception({ it.startsWith('FilesActor Error in file/folder')})
-        1 * GsConsole.info('[0] Conversion daemon has converted files.')
         1 * ConversionDaemon.start([project.file(ANY_SOURCE[0]).path], project.file(ANY_DESTINATION).path, _)
     }
 

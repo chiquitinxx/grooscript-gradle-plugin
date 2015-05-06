@@ -1,5 +1,5 @@
 plugins {
-    id "com.jfrog.bintray" version "1.1"
+    id "com.jfrog.bintray" version "1.2"
     id "org.asciidoctor.convert" version "1.5.2"
 }
 
@@ -10,13 +10,18 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.0.2'
+version = '1.1.0-SNAPSHOT'
 
-def compatibilityVersion = 1.6
+ext {
+   grooscriptVersion = '1.1.0-SNAPSHOT'
+}
+
+def compatibilityVersion = 1.7
 sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
+    mavenLocal() //remove
     mavenCentral()
 }
 
@@ -27,7 +32,10 @@ dependencies {
         exclude module: "groovy-all"
     }
     testCompile 'cglib:cglib-nodep:3.1'
-    compile 'org.grooscript:grooscript:1.0.2'
+    compile("org.grooscript:grooscript:${grooscriptVersion}") {
+        exclude module: "groovy"
+        exclude module: "groovy-json"
+    }
     compile "org.springframework:spring-websocket:4.1.4.RELEASE"
     compile "org.springframework:spring-messaging:4.1.4.RELEASE"
     compile 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
@@ -36,7 +44,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.3"
+    gradleVersion = "2.4"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -93,7 +101,7 @@ asciidoctor {
     sources { include 'starting_gradle.adoc', 'tasks.adoc', 'templating.adoc' }
     attributes 'plugin-version': version,
             'gradle-version': '2.3',
-            'grooscript-version': '1.0.2',
+            'grooscript-version': grooscriptVersion,
             author: 'Jorge Franco',
             email: 'grooscript@gmail.com',
             'source-highlighter': 'prettify',
