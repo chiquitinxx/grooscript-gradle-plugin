@@ -27,12 +27,6 @@ class InitToolsImpl implements InitTools {
         true
     }
 
-    boolean extractJarFile(String fileName, String fileDestinationRelative) {
-        new File(fileDestinationRelative).text =
-                InitToolsImpl.classLoader.getResourceAsStream('META-INF/resources/' + fileName).text
-        true
-    }
-
     boolean saveRemoteFile(String fileRelative, String url) {
         new File(fileRelative).text = url.toURL().text
         true

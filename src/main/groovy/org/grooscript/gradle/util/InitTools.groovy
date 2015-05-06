@@ -8,6 +8,5 @@ interface InitTools {
     boolean createDirs(String dirRelative)
     boolean saveFile(String fileRelative, String content)
     boolean extractGrooscriptJarFile(String fileName, String fileDestinationRelative)
-    boolean extractJarFile(String fileName, String fileDestinationRelative)
     boolean saveRemoteFile(String fileRelative, String url)
 }

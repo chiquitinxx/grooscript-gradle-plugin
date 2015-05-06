@@ -13,7 +13,8 @@ group = 'org.grooscript'
 version = '1.1.0-SNAPSHOT'
 
 ext {
-   grooscriptVersion = '1.1.0-SNAPSHOT'
+    grooscriptVersion = '1.1.0-SNAPSHOT'
+    gradleVersion = '2.4'
 }
 
 def compatibilityVersion = 1.7
@@ -44,7 +45,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.4"
+    gradleVersion = project.ext['gradleVersion']
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -100,7 +101,7 @@ asciidoctor {
     sourceDir = project.file 'doc'
     sources { include 'starting_gradle.adoc', 'tasks.adoc', 'templating.adoc' }
     attributes 'plugin-version': version,
-            'gradle-version': '2.3',
+            'gradle-version': gradleVersion,
             'grooscript-version': grooscriptVersion,
             author: 'Jorge Franco',
             email: 'grooscript@gmail.com',
