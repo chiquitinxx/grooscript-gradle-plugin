@@ -1,10 +1,11 @@
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
+        jcenter()
+        //mavenLocal()
+        //mavenCentral()
     }
     dependencies {
-        classpath('org.grooscript:grooscript-gradle-plugin:0.12-SNAPSHOT') {
+        classpath('org.grooscript:grooscript-gradle-plugin:1.0.2') {
             exclude module: "groovy"
             exclude module: "groovy-json"
         }
@@ -16,6 +17,12 @@ apply plugin: 'org.grooscript.conversion'
 grooscript {
     source = ['src/script.groovy']
     destination = 'js/script.js'
+}
+
+task templates(type: org.grooscript.gradle.TemplatesTask, dependsOn: 'convert') {
+    templatesPath = '..'
+    templates = ['books.gtpl', 'numbers.gtpl']
+    destinationFile = 'js/Templates.js'
 }
 
 task gs << { task ->

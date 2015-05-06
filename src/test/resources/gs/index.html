@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Trying templates</title>
+    <script type="text/javascript" src="js/grooscript.min.js"></script>
+    <script type="text/javascript" src="js/grooscript-tools.js"></script>
+    <script type="text/javascript" src="js/Templates.js"></script>
+</head>
+<body>
+<script>
+    console.log(Templates.applyTemplate('books.gtpl', {
+        books: [{title: 'Book 1', author: 'Author 1'}, {title: 'Book 2', author: 'Author 2'}],
+        title: 'Books'
+    }));
+    console.log(Templates.applyTemplate('numbers.gtpl', [1, 3]));
+</script>
+</body>
+</html>

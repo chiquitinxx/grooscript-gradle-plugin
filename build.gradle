@@ -90,7 +90,7 @@ publishing {
 
 asciidoctor {
     sourceDir = project.file 'doc'
-    sources { include 'starting_gradle.adoc', 'tasks.adoc' }
+    sources { include 'starting_gradle.adoc', 'tasks.adoc', 'templating.adoc' }
     attributes 'plugin-version': version,
             'gradle-version': '2.3',
             'grooscript-version': '1.0.2',
