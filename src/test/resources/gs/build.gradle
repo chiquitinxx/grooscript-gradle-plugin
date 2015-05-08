@@ -1,11 +1,11 @@
 buildscript {
     repositories {
         jcenter()
-        //mavenLocal()
+        mavenLocal()
         //mavenCentral()
     }
     dependencies {
-        classpath('org.grooscript:grooscript-gradle-plugin:1.0.2') {
+        classpath('org.grooscript:grooscript-gradle-plugin:1.1.0-SNAPSHOT') {
             exclude module: "groovy"
             exclude module: "groovy-json"
         }
@@ -23,6 +23,11 @@ task templates(type: org.grooscript.gradle.TemplatesTask, dependsOn: 'convert') 
     templatesPath = '..'
     templates = ['books.gtpl', 'numbers.gtpl']
     destinationFile = 'js/Templates.js'
+}
+
+task requireJsTry(type: org.grooscript.gradle.RequireJsTask) {
+    sourceFile = 'src/main/groovy/gs/Initial.groovy'
+    destinationFolder = 'js'
 }
 
 task gs << { task ->

@@ -3,5 +3,5 @@ task hello << { task ->
 }
 
 task clean(type: Delete) {
-    delete 'gs/js'
+    delete 'gs/js/gs'
 }

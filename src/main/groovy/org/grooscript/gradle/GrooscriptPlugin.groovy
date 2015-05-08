@@ -17,6 +17,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         project.extensions.create('grooscript', ConversionExtension)
         project.extensions.create('templates', TemplatesExtension)
         project.extensions.create('spy', ChangesExtension)
+        project.extensions.create('requireJs', RequireJsExtension)
         configureConvertTask(project)
         configureDaemonTask(project)
         configureThreadTask(project)
@@ -25,6 +26,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         configureTemplatesThread(project)
         configureUpdatesTask(project)
         configureSyncGsLibsTask(project)
+        configureRequireJsTask(project)
     }
 
     private configureConvertTask(Project project) {
@@ -76,5 +78,11 @@ class GrooscriptPlugin implements Plugin<Project> {
         syncGsLibsTask.description = 'Syncronize grooscript libraries (grooscript.js, grooscript.min.js and ' +
                 'grooscript-tools.js) with grooscript plugin version.'
         syncGsLibsTask.group = GROOSCRIPT_GROUP
+    }
+
+    private configureRequireJsTask(Project project) {
+        RequireJsTask requireJsTask = project.tasks.create('requireJs', RequireJsTask)
+        requireJsTask.description = 'Convert a file and dependencies to require.js modules'
+        requireJsTask.group = GROOSCRIPT_GROUP
     }
 }

@@ -25,12 +25,14 @@ class GrooscriptPluginSpec extends Specification {
         project.tasks.templatesThread instanceof TemplatesThreadTask
         project.tasks.spyChanges instanceof ChangesTask
         project.tasks.syncGsLibs instanceof SyncGrooscriptLibsTask
-        project.tasks.size() == 8
+        project.tasks.requireJs instanceof RequireJsTask
+        project.tasks.size() == 9
 
         and:
         project.extensions.grooscript instanceof ConversionExtension
         project.extensions.templates instanceof TemplatesExtension
         project.extensions.spy instanceof ChangesExtension
+        project.extensions.requireJs instanceof RequireJsExtension
 
         and: 'without changes in conversion options'
         ConversionOptions.values().collect { it.text } ==
