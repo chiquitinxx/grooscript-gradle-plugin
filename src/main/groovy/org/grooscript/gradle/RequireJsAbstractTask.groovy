@@ -4,6 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.grooscript.GrooScript
 import org.grooscript.convert.ConversionOptions
+import org.grooscript.convert.util.ConvertedFile
 
 class RequireJsAbstractTask extends DefaultTask {
 
@@ -40,7 +41,7 @@ class RequireJsAbstractTask extends DefaultTask {
         )
     }
 
-    void convertRequireJsFile() {
+    List<ConvertedFile> convertRequireJsFile() {
         GrooScript.clearAllOptions()
         GrooScript.setConversionProperty(ConversionOptions.CLASSPATH.text, classPath)
         GrooScript.setConversionProperty(ConversionOptions.INITIAL_TEXT.text, initialText)

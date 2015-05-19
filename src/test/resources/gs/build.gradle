@@ -30,6 +30,12 @@ task requireJsTry(type: org.grooscript.gradle.RequireJsTask) {
     destinationFolder = 'js'
 }
 
+task requireJsDaemon(type: org.grooscript.gradle.RequireJsThreadTask) {
+    blockExecution = true
+    sourceFile = 'src/main/groovy/gs/Initial.groovy'
+    destinationFolder = 'js'
+}
+
 task gs << { task ->
     println "Project: $project"
     println "File: ${project.file('src/script.groovy')}"
