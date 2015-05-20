@@ -27,6 +27,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         configureUpdatesTask(project)
         configureSyncGsLibsTask(project)
         configureRequireJsTask(project)
+        configureRequireJsThreadTask(project)
     }
 
     private configureConvertTask(Project project) {
@@ -84,5 +85,11 @@ class GrooscriptPlugin implements Plugin<Project> {
         RequireJsTask requireJsTask = project.tasks.create('requireJs', RequireJsTask)
         requireJsTask.description = 'Convert a file and dependencies to require.js modules'
         requireJsTask.group = GROOSCRIPT_GROUP
+    }
+
+    private configureRequireJsThreadTask(Project project) {
+        RequireJsThreadTask requireJsThreadTask = project.tasks.create('requireJsThread', RequireJsThreadTask)
+        requireJsThreadTask.description = 'Start a daemon to convert require.js modules if any file changes'
+        requireJsThreadTask.group = GROOSCRIPT_GROUP
     }
 }
