@@ -171,3 +171,26 @@ There is 1 tasks:
 With this tasks, all your grooscript libraries in the project ('grooscript.js', 'grooscript.min.js',
 'grooscript-tools.js') will be replaced by the libs that comes in the grooscript version of the current plugin.
 
+== Require.js tasks
+
+There are 2 tasks:
+
+* *requireJs* (org.grooscript.gradle.RequireJsTask) to generate require.js modules from a groovy file
+* *requireJsThread* (org.grooscript.gradle.RequireJsThreadTask) to listen changes in groovy files to generate require.js modules
+
+There is an extension to configure this task:
+
+[source,groovy]
+--
+include::../src/main/groovy/org/grooscript/gradle/RequireJsExtension.groovy[]
+
+Example:
+requireJs {
+    sourceFile = 'src/main/groovy/MyApp.groovy'
+    // classPath by default is ['src/main/groovy']
+    destinationFolder = 'src/main/resources/web/js/app'
+}
+--
+
+The *requireJsThread* task, has a parameter `blockExecution`, by default false. If you set to true, the task will
+continue forever, like a daemon task.
