@@ -26,7 +26,7 @@ class RequireJsActor extends DefaultActor {
                     try {
                         listFiles = convertAction()
                         GsConsole.message("Require.js modules generated from $source")
-                    } catch (e) {
+                    } catch (Throwable e) {
                         GsConsole.error("Error generating require.js modules from $source. Exception: ${e.message}")
                     }
                     updateFilesDateTimes()
@@ -35,6 +35,14 @@ class RequireJsActor extends DefaultActor {
                 this << source
             }
         }
+    }
+
+    public void onException(Throwable e) {
+        GsConsole.exception('Exception in RequireJsActor: ' + e.message)
+    }
+
+    public void onInterrupt(InterruptedException e) {
+        GsConsole.error('InterruptedException in RequireJsActor: ' + e.message)
     }
 
     private updateFilesDateTimes() {
