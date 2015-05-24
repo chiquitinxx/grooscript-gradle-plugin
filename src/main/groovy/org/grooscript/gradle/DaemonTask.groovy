@@ -12,6 +12,7 @@ import org.grooscript.util.GsConsole
  */
 class DaemonTask extends GrooscriptTask {
 
+    private static final WAIT_TIME = 100
     boolean waitInfinite = true
 
     @TaskAction
@@ -29,11 +30,11 @@ class DaemonTask extends GrooscriptTask {
         try {
             filesDaemon = ConversionDaemon.start(source.collect { project.file(it).path },
                     project.file(destination).path, conversionProperties)
-            Thread.sleep(100)
+            Thread.sleep(WAIT_TIME)
             if (waitInfinite) {
                 def thread = Thread.start {
                     while (filesDaemon.actor?.isActive()) {
-                        sleep(100)
+                        sleep(WAIT_TIME)
                     }
                 }
                 thread.join()

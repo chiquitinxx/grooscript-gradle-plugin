@@ -37,6 +37,7 @@ class GrooscriptPluginSpec extends Specification {
 
         and: 'without changes in conversion options'
         ConversionOptions.values().collect { it.text } ==
-            ['classPath', 'customization', 'mainContextScope', 'initialText', 'finalText', 'recursive', 'addGsLib']
+            ['classPath', 'customization', 'mainContextScope', 'initialText',
+             'finalText', 'recursive', 'addGsLib', 'requireJs']
     }
 }

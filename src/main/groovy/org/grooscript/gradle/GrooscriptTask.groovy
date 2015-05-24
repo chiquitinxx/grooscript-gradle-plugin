@@ -18,6 +18,7 @@ class GrooscriptTask extends DefaultTask {
     boolean recursive = false
     List<String> mainContextScope
     String addGsLib
+    boolean requireJs = false
 
     void checkProperties() {
         source = source ?: project.extensions.grooscript?.source

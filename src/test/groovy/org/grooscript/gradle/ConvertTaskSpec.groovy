@@ -35,7 +35,7 @@ class ConvertTaskSpec extends Specification {
         GroovySpy(GrooScript, global: true)
         project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
                 classPath: ['3'], initialText: 'initial', finalText: 'final',
-                recursive: true, mainContextScope: ['7'], addGsLib: 'grooscript']
+                recursive: true, mainContextScope: ['7'], addGsLib: 'grooscript', requireJs: false]
 
         when:
         task.convert()
@@ -51,6 +51,7 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
         1 * GrooScript.setConversionProperty('addGsLib', project.grooscript.addGsLib)
         1 * GrooScript.convert({ it instanceof List<File> && it.size() == 1}, { it instanceof File }) >> null
+        1 * GrooScript.setConversionProperty('requireJs', project.grooscript.requireJs)
         0 * _
     }
 
@@ -127,6 +128,7 @@ class ConvertTaskSpec extends Specification {
         1 * GrooScript.setConversionProperty('recursive', task.recursive)
         1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
         1 * GrooScript.setConversionProperty('addGsLib', task.addGsLib)
+        1 * GrooScript.setConversionProperty('requireJs', task.requireJs)
         1 * GrooScript.convert(_, _) >> null
         0 * _
     }

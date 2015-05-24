@@ -16,10 +16,10 @@ class RequireJsThreadTask extends RequireJsAbstractTask {
     void startThread() {
         checkProperties()
         if (sourceFile && destinationFolder && classPath) {
-            configureAndStartDaemon()
+            def actor = configureAndStartDaemon()
             if (blockExecution) {
                 def thread = Thread.start {
-                    while (true) {
+                    while (actor?.isActive()) {
                         sleep(WAIT_TIME)
                     }
                 }
@@ -30,7 +30,7 @@ class RequireJsThreadTask extends RequireJsAbstractTask {
         }
     }
 
-    private void configureAndStartDaemon() {
+    private RequireJsActor configureAndStartDaemon() {
         def action = this.&convertRequireJsFile
         action.setDelegate(this)
         action.resolveStrategy = Closure.DELEGATE_ONLY
@@ -38,5 +38,6 @@ class RequireJsThreadTask extends RequireJsAbstractTask {
         actor.convertAction = action
         actor.start()
         actor << sourceFile
+        actor
     }
 }

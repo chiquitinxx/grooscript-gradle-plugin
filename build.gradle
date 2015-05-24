@@ -10,10 +10,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.1.0'
+version = '1.1.1-SNAPSHOT'
 
 ext {
-    grooscriptVersion = '1.1.0'
+    grooscriptVersion = '1.1.1-SNAPSHOT'
     gradleVersion = '2.4'
 }
 
@@ -22,6 +22,7 @@ sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 

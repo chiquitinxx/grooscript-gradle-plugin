@@ -9,7 +9,7 @@ import org.grooscript.util.GsConsole
  */
 class RequireJsActor extends DefaultActor {
 
-    private static final WAIT_TIME = 400
+    private static final WAIT_TIME = 100
     private List<ConvertedFile> listFiles = []
     private Map<String, Long> dateSourceFiles = [:]
     Closure convertAction
@@ -21,10 +21,15 @@ class RequireJsActor extends DefaultActor {
     void act() {
         loop {
             react { source ->
+
                 if (anyFileChanged()) {
-                    listFiles = convertAction()
+                    try {
+                        listFiles = convertAction()
+                        GsConsole.message("Require.js modules generated from $source")
+                    } catch (e) {
+                        GsConsole.error("Error generating require.js modules from $source. Exception: ${e.message}")
+                    }
                     updateFilesDateTimes()
-                    GsConsole.message("Require.js modules generated from $source")
                 }
                 sleep(WAIT_TIME)
                 this << source

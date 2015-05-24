@@ -109,7 +109,8 @@ class DaemonTaskSpec extends Specification {
                 finalText: 'final',
                 recursive: true,
                 mainContextScope: ['$'],
-                addGsLib: 'gs'
+                addGsLib: 'gs',
+                requireJs: false
         ]) >> filesDaemon
         0 * filesDaemon._
         0 * GsConsole._

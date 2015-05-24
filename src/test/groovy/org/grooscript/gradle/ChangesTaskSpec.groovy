@@ -49,7 +49,6 @@ class ChangesTaskSpec extends Specification {
 
     def 'run the task with correct data'() {
         given:
-        GroovySpy(GsConsole, global: true)
         project.extensions.modifications = [:]
 
         when:
@@ -59,6 +58,5 @@ class ChangesTaskSpec extends Specification {
 
         then:
         notThrown(GradleException)
-        1 * GsConsole.message({ it.startsWith('Listening file changes in : [')})
     }
 }
