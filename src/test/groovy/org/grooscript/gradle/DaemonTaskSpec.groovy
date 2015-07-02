@@ -4,8 +4,8 @@ import org.apache.tomcat.jni.Thread
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
-import org.grooscript.daemon.ConversionDaemon
-import org.grooscript.daemon.FilesDaemon
+import org.grooscript.gradle.daemon.ConversionDaemon
+import org.grooscript.gradle.daemon.FilesDaemon
 import org.grooscript.util.GsConsole
 import spock.lang.Specification
 import spock.lang.Unroll

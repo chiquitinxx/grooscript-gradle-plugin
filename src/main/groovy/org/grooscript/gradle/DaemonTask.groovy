@@ -2,8 +2,8 @@ package org.grooscript.gradle
 
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import org.grooscript.daemon.ConversionDaemon
-import org.grooscript.daemon.FilesDaemon
+import org.grooscript.gradle.daemon.ConversionDaemon
+import org.grooscript.gradle.daemon.FilesDaemon
 import org.grooscript.util.GsConsole
 
 /**

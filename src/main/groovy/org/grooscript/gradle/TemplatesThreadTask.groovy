@@ -1,7 +1,7 @@
 package org.grooscript.gradle
 
 import org.gradle.api.tasks.TaskAction
-import org.grooscript.daemon.FilesDaemon
+import org.grooscript.gradle.daemon.FilesDaemon
 import org.grooscript.util.GsConsole
 
 /**

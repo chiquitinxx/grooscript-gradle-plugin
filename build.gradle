@@ -10,10 +10,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.1.1'
+version = '1.1.2-SNAPSHOT'
 
 ext {
-    grooscriptVersion = '1.1.1'
+    grooscriptVersion = '1.1.2-SNAPSHOT'
     gradleVersion = '2.4'
 }
 
@@ -22,6 +22,7 @@ sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -35,6 +36,9 @@ dependencies {
     compile("org.grooscript:grooscript:${grooscriptVersion}") {
         exclude module: "groovy"
         exclude module: "groovy-json"
+    }
+    compile('org.codehaus.gpars:gpars:1.2.1') {
+        exclude module: 'groovy-all'
     }
     compile "org.springframework:spring-websocket:4.1.4.RELEASE"
     compile "org.springframework:spring-messaging:4.1.4.RELEASE"
