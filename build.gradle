@@ -10,10 +10,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.1.2-SNAPSHOT'
+version = '1.1.2'
 
 ext {
-    grooscriptVersion = '1.1.2-SNAPSHOT'
+    grooscriptVersion = '1.1.2'
     gradleVersion = '2.4'
 }
 
@@ -22,7 +22,6 @@ sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -75,7 +74,7 @@ bintray {
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             name = project.version
-            desc = 'Upgrades and fixes'
+            desc = 'Upgrades and moved gpars stuff from grooscript core'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
