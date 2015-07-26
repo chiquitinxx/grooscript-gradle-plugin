@@ -10,6 +10,9 @@ import org.grooscript.util.GsConsole
  */
 class TemplatesThreadTask extends TemplatesAbstractTask {
 
+    private static final WAIT_TIME = 100
+    boolean blockExecution = false
+
     @TaskAction
     void launchThread() {
         checkProperties()
@@ -23,23 +26,38 @@ class TemplatesThreadTask extends TemplatesAbstractTask {
     protected configureAndStartThread() {
         FilesDaemon filesDaemon
         try {
-            def files = templates.collect {
-                "${templatesPath}/${it}"
-            }
-            def action = { listFilesChanged ->
-                if (listFilesChanged) {
-                    try {
-                        generateTemplate()
-                    } catch(e) {
-                        GsConsole.exception "Exception generating templates from thread: ${e.message}"
+            filesDaemon = new FilesDaemon(templatesPaths, generateTemplatesAction, [actionOnStartup: true])
+            filesDaemon.start()
+            if (blockExecution) {
+                def thread = Thread.start {
+                    while (filesDaemon.actor?.isActive()) {
+                        sleep(WAIT_TIME)
                     }
                 }
+                thread.join()
+                filesDaemon.stop()
             }
-            filesDaemon = new FilesDaemon(files, action, [actionOnStartup: true])
-            filesDaemon.start()
         } catch (e) {
             GsConsole.error("Error in templates thread: ${e.message}")
             filesDaemon?.stop()
+        }
+    }
+
+    private List<String> getTemplatesPaths() {
+        templates.collect {
+            project.file("${templatesPath}/${it}").path
+        }
+    }
+
+    private Closure getGenerateTemplatesAction() {
+        { listFilesChanged ->
+            if (listFilesChanged) {
+                try {
+                    generateTemplate()
+                } catch(e) {
+                    GsConsole.exception "Exception generating templates from thread: ${e.message}"
+                }
+            }
         }
     }
 }

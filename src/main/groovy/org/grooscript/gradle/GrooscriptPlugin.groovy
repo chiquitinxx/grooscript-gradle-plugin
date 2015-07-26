@@ -19,8 +19,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         project.extensions.create('spy', ChangesExtension)
         project.extensions.create('requireJs', RequireJsExtension)
         configureConvertTask(project)
-        configureDaemonTask(project)
-        configureThreadTask(project)
+        configureCovertThreadTask(project)
         configureInitStaticWeb(project)
         configureTemplates(project)
         configureTemplatesThread(project)
@@ -32,20 +31,14 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     private configureConvertTask(Project project) {
         ConvertTask convertTask = project.tasks.create('convert', ConvertTask)
-        convertTask.description = 'Convert groovy changes to javascript changes.'
+        convertTask.description = 'Convert groovy files to javascript.'
         convertTask.group = GROOSCRIPT_GROUP
     }
 
-    private configureDaemonTask(Project project) {
-        DaemonTask daemonTask = project.tasks.create('daemon', DaemonTask)
-        daemonTask.description = 'Launch grooscript conversion daemon. Block main thread and converting until killed.'
+    private configureCovertThreadTask(Project project) {
+        ConvertThreadTask daemonTask = project.tasks.create('convertThread', ConvertThreadTask)
+        daemonTask.description = 'Start a daemon to convert groovy files to javascript if any file changes.'
         daemonTask.group = GROOSCRIPT_GROUP
-    }
-
-    private configureThreadTask(Project project) {
-        ThreadTask threadTask = project.tasks.create('thread', ThreadTask)
-        threadTask.description = 'Start a conversion daemon in a thread. Main thread continues.'
-        threadTask.group = GROOSCRIPT_GROUP
     }
 
     private configureInitStaticWeb(Project project) {
@@ -63,7 +56,7 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     private configureTemplatesThread(Project project) {
         TemplatesThreadTask templatesThreadTask = project.tasks.create('templatesThread', TemplatesThreadTask)
-        templatesThreadTask.description = 'Launch templates templates thread. Main thread continues.'
+        templatesThreadTask.description = 'Start a daemon to convert groovy templates to javascript if any file changes.'
         templatesThreadTask.group = GROOSCRIPT_GROUP
     }
 
@@ -89,7 +82,7 @@ class GrooscriptPlugin implements Plugin<Project> {
 
     private configureRequireJsThreadTask(Project project) {
         RequireJsThreadTask requireJsThreadTask = project.tasks.create('requireJsThread', RequireJsThreadTask)
-        requireJsThreadTask.description = 'Start a daemon to convert require.js modules if any file changes'
+        requireJsThreadTask.description = 'Start a daemon to convert require.js modules if any file changes.'
         requireJsThreadTask.group = GROOSCRIPT_GROUP
     }
 }

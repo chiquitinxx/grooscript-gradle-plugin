@@ -4,6 +4,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 import static org.grooscript.util.Util.SEP
 /**
@@ -15,32 +16,39 @@ class TemplatesThreadTaskSpec extends Specification {
     def 'create the task'() {
         expect:
         task instanceof TemplatesThreadTask
+        task.blockExecution == false
     }
 
-    def 'generates templates on start thread'() {
+    def 'mandatory params'() {
         when:
         task.launchThread()
 
         then:
-        thrown(GradleException)
+        def e = thrown(GradleException)
+        e.message.startsWith('For templates, have to define task properties: templatesPath, templates, destinationPath')
+    }
 
+    def 'generates templates on start thread'() {
         when:
+        def conditions = new PollingConditions()
         task.templatesPath = "src${SEP}test${SEP}resources"
         task.templates = ['one.gtpl']
         task.destinationFile = TEMPLATES_FILE
         task.configureAndStartThread()
-        def generatedFile = new File(TEMPLATES_FILE)
+        def file = new File(TEMPLATES_FILE)
 
         then:
-        generatedFile.text.contains '''Templates.templates = gs.map().add("one.gtpl",function(model) {
+        conditions.eventually {
+            file.exists() && file.text.contains('''Templates.templates = gs.map().add("one.gtpl",function(model) {
   if (model === undefined) model = gs.map();
   return gs.mc(HtmlBuilder,"build",[function(it) {
     return gs.mc(Templates,"p",["Hello!"]);
   }]);
-});'''
+});''')
+        }
 
         cleanup:
-        generatedFile.delete()
+        file.delete()
     }
 
     Project project

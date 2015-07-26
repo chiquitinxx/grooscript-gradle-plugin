@@ -7,11 +7,10 @@ In folders or files options, you can't use wildcards as * or **, just put relati
 
 == Convert files
 
-There are 3 tasks:
+There are 2 tasks:
 
 * *convert* (org.grooscript.gradle.ConvertTask) to convert groovy files to javascript
-* *daemon* (org.grooscript.gradle.DaemonTask) standalone task, listen changes in groovy files and convert them to javascript
-* *thread* (org.grooscript.gradle.ThreadTask) same that daemon task, but don't stop execution, must be used with other tasks
+* *convertThread* (org.grooscript.gradle.ConvertThreadTask) listen changes in groovy files and convert them to javascript
 
 There is an extension to configure this tasks
 
@@ -29,9 +28,9 @@ grooscript {
 If you execute `>gradle convert`, will convert groovy and java files in `src/main/groovy` to .js files, and will
 be saved in `./js` folder.
 
-If you execute *daemon* task, gradle will be running forever doing conversions if files in `src/main/groovy` change.
+You will use *convertThread* task when other task keeps gradle up, like a web application server.
 
-You will use *thread* task when other task keeps gradle up, like a web application server.
+If you execute *convertThread* task with *blockExecution=true* option, gradle will be running forever doing conversions if files in `src/main/groovy` change.
 
 Apart from `source` and `destination`, mandatory properties, you can define conversion options:
 
@@ -40,7 +39,7 @@ Apart from `source` and `destination`, mandatory properties, you can define conv
 grooscript {
     source = ['src/main/groovy/presenters'] //Sources to be converted
     destination = 'js' //Target directory or js file
-    classPath = ['src/groovy'] //Needed classpath to compile source files
+    classpath = ['src/groovy'] //Needed classpath to compile source files
     customization = null //Customization in files, for example { -> ast(groovy.transform.TypeChecked) }
     initialText = '//Grooscript converted file'
     initialText = '//End converted file'
@@ -94,7 +93,7 @@ templates {
     templatesPath = 'templates'
     templates = ['main.gtpl', 'little/small.tpl'] //Files from templatesPath
     destinationFile = 'js/Templates.js'
-    classPath = ['src/groovy']
+    classpath = ['src/groovy']
     customTypeChecker = 'aCustomTypeCheckerFile.groovy'
 }
 --
@@ -126,6 +125,9 @@ class Templates {
     }
 }
 --
+
+The *templatesThread* task, has a parameter `blockExecution`, by default false. If you set to true, the task will
+continue forever, blocking execution.
 
 == Spy file changes
 
@@ -193,4 +195,4 @@ requireJs {
 --
 
 The *requireJsThread* task, has a parameter `blockExecution`, by default false. If you set to true, the task will
-continue forever, like a daemon task.
+continue forever, blocking execution.

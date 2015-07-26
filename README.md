@@ -68,15 +68,13 @@ requireJs {
 }
 </pre>
 
-There are 10 tasks:
+There are 9 tasks:
 
 __convert__ - to convert groovy files to javascript
 
-__daemon__ - to run daemon that detect file changes and convert the files. This task blocks execution, so use it alone.
+__convertThread__ - to run conversion daemon that detect file changes and convert the files to javascript
 
 __initStaticWeb__ - create a static web project with index.html in src/main/webabb, to work with grooscript
-
-__thread__ - run daemon to convert files to javascript. Executes daemon in a thread, so is perfect to use with other task
 
 __templatesJs__ - generate javascript file with groovy templates defined
 

@@ -16,7 +16,7 @@ import static org.grooscript.util.Util.SEP
  * User: jorgefrancoleza
  * Date: 15/12/13
  */
-class DaemonTaskSpec extends Specification {
+class ConversionThreadTaskSpec extends Specification {
 
     static final ANY_SOURCE = ['source']
     static final ANY_DESTINATION = 'destination'
@@ -24,15 +24,19 @@ class DaemonTaskSpec extends Specification {
     static final GOOD_DESTINATION = "src${SEP}test${SEP}resources${SEP}js${SEP}app"
 
     Project project
-    DaemonTask task
+    ConvertThreadTask task
 
     def setup() {
         GroovySpy(ConversionDaemon, global:true)
         project = ProjectBuilder.builder().build()
-        task = project.task('daemon', type: DaemonTask)
+        task = project.task('daemon', type: ConvertThreadTask)
         task.project = project
         task.project.extensions.grooscript = [:]
-        task.waitInfinite = false
+    }
+
+    def 'by default it doesn\'t block execution'() {
+        expect:
+        task.blockExecution == false
     }
 
     @Unroll
@@ -53,7 +57,7 @@ class DaemonTaskSpec extends Specification {
         null    |'two'
     }
 
-    def 'test launch daemon with bad options'() {
+    def 'launch daemon with bad options'() {
         given:
         GroovySpy(GsConsole, global: true)
         task.source = ANY_SOURCE
@@ -69,7 +73,7 @@ class DaemonTaskSpec extends Specification {
         1 * ConversionDaemon.start([project.file(ANY_SOURCE[0]).path], project.file(ANY_DESTINATION).path, _)
     }
 
-    def 'test launch daemon and do conversion'() {
+    def 'launch daemon and do conversion'() {
         given:
         GroovySpy(GsConsole, global: true)
         task.source = GOOD_SOURCE
@@ -82,7 +86,7 @@ class DaemonTaskSpec extends Specification {
         1 * GsConsole.message({ it.startsWith('Listening file changes in : [')})
     }
 
-    def 'test launch daemon with all conversion options'() {
+    def 'launch daemon with all conversion options'() {
         given:
         GroovySpy(GsConsole, global: true)
         def customization = { -> }

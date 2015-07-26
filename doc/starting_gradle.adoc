@@ -141,7 +141,7 @@ The default conversion options of the grooscript gradle plugin are:
 
     source = ['src/main/groovy']
     destination = 'src/main/webapp/js/app'
-    classPath = ['src/main/groovy']
+    classpath = ['src/main/groovy']
     convertDependencies = false
 
 You can change, or set new options in your *build.gradle*, for example with this new options:
@@ -151,7 +151,7 @@ You can change, or set new options in your *build.gradle*, for example with this
 grooscript {
     source = ['src/main/groovy/presenters']
     destination = 'js'
-    classPath = ['src/groovy']
+    classpath = ['src/groovy']
     convertDependencies = true
     mainContextScope = ['$', 'window', 'Handlebars']
     initialText = '//Grooscript converted file'
