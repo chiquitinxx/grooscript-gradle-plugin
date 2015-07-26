@@ -10,10 +10,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.1.2'
+version = '1.2.0-SNAPSHOT'
 
 ext {
-    grooscriptVersion = '1.1.2'
+    grooscriptVersion = '1.2.0-SNAPSHOT'
     gradleVersion = '2.4'
 }
 
@@ -22,6 +22,7 @@ sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -66,7 +67,7 @@ bintray {
     pkg {
         repo = 'grooscript'
         name = "${project.group}:grooscript-gradle-plugin"
-        desc = 'Convert groovy code to javascript'
+        desc = 'Improve conversion options'
         websiteUrl = 'http://grooscript.org/'
         issueTrackerUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin/issues'
         vcsUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin.git'

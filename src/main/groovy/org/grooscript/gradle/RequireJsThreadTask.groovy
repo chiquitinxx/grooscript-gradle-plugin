@@ -15,7 +15,7 @@ class RequireJsThreadTask extends RequireJsAbstractTask {
     @TaskAction
     void startThread() {
         checkProperties()
-        if (sourceFile && destinationFolder && classPath) {
+        if (sourceFile && destinationFolder && classpath) {
             def actor = configureAndStartDaemon()
             if (blockExecution) {
                 def thread = Thread.start {

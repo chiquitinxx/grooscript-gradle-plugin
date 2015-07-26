@@ -38,7 +38,7 @@ class GeneratorSpec extends Specification {
         def templates = ['one.gtpl': "p 'Hello!'"]
 
         when:
-        generator.classPath = 'src/test/resources'
+        generator.classpath = 'src/test/resources'
         generator.customTypeChecker = 'testTypeChecker.groovy'
         generator.generateClassCode(templates)
 

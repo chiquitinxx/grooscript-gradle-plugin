@@ -12,7 +12,7 @@ class TemplatesAbstractTask extends DefaultTask {
     String templatesPath
     List<String> templates
     String destinationFile
-    List<String> classPath
+    List<String> classpath
     String customTypeChecker
 
     void checkProperties() {
@@ -23,9 +23,9 @@ class TemplatesAbstractTask extends DefaultTask {
         if (destinationFile)
             destinationFile = project.file(destinationFile).path
         templates = templates ?: project.extensions.templates?.templates
-        classPath = classPath ?: project.extensions.templates?.classPath
-        if (classPath)
-            classPath = classPath.collect { project.file(it).path }
+        classpath = classpath ?: project.extensions.templates?.classpath
+        if (classpath)
+            classpath = classpath.collect { project.file(it).path }
     }
 
     void errorParameters() {
@@ -38,14 +38,14 @@ class TemplatesAbstractTask extends DefaultTask {
     }
 
     Map getConversionOptions() {
-        [
-            "${ConversionOptions.MAIN_CONTEXT_SCOPE.text}": ['HtmlBuilder'],
-            "${ConversionOptions.CLASSPATH.text}": classPath
-        ]
+        def options = [:]
+        options.put(ConversionOptions.MAIN_CONTEXT_SCOPE.text, ['HtmlBuilder'])
+        options.put(ConversionOptions.CLASSPATH.text, classpath)
+        options
     }
 
     protected generateTemplate() {
-        String classCode = new Generator(classPath: classPath, customTypeChecker: customTypeChecker).
+        String classCode = new Generator(classpath: classpath, customTypeChecker: customTypeChecker).
                 generateClassCode(getTemplatesMap())
         if (!destinationFile.toUpperCase().endsWith('.JS')) {
             throw new GradleException('destinationFile has to be a js file: ' + destinationFile)
@@ -54,7 +54,7 @@ class TemplatesAbstractTask extends DefaultTask {
         GsConsole.message("Generated template ${destinationFile}.")
     }
 
-    private getTemplatesMap() {
+    private Map getTemplatesMap() {
         File path = new File(templatesPath)
         if (!path.isDirectory()) {
             throw new GradleException('templatesPath has to be a folder: ' + templatesPath)
@@ -65,10 +65,6 @@ class TemplatesAbstractTask extends DefaultTask {
     }
 
     private String doConversion(String classCode) {
-        GrooScript.clearAllOptions()
-        conversionOptions.each { key, value ->
-            GrooScript.setConversionProperty(key, value)
-        }
-        GrooScript.convert(classCode)
+        GrooScript.convert(classCode, conversionOptions)
     }
 }

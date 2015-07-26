@@ -34,24 +34,26 @@ class ConvertTaskSpec extends Specification {
         given:
         GroovySpy(GrooScript, global: true)
         project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
-                classPath: ['3'], initialText: 'initial', finalText: 'final',
-                recursive: true, mainContextScope: ['7'], addGsLib: 'grooscript', requireJs: false]
+                 classpath: ['3'], initialText: 'initial', finalText: 'final',
+                 recursive: true, mainContextScope: ['7'], addGsLib: 'grooscript', requireJsModule: false,
+                 includeDependencies: true, consoleInfo: true]
 
         when:
         task.convert()
 
         then:
-        1 * GrooScript.getDefaultOptions()
-        1 * GrooScript.clearAllOptions()
-        1 * GrooScript.setConversionProperty('customization', project.grooscript.customization)
-        1 * GrooScript.setConversionProperty('classPath', { it.size() == 1 && it[0].endsWith('3') })
-        1 * GrooScript.setConversionProperty('initialText', project.grooscript.initialText)
-        1 * GrooScript.setConversionProperty('finalText', project.grooscript.finalText)
-        1 * GrooScript.setConversionProperty('recursive', project.grooscript.recursive)
-        1 * GrooScript.setConversionProperty('mainContextScope', project.grooscript.mainContextScope)
-        1 * GrooScript.setConversionProperty('addGsLib', project.grooscript.addGsLib)
-        1 * GrooScript.convert({ it instanceof List<File> && it.size() == 1}, { it instanceof File }) >> null
-        1 * GrooScript.setConversionProperty('requireJs', project.grooscript.requireJs)
+        1 * GrooScript.convert([project.file('1')], project.file('2'), [
+            customization: project.grooscript.customization,
+            classpath: [project.file('3')].collect { it.path },
+            initialText: project.grooscript.initialText,
+            finalText: project.grooscript.finalText,
+            recursive: project.grooscript.recursive,
+            mainContextScope: project.grooscript.mainContextScope,
+            addGsLib: project.grooscript.addGsLib,
+            includeDependencies: project.grooscript.includeDependencies,
+            consoleInfo: false,
+            requireJsModule: false
+        ]) >> null
         0 * _
     }
 
@@ -59,15 +61,25 @@ class ConvertTaskSpec extends Specification {
         given:
         GroovySpy(GrooScript, global: true)
         project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
-                classPath: ['3'], recursive: false]
+                classpath: ['3'], recursive: false]
         task.source = SOURCE
 
         when:
         task.convert()
 
         then:
-        1 * GrooScript.convert({ it instanceof List<File> && it.collect { file -> file.name} == SOURCE},
-                { it instanceof File })
+        1 * GrooScript.convert([project.file(SOURCE[0])], project.file('2'), [
+            customization: project.grooscript.customization,
+            classpath: [project.file('3')].collect { it.path },
+            initialText: null,
+            finalText: null,
+            recursive: false,
+            mainContextScope: null,
+            addGsLib: null,
+            includeDependencies: false,
+            consoleInfo: false,
+            requireJsModule: false
+        ])
     }
 
     @Unroll
@@ -90,7 +102,7 @@ class ConvertTaskSpec extends Specification {
     def 'run the task with correct data'() {
         given:
         GroovySpy(GrooScript, global: true)
-        project.extensions.grooscript = [:]
+        project.extensions.grooscript = new ConversionExtension()
 
         when:
         task.source = SOURCE
@@ -98,8 +110,18 @@ class ConvertTaskSpec extends Specification {
         task.convert()
 
         then:
-        1 * GrooScript.convert({ it instanceof List<File> && it.collect { file -> file.name} == SOURCE},
-                { it instanceof File && it.name == DESTINATION })
+        1 * GrooScript.convert([project.file(SOURCE[0])], project.file(DESTINATION), [
+                customization: null,
+                classpath: [project.file('src/main/groovy').path],
+                initialText: null,
+                finalText: null,
+                recursive: false,
+                mainContextScope: null,
+                addGsLib: null,
+                includeDependencies: false,
+                consoleInfo: false,
+                requireJsModule: false
+        ])
     }
 
     def 'convert tasks with options'() {
@@ -107,29 +129,31 @@ class ConvertTaskSpec extends Specification {
         GroovySpy(GrooScript, global: true)
         task.source = SOURCE
         task.destination = DESTINATION
-        task.classPath = ['d']
+        task.classpath = ['d']
         task.customization = { true }
         task.initialText = 'initial'
         task.finalText = 'final'
         task.recursive = true
         task.mainContextScope = [',']
         task.addGsLib = 'include'
+        task.includeDependencies = true
 
         when:
         task.convert()
 
         then:
-        1 * GrooScript.getDefaultOptions()
-        1 * GrooScript.clearAllOptions()
-        1 * GrooScript.setConversionProperty('customization', task.customization)
-        1 * GrooScript.setConversionProperty('classPath', { it.size() == 1 && it[0].endsWith(task.classPath) })
-        1 * GrooScript.setConversionProperty('initialText', task.initialText)
-        1 * GrooScript.setConversionProperty('finalText', task.finalText)
-        1 * GrooScript.setConversionProperty('recursive', task.recursive)
-        1 * GrooScript.setConversionProperty('mainContextScope', task.mainContextScope)
-        1 * GrooScript.setConversionProperty('addGsLib', task.addGsLib)
-        1 * GrooScript.setConversionProperty('requireJs', task.requireJs)
-        1 * GrooScript.convert(_, _) >> null
+        1 * GrooScript.convert([project.file(SOURCE[0])], project.file(DESTINATION), [
+                customization: task.customization,
+                classpath: [project.file('d')].collect { it.path },
+                initialText: 'initial',
+                finalText: 'final',
+                recursive: true,
+                mainContextScope: [','],
+                addGsLib: 'include',
+                includeDependencies: true,
+                consoleInfo: false,
+                requireJsModule: false
+        ]) >> null
         0 * _
     }
 }

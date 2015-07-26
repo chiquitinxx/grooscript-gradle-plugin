@@ -24,7 +24,7 @@ class TemplatesTaskSpec extends Specification {
         project.extensions.templates.templatesPath = extension.templatesPath
         project.extensions.templates.templates = extension.templates
         project.extensions.templates.destinationFile = extension.destinationFile
-        project.extensions.templates.classPath = extension.classPath
+        project.extensions.templates.classpath = extension.classpath
         project.extensions.templates.customTypeChecker = extension.customTypeChecker
         task.checkProperties()
 
@@ -34,9 +34,9 @@ class TemplatesTaskSpec extends Specification {
         task.templates == null
         task.destinationFile != 'src/main/webapp/js/lib/Templates.js'
         task.destinationFile.endsWith 'src/main/webapp/js/lib/Templates.js'
-        task.classPath.size() == 1
-        task.classPath[0] != 'src/main/groovy'
-        task.classPath[0].endsWith 'src/main/groovy'
+        task.classpath.size() == 1
+        task.classpath[0] != 'src/main/groovy'
+        task.classpath[0].endsWith 'src/main/groovy'
         task.customTypeChecker == null
     }
 

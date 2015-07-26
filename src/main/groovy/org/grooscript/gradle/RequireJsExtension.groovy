@@ -2,7 +2,7 @@ package org.grooscript.gradle
 
 class RequireJsExtension {
     String sourceFile
-    List<String> classPath = ['src/main/groovy']
+    List<String> classpath = ['src/main/groovy']
     String destinationFolder
     Closure customization
     String initialText

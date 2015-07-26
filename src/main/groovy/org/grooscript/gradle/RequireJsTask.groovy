@@ -7,7 +7,7 @@ class RequireJsTask extends RequireJsAbstractTask {
     @TaskAction
     void convertRequireJs() {
         checkProperties()
-        if (sourceFile && destinationFolder && classPath) {
+        if (sourceFile && destinationFolder && classpath) {
             convertRequireJsFile()
         } else {
             errorParameters()

@@ -22,10 +22,6 @@ class ConvertTask extends GrooscriptTask {
     }
 
     private void doConversion() {
-        GrooScript.clearAllOptions()
-        conversionProperties.each { key, value ->
-            GrooScript.setConversionProperty(key, value)
-        }
-        GrooScript.convert(source.collect { project.file(it) }, project.file(destination))
+        GrooScript.convert(source.collect { project.file(it) }, project.file(destination), conversionProperties)
     }
 }

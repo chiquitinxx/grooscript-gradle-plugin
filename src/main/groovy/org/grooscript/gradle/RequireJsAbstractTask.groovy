@@ -9,7 +9,7 @@ import org.grooscript.convert.util.ConvertedFile
 class RequireJsAbstractTask extends DefaultTask {
 
     String sourceFile
-    List<String> classPath
+    List<String> classpath
     String destinationFolder
     Closure customization
     String initialText
@@ -27,27 +27,27 @@ class RequireJsAbstractTask extends DefaultTask {
         initialText = initialText ?: project.extensions.requireJs?.initialText
         finalText = finalText ?: project.extensions.requireJs?.finalText
         mainContextScope = mainContextScope ?: project.extensions.requireJs?.mainContextScope
-        classPath = classPath ?: project.extensions.requireJs?.classPath
-        if (classPath)
-            classPath = classPath.collect { project.file(it).path }
+        classpath = classpath ?: project.extensions.requireJs?.classpath
+        if (classpath)
+            classpath = classpath.collect { project.file(it).path }
     }
 
     void errorParameters() {
         throw new GradleException(
-            'For require js, have to define task properties: sourceFile, classPath, destinationFolder\n'+
+            'For require js, have to define task properties: sourceFile, classpath, destinationFolder\n'+
                     "  sourceFile = 'src/main/groovy/Start.groovy'\n"+
-                    "  classPath = ['src/main/groovy']\n"+
+                    "  classpath = ['src/main/groovy']\n"+
                     "  destinationFolder = 'src/main/webapp/js'"
         )
     }
 
     List<ConvertedFile> convertRequireJsFile() {
-        GrooScript.clearAllOptions()
-        GrooScript.setConversionProperty(ConversionOptions.CLASSPATH.text, classPath)
-        GrooScript.setConversionProperty(ConversionOptions.INITIAL_TEXT.text, initialText)
-        GrooScript.setConversionProperty(ConversionOptions.FINAL_TEXT.text, finalText)
-        GrooScript.setConversionProperty(ConversionOptions.MAIN_CONTEXT_SCOPE.text, mainContextScope)
-        GrooScript.setConversionProperty(ConversionOptions.CUSTOMIZATION.text, customization)
-        GrooScript.convertRequireJs(sourceFile, destinationFolder)
+        Map conversionOptions = [:]
+        conversionOptions[ConversionOptions.CLASSPATH.text] = classpath
+        conversionOptions[ConversionOptions.INITIAL_TEXT.text] = initialText
+        conversionOptions[ConversionOptions.FINAL_TEXT.text] = finalText
+        conversionOptions[ConversionOptions.MAIN_CONTEXT_SCOPE.text] = mainContextScope
+        conversionOptions[ConversionOptions.CUSTOMIZATION.text] = customization
+        GrooScript.convertRequireJs(sourceFile, destinationFolder, conversionOptions)
     }
 }

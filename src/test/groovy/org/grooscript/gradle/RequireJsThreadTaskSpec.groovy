@@ -23,7 +23,7 @@ class RequireJsThreadTaskSpec extends Specification {
         task.project = project
         task.sourceFile = SOURCE
         task.destinationFolder = DESTINATION
-        project.extensions.requireJs = [classPath: ['src/main/groovy']]
+        project.extensions.requireJs = [classpath: ['src/main/groovy']]
     }
 
     def 'create the task'() {

@@ -30,10 +30,7 @@ class ConversionDaemonSpec extends Specification {
         ConversionDaemon.conversionClosure(SOURCE, DESTINATION_FILE, CONVERSION_OPTIONS_EMPTY, [FILE1])
 
         then:
-        1 * GrooScript.clearAllOptions()
-        1 * GrooScript.convert(SOURCE, DESTINATION_FILE)
-        1 * GrooScript.convertFiles(_, _)
-        0 * _
+        1 * GrooScript.convert(_, _, CONVERSION_OPTIONS_EMPTY)
     }
 
     def 'execution with conversion options and destination is a file'() {
@@ -44,12 +41,7 @@ class ConversionDaemonSpec extends Specification {
         ConversionDaemon.conversionClosure(SOURCE, DESTINATION_FILE, CONVERSION_OPTIONS, [FILE1])
 
         then:
-        1 * GrooScript.clearAllOptions()
-        1 * GrooScript.convert(SOURCE, DESTINATION_FILE)
-        1 * GrooScript.convertFiles(_, _)
-        1 * GrooScript.getDefaultOptions()
-        1 * GrooScript.setConversionProperty('classPath', 'classpath')
-        0 * _
+        1 * GrooScript.convert(SOURCE, DESTINATION_FILE, CONVERSION_OPTIONS)
     }
 
     def 'execution if one file changes and destination is a folder'() {
@@ -60,10 +52,7 @@ class ConversionDaemonSpec extends Specification {
         ConversionDaemon.conversionClosure(SOURCE, DESTINATION_FOLDER, CONVERSION_OPTIONS_EMPTY, [FILE1])
 
         then:
-        1 * GrooScript.clearAllOptions()
-        1 * GrooScript.convert([FILE1], DESTINATION_FOLDER)
-        1 * GrooScript.convertFiles(_, _)
-        0 * _
+        1 * GrooScript.convert([FILE1], DESTINATION_FOLDER, CONVERSION_OPTIONS_EMPTY)
     }
 
     @Unroll

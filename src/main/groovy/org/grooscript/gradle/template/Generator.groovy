@@ -28,7 +28,7 @@ class Templates {
     cl(model)
   }
 }'''
-    def classPath
+    def classpath
     String customTypeChecker
 
     String generateClassCode(Map<String, String> templates) {
@@ -68,17 +68,17 @@ class Templates {
     }
 
     private addClassPathToGroovyClassLoader(classLoader) {
-        if (classPath) {
-            if (!(classPath instanceof String || classPath instanceof Collection)) {
+        if (classpath) {
+            if (!(classpath instanceof String || classpath instanceof Collection)) {
                 throw new GrooScriptException('The classpath must be a String or a List')
             }
 
-            if (classPath instanceof Collection) {
-                classPath.each {
+            if (classpath instanceof Collection) {
+                classpath.each {
                     classLoader.addClasspath(it)
                 }
             } else {
-                classLoader.addClasspath(classPath)
+                classLoader.addClasspath(classpath)
             }
         }
     }

@@ -11,26 +11,29 @@ class GrooscriptTask extends DefaultTask {
 
     List<String> source
     String destination
-    List<String> classPath
+    List<String> classpath
     Closure customization
     String initialText
     String finalText
     boolean recursive = false
     List<String> mainContextScope
     String addGsLib
-    boolean requireJs = false
+    boolean requireJsModule = false
+    boolean consoleInfo = false
+    boolean includeDependencies = false
 
     void checkProperties() {
         source = source ?: project.extensions.grooscript?.source
         destination = destination ?: project.extensions.grooscript?.destination
-        classPath = classPath ?: project.extensions.grooscript?.classPath
-        classPath = classPath.collect { project.file(it).path }
+        classpath = classpath ?: project.extensions.grooscript?.classpath
+        classpath = classpath.collect { project.file(it).path }
         customization = customization ?: project.extensions.grooscript?.customization
         initialText = initialText ?: project.extensions.grooscript?.initialText
         finalText = finalText ?: project.extensions.grooscript?.finalText
         recursive = recursive ?: project.extensions.grooscript?.recursive
         mainContextScope = mainContextScope ?: project.extensions.grooscript?.mainContextScope
         addGsLib = addGsLib ?: project.extensions.grooscript?.addGsLib
+        includeDependencies = includeDependencies ?: project.extensions.grooscript?.includeDependencies
     }
 
     Map getConversionProperties() {

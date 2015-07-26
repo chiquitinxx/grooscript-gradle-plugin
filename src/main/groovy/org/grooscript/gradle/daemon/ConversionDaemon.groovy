@@ -18,14 +18,10 @@ class ConversionDaemon {
             it.endsWith(Util.GROOVY_EXTENSION) || it.endsWith(Util.JAVA_EXTENSION)
         }
         if (filesToConvert) {
-            GrooScript.clearAllOptions()
-            conversionOptions.each { String key, value ->
-                GrooScript.setConversionProperty(key, value)
-            }
             if (destination.endsWith(Util.JS_EXTENSION)) {
-                GrooScript.convert(source, destination)
+                GrooScript.convert(source, destination, conversionOptions)
             } else {
-                GrooScript.convert(filesToConvert, destination)
+                GrooScript.convert(filesToConvert, destination, conversionOptions)
             }
             GsConsole.info "[${numberConversions++}] Conversion daemon has converted files."
         }

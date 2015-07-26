@@ -1,5 +1,6 @@
 package org.grooscript.gradle
 
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.grooscript.GrooScript
@@ -31,23 +32,30 @@ class RequireJsTaskSpec extends Specification {
         task instanceof RequireJsTask
     }
 
+    def 'classpath is mandatory'() {
+        when:
+        task.convertRequireJs()
+
+        then:
+        thrown(GradleException)
+    }
+
     def 'do default conversion'() {
         given:
         GroovySpy(GrooScript, global: true)
-        project.extensions.requireJs = [classPath: ['src/main/groovy']]
+        project.extensions.requireJs = [classpath: ['src/main/groovy']]
 
         when:
         task.convertRequireJs()
 
         then:
-        1 * GrooScript.clearAllOptions()
-        1 * GrooScript.getDefaultOptions()
-        1 * GrooScript.setConversionProperty(ConversionOptions.CLASSPATH.text, [project.file('src/main/groovy').path])
-        1 * GrooScript.setConversionProperty(ConversionOptions.INITIAL_TEXT.text, null)
-        1 * GrooScript.setConversionProperty(ConversionOptions.FINAL_TEXT.text, null)
-        1 * GrooScript.setConversionProperty(ConversionOptions.MAIN_CONTEXT_SCOPE.text, null)
-        1 * GrooScript.setConversionProperty(ConversionOptions.CUSTOMIZATION.text, null)
-        1 * GrooScript.convertRequireJs(project.file(SOURCE).path, project.file(DESTINATION).path) >> null
+        1 * GrooScript.convertRequireJs(project.file(SOURCE).path, project.file(DESTINATION).path, [
+                classpath: [project.file('src/main/groovy').path],
+                initialText: null,
+                finalText: null,
+                mainContextScope: null,
+                customization: null
+        ]) >> null
         0 * _
     }
 }

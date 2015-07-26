@@ -3,7 +3,7 @@
 grooscript-gradle-plugin
 ===
 
-Gradle plugin to convert your groovy files to javascript using grooscript. Last version published is 1.1.2.
+Gradle plugin to convert your groovy files to javascript using grooscript. Last version published is 1.2.0.
 
 build.gradle to use the plugin with gradle 2.0+ version:
 
@@ -13,7 +13,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.grooscript:grooscript-gradle-plugin:1.1.2'
+        classpath 'org.grooscript:grooscript-gradle-plugin:1.2.0'
     }
 }
 
@@ -24,7 +24,7 @@ build.gradle to use the plugin with gradle 2.1+:
 
 <pre>
 plugins {
-  id "org.grooscript.conversion" version "1.1.2"
+  id "org.grooscript.conversion" version "1.2.0"
 }
 </pre>
 
@@ -35,13 +35,14 @@ There are 4 extension, convert files, convert templates, spy changes in files an
 grooscript {
     source = ['src/main/groovy/presenters'] //Sources to be converted(List<String>), default is ['src/main/groovy']
     destination = 'js' //Target directory for js files, default is 'src/main/webapp/js/app'
-    classPath = ['src/main/groovy'] //Needed classpath's to compile source files(List<String>), default is ['src/main/groovy']
+    classpath = ['src/main/groovy'] //Needed classpath's to compile source files(List<String>), default is ['src/main/groovy']
     customization = null //Customization in files, it's a closure, as for example { -> ast(groovy.transform.TypeChecked) }
     initialText = '//Grooscript converted file'
     initialText = '//End converted file'
     recursive = true //Default is false
     mainContextScope = ['$'] //Variables available in main scope (List<String>), default is null
     addGsLib = 'grooscript' //Include a grooscript js lib in the result, default is null
+    includeDependencies = true //Include conversion of dependency files, default is false
 }
 
 //Templates options
@@ -49,7 +50,7 @@ templates {
     templatesPath = 'src/main/webapp/templates'
     templates = ['main.gtpl', 'little/small.tpl']
     destinationFile = 'src/main/webapp/js/lib'
-    classPath = ['src/main/groovy']
+    classpath = ['src/main/groovy']
 }
 
 //Spy files changes

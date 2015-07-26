@@ -89,7 +89,7 @@ class DaemonTaskSpec extends Specification {
         def filesDaemon = Mock(FilesDaemon)
         task.source = GOOD_SOURCE
         task.destination = GOOD_DESTINATION
-        task.classPath = null
+        task.classpath = null
         task.customization = customization
         task.initialText = 'initial'
         task.finalText = 'final'
@@ -101,16 +101,17 @@ class DaemonTaskSpec extends Specification {
         task.launchDaemon()
 
         then:
-        1 * ConversionDaemon.start({ it.size() == 1 && it[0].endsWith(GOOD_SOURCE[0]) },
-                { it.endsWith(GOOD_DESTINATION) }, [
-                classPath : [],
+        1 * ConversionDaemon.start([project.file(GOOD_SOURCE[0]).path],project.file(GOOD_DESTINATION).path, [
+                classpath : [],
                 customization: customization,
                 initialText: 'initial',
                 finalText: 'final',
                 recursive: true,
                 mainContextScope: ['$'],
                 addGsLib: 'gs',
-                requireJs: false
+                requireJsModule: false,
+                consoleInfo: false,
+                includeDependencies: false
         ]) >> filesDaemon
         0 * filesDaemon._
         0 * GsConsole._
