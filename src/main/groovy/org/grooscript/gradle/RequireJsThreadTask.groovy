@@ -8,9 +8,8 @@ import org.grooscript.gradle.require.RequireJsActor
  */
 class RequireJsThreadTask extends RequireJsAbstractTask {
 
+    private static final WAIT_TIME = 200
     boolean blockExecution = false
-
-    private static final WAIT_TIME = 400
 
     @TaskAction
     void startThread() {

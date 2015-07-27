@@ -11,24 +11,11 @@ import spock.lang.Specification
  */
 class RequireJsThreadTaskSpec extends Specification {
 
-    static final SOURCE = 'source'
-    static final DESTINATION = 'destination'
-    Project project
-    RequireJsThreadTask task
-
-    def setup() {
-        project = ProjectBuilder.builder().build()
-
-        task = project.task('require', type: RequireJsThreadTask)
-        task.project = project
-        task.sourceFile = SOURCE
-        task.destinationFolder = DESTINATION
-        project.extensions.requireJs = [classpath: ['src/main/groovy']]
-    }
-
     def 'create the task'() {
         expect:
         task instanceof RequireJsThreadTask
+        task.name == 'requireJsThread'
+        task.blockExecution == false
     }
 
     def 'start default thread'() {
@@ -44,5 +31,20 @@ class RequireJsThreadTaskSpec extends Specification {
         1 * actor.setProperty('convertAction', { it.delegate == task && it.resolveStrategy == Closure.DELEGATE_ONLY})
         2 * actor.start() //????? No idea why. 1 is ok, 2 is strange, maybe super call
         1 * actor.send(project.file(SOURCE).path)
+    }
+
+    static final SOURCE = 'source'
+    static final DESTINATION = 'destination'
+    Project project
+    RequireJsThreadTask task
+
+    def setup() {
+        project = ProjectBuilder.builder().build()
+
+        task = project.task('requireJsThread', type: RequireJsThreadTask)
+        task.project = project
+        task.sourceFile = SOURCE
+        task.destinationFolder = DESTINATION
+        project.extensions.requireJs = [classpath: ['src/main/groovy']]
     }
 }
