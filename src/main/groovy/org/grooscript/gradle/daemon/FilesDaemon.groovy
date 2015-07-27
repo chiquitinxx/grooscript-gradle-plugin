@@ -2,6 +2,8 @@ package org.grooscript.gradle.daemon
 
 import org.grooscript.util.GsConsole
 
+import java.util.concurrent.TimeUnit
+
 import static groovyx.gpars.dataflow.Dataflow.task
 
 /**
@@ -15,7 +17,8 @@ class FilesDaemon {
     Map options = [
         time: WAIT_TIME,
         actionOnStartup: false,
-        recursive: false
+        recursive: false,
+        checkDependencies: false
     ]
     FilesActor actor
 

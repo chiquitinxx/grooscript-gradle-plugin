@@ -39,7 +39,7 @@ class TemplatesThreadTaskSpec extends Specification {
 
         then:
         conditions.eventually {
-            file.exists() && file.text.contains('''Templates.templates = gs.map().add("one.gtpl",function(model) {
+            assert file.text.contains('''Templates.templates = gs.map().add("one.gtpl",function(model) {
   if (model === undefined) model = gs.map();
   return gs.mc(HtmlBuilder,"build",[function(it) {
     return gs.mc(Templates,"p",["Hello!"]);

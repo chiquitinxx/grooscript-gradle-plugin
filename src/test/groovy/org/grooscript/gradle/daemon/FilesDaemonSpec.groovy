@@ -19,8 +19,10 @@ class FilesDaemonSpec extends Specification {
         daemon.options == [
             actionOnStartup: false,
             time: 200,
-            recursive: false
+            recursive: false,
+            checkDependencies: false
         ]
+        !daemon.actor
     }
 
     void 'initialize the daemon with other options'() {
@@ -28,7 +30,7 @@ class FilesDaemonSpec extends Specification {
         def daemon = new FilesDaemon(files, ACTION, NEW_OPTIONS)
 
         expect:
-        daemon.options == NEW_OPTIONS
+        daemon.options == NEW_OPTIONS + [checkDependencies:false]
     }
 
     void 'if starts with actions on start up, run them'() {
@@ -71,22 +73,29 @@ class FilesDaemonSpec extends Specification {
 
     void 'change detected and continue execution'() {
         given:
-        def changed = false
+        def timesChanged = 0
         def daemon = new FilesDaemon(files, { List<String> files ->
             assert files == [tempFile.path]
-            changed = true
-            throw new Throwable('error')
-        }, [actionOnStartup: false])
+            timesChanged++
+        }, [actionOnStartup: true])
 
         when:
+        def conditions = new PollingConditions()
         daemon.start()
-        sleep(1000)
-        def conditions = new PollingConditions(timeout: 2)
-        modifyFile()
 
         then:
         conditions.eventually {
-            assert changed
+            assert timesChanged == 1
+        }
+
+        when:
+        sleep(1000)
+        modifyFile()
+        conditions = new PollingConditions()
+
+        then:
+        conditions.eventually {
+            assert timesChanged == 2
             assert daemon.actor.isActive()
         }
 

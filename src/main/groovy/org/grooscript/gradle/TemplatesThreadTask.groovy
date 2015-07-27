@@ -26,7 +26,7 @@ class TemplatesThreadTask extends TemplatesAbstractTask {
     protected configureAndStartThread() {
         FilesDaemon filesDaemon
         try {
-            filesDaemon = new FilesDaemon(templatesPaths, generateTemplatesAction, [actionOnStartup: true])
+            filesDaemon = new FilesDaemon(getTemplatesPaths(), getGenerateTemplatesAction(), [actionOnStartup: true])
             filesDaemon.start()
             if (blockExecution) {
                 def thread = Thread.start {
