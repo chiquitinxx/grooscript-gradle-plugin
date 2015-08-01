@@ -13,7 +13,7 @@ group = 'org.grooscript'
 version = '1.2.0-SNAPSHOT'
 
 ext {
-    grooscriptVersion = '1.2.0-SNAPSHOT'
+    grooscriptVersion = '1.2.0'
     gradleVersion = '2.4'
 }
 
@@ -22,7 +22,6 @@ sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -67,7 +66,7 @@ bintray {
     pkg {
         repo = 'grooscript'
         name = "${project.group}:grooscript-gradle-plugin"
-        desc = 'Improve conversion options'
+        desc = 'Convert groovy code to javascript'
         websiteUrl = 'http://grooscript.org/'
         issueTrackerUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin/issues'
         vcsUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin.git'
@@ -75,7 +74,7 @@ bintray {
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
             name = project.version
-            desc = 'Upgrades and moved gpars stuff from grooscript core'
+            desc = 'Improve conversion options'
             vcsTag = project.version
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
