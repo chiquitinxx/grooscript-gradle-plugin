@@ -39,12 +39,9 @@ class TemplatesThreadTaskSpec extends Specification {
 
         then:
         conditions.eventually {
-            assert file.text.contains('''Templates.templates = gs.map().add("one.gtpl",function(model) {
-  if (model === undefined) model = gs.map();
-  return gs.mc(HtmlBuilder,"build",[function(it) {
-    return gs.mc(Templates,"p",["Hello!"]);
-  }]);
-});''')
+            assert file.text.contains('Templates.templates = gs.map().add("one.gtpl",function(model) {')
+            assert file.text.contains('return gs.mc(HtmlBuilder,"build",[function(it) {')
+            assert file.text.contains('return gs.mc(Templates,"p",["Hello!"]);')
         }
 
         cleanup:

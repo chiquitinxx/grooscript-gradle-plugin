@@ -29,14 +29,14 @@ class TemplatesTaskSpec extends Specification {
         task.checkProperties()
 
         then:
-        task.templatesPath != 'src/main/webapp/templates'
-        task.templatesPath.endsWith 'src/main/webapp/templates'
+        task.templatesPath != "src${SEP}main${SEP}webapp${SEP}templates"
+        task.templatesPath.endsWith "src${SEP}main${SEP}webapp${SEP}templates"
         task.templates == null
-        task.destinationFile != 'src/main/webapp/js/lib/Templates.js'
-        task.destinationFile.endsWith 'src/main/webapp/js/lib/Templates.js'
+        task.destinationFile != "src${SEP}main${SEP}webapp${SEP}js${SEP}lib${SEP}Templates.js"
+        task.destinationFile.endsWith "src${SEP}main${SEP}webapp${SEP}js${SEP}lib${SEP}Templates.js"
         task.classpath.size() == 1
-        task.classpath[0] != 'src/main/groovy'
-        task.classpath[0].endsWith 'src/main/groovy'
+        task.classpath[0] != "src${SEP}main${SEP}groovy"
+        task.classpath[0].endsWith "src${SEP}main${SEP}groovy"
         task.customTypeChecker == null
     }
 
@@ -55,12 +55,9 @@ class TemplatesTaskSpec extends Specification {
         def generatedFile = new File(FILE_NAME)
 
         then:
-        generatedFile.text.contains '''Templates.templates = gs.map().add("one.gtpl",function(model) {
-  if (model === undefined) model = gs.map();
-  return gs.mc(HtmlBuilder,"build",[function(it) {
-    return gs.mc(Templates,"p",["Hello!"]);
-  }]);
-});'''
+        generatedFile.text.contains 'Templates.templates = gs.map().add("one.gtpl",function(model) {'
+        generatedFile.text.contains 'return gs.mc(HtmlBuilder,"build",[function(it) {'
+        generatedFile.text.contains 'return gs.mc(Templates,"p",["Hello!"]);'
 
         cleanup:
         if (generatedFile)
