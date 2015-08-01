@@ -189,7 +189,7 @@ include::../src/main/groovy/org/grooscript/gradle/RequireJsExtension.groovy[]
 Example:
 requireJs {
     sourceFile = 'src/main/groovy/MyApp.groovy'
-    // classPath by default is ['src/main/groovy']
+    // classpath by default is ['src/main/groovy']
     destinationFolder = 'src/main/resources/web/js/app'
 }
 --

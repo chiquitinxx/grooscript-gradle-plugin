@@ -10,7 +10,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'org.grooscript'
-version = '1.2.0-SNAPSHOT'
+version = '1.2.0'
 
 ext {
     grooscriptVersion = '1.2.0'
