@@ -10,17 +10,18 @@ import org.grooscript.gradle.util.InitTools
  */
 class InitStaticWebTask extends DefaultTask {
 
-    static final GROOVY_DIR = 'src/main/groovy'
-    static final PRESENTER_FILE = "${GROOVY_DIR}/Presenter.groovy"
-    static final WEBAPP_DIR = 'src/main/webapp'
-    static final JS_DIR = "${WEBAPP_DIR}/js"
-    static final JS_LIB_DIR = "${JS_DIR}/lib"
-    static final JS_APP_DIR = "${JS_DIR}/app"
-    static final HTML_FILE = "${WEBAPP_DIR}/index.html"
-    static final GROOSCRIPT_MIN_JS_NAME = 'grooscript.min.js'
-    static final GROOSCRIPT_TOOLS_JS_NAME = 'grooscript-tools.js'
-    static final JQUERY_JS_FILE = "${JS_LIB_DIR}/jquery.min.js"
-    static final JQUERY_JS_REMOTE = 'http://code.jquery.com/jquery-1.11.0.min.js'
+    public static final String SEP = System.getProperty('file.separator')
+    public static final String GROOVY_DIR = "src${SEP}main${SEP}groovy"
+    public static final String PRESENTER_FILE = GROOVY_DIR + SEP + "Presenter.groovy"
+    public static final String WEBAPP_DIR = "src${SEP}main${SEP}webapp"
+    public static final String JS_DIR = WEBAPP_DIR + SEP + "js"
+    public static final String JS_LIB_DIR = JS_DIR + SEP + "lib"
+    public static final String JS_APP_DIR = JS_DIR + SEP + "app"
+    public static final String HTML_FILE = WEBAPP_DIR + SEP +"index.html"
+    public static final String GROOSCRIPT_MIN_JS_NAME = 'grooscript.min.js'
+    public static final String GROOSCRIPT_TOOLS_JS_NAME = 'grooscript-tools.js'
+    public static final String JQUERY_JS_FILE = JS_LIB_DIR + SEP + "jquery.min.js"
+    public static final String JQUERY_JS_REMOTE = 'http://code.jquery.com/jquery-1.11.0.min.js'
 
     static final PRESENTER_TEXT = '''
 class Presenter {
@@ -58,24 +59,28 @@ class Presenter {
 
     @TaskAction
     def initStaticWeb() {
-        if (initTools.existsFile(HTML_FILE)) {
-            throw new GradleException('Can\'t init static')
+        if (initTools.existsFile(projectDir(HTML_FILE))) {
+            throw new GradleException('Can\'t init static, files already generated.')
         } else {
             init()
         }
     }
 
     private init() {
-        if (initTools.createDirs(JS_LIB_DIR) && initTools.createDirs(JS_APP_DIR) &&
-            initTools.createDirs(GROOVY_DIR) &&
-            initTools.saveFile(HTML_FILE, HTML_TEXT) &&
-            initTools.saveFile(PRESENTER_FILE, PRESENTER_TEXT) &&
-            initTools.extractGrooscriptJarFile(GROOSCRIPT_MIN_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_MIN_JS_NAME}") &&
-            initTools.extractGrooscriptJarFile(GROOSCRIPT_TOOLS_JS_NAME, "${JS_LIB_DIR}/${GROOSCRIPT_TOOLS_JS_NAME}") &&
-            initTools.saveRemoteFile(JQUERY_JS_FILE, JQUERY_JS_REMOTE)) {
+        if (initTools.createDirs(projectDir(JS_LIB_DIR)) && initTools.createDirs(projectDir(JS_APP_DIR)) &&
+            initTools.createDirs(projectDir(GROOVY_DIR)) &&
+            initTools.saveFile(projectDir(HTML_FILE), HTML_TEXT) &&
+            initTools.saveFile(projectDir(PRESENTER_FILE), PRESENTER_TEXT) &&
+            initTools.extractGrooscriptJarFile(GROOSCRIPT_MIN_JS_NAME, projectDir(JS_LIB_DIR) + SEP + GROOSCRIPT_MIN_JS_NAME) &&
+            initTools.extractGrooscriptJarFile(GROOSCRIPT_TOOLS_JS_NAME, projectDir(JS_LIB_DIR) + SEP + GROOSCRIPT_TOOLS_JS_NAME) &&
+            initTools.saveRemoteFile(projectDir(JQUERY_JS_FILE), JQUERY_JS_REMOTE)) {
             println 'Generation completed.'
         } else {
             throw new GradleException('Error creating changes and dirs.')
         }
+    }
+
+    private String projectDir(String path) {
+        project.projectDir.absolutePath + SEP + path
     }
 }

@@ -6,10 +6,47 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.grooscript.gradle.util.InitTools
 import spock.lang.Specification
 
+import static org.grooscript.gradle.InitStaticWebTask.*
 /**
  * Created by jorge on 15/02/14.
  */
 class InitStaticWebTaskSpec extends Specification {
+
+    def 'create the task'() {
+        expect:
+        task instanceof InitStaticWebTask
+    }
+
+    def 'can\'t init if index.html file already exists'() {
+        when:
+        task.initStaticWeb()
+        println project.projectDir
+
+        then:
+        1 * initTools.existsFile(projectDir(HTML_FILE)) >> true
+        0 * _
+        thrown(GradleException)
+    }
+
+    def 'init static web'() {
+        when:
+        task.initStaticWeb()
+
+        then:
+        1 * initTools.existsFile(projectDir(HTML_FILE)) >> false
+        1 * initTools.createDirs(projectDir(JS_LIB_DIR)) >> true
+        1 * initTools.createDirs(projectDir(JS_APP_DIR)) >> true
+        1 * initTools.createDirs(projectDir(GROOVY_DIR)) >> true
+        1 * initTools.saveFile(projectDir(HTML_FILE), task.HTML_TEXT) >> true
+        1 * initTools.saveFile(projectDir(PRESENTER_FILE), task.PRESENTER_TEXT) >> true
+        1 * initTools.extractGrooscriptJarFile('grooscript.min.js',
+                projectDir(JS_LIB_DIR) + SEP + GROOSCRIPT_MIN_JS_NAME) >> true
+        1 * initTools.extractGrooscriptJarFile('grooscript-tools.js',
+                projectDir(JS_LIB_DIR) + SEP + GROOSCRIPT_TOOLS_JS_NAME) >> true
+        1 * initTools.saveRemoteFile(projectDir(JQUERY_JS_FILE), task.JQUERY_JS_REMOTE) >> true
+        0 * _
+        noExceptionThrown()
+    }
 
     Project project
     InitStaticWebTask task
@@ -23,35 +60,7 @@ class InitStaticWebTaskSpec extends Specification {
         task.project = project
     }
 
-    def 'create the task'() {
-        expect:
-        task instanceof InitStaticWebTask
-    }
-
-    def 'can\'t init if index.html file already exists'() {
-        when:
-        task.initStaticWeb()
-
-        then:
-        1 * initTools.existsFile('src/main/webapp/index.html') >> true
-        thrown(GradleException)
-    }
-
-    def 'init static web'() {
-        when:
-        task.initStaticWeb()
-
-        then:
-        1 * initTools.existsFile('src/main/webapp/index.html') >> false
-        1 * initTools.createDirs('src/main/webapp/js/lib') >> true
-        1 * initTools.createDirs('src/main/webapp/js/app') >> true
-        1 * initTools.createDirs('src/main/groovy') >> true
-        1 * initTools.saveFile('src/main/webapp/index.html', task.HTML_TEXT) >> true
-        1 * initTools.saveFile('src/main/groovy/Presenter.groovy', task.PRESENTER_TEXT) >> true
-        1 * initTools.extractGrooscriptJarFile('grooscript.min.js', 'src/main/webapp/js/lib/grooscript.min.js') >> true
-        1 * initTools.extractGrooscriptJarFile('grooscript-tools.js', 'src/main/webapp/js/lib/grooscript-tools.js') >> true
-        1 * initTools.saveRemoteFile('src/main/webapp/js/lib/jquery.min.js', task.JQUERY_JS_REMOTE) >> true
-        0 * initTools._
-        noExceptionThrown()
+    private projectDir(path) {
+        project.projectDir.absolutePath + SEP + path
     }
 }
