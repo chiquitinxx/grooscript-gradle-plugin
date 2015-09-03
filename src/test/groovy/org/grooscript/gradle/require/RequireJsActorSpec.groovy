@@ -49,7 +49,7 @@ class RequireJsActorSpec extends Specification {
         then:
         conditions.eventually {
             assert actor.isActive()
-            assert executions == 4
+            assert executions > 2
         }
 
         cleanup:
