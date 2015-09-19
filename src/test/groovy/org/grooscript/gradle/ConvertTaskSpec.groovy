@@ -36,7 +36,7 @@ class ConvertTaskSpec extends Specification {
         project.extensions.grooscript = [source: ['1'], destination: '2', customization: { -> },
                  classpath: ['3'], initialText: 'initial', finalText: 'final',
                  recursive: true, mainContextScope: ['7'], addGsLib: 'grooscript', requireJsModule: false,
-                 includeDependencies: true, consoleInfo: true]
+                 includeDependencies: true, consoleInfo: true, nashornConsole: true]
 
         when:
         task.convert()
@@ -51,7 +51,8 @@ class ConvertTaskSpec extends Specification {
             mainContextScope: project.grooscript.mainContextScope,
             addGsLib: project.grooscript.addGsLib,
             includeDependencies: project.grooscript.includeDependencies,
-            consoleInfo: false,
+            consoleInfo: project.grooscript.consoleInfo,
+            nashornConsole: project.grooscript.nashornConsole,
             requireJsModule: false
         ]) >> null
         0 * _
@@ -78,7 +79,8 @@ class ConvertTaskSpec extends Specification {
             addGsLib: null,
             includeDependencies: false,
             consoleInfo: false,
-            requireJsModule: false
+            requireJsModule: false,
+            nashornConsole: false
         ])
     }
 
@@ -120,7 +122,8 @@ class ConvertTaskSpec extends Specification {
                 addGsLib: null,
                 includeDependencies: false,
                 consoleInfo: false,
-                requireJsModule: false
+                requireJsModule: false,
+                nashornConsole: false
         ])
     }
 
@@ -137,6 +140,8 @@ class ConvertTaskSpec extends Specification {
         task.mainContextScope = [',']
         task.addGsLib = 'include'
         task.includeDependencies = true
+        task.consoleInfo = true
+        task.nashornConsole = true
 
         when:
         task.convert()
@@ -151,8 +156,9 @@ class ConvertTaskSpec extends Specification {
                 mainContextScope: [','],
                 addGsLib: 'include',
                 includeDependencies: true,
-                consoleInfo: false,
-                requireJsModule: false
+                consoleInfo: true,
+                requireJsModule: false,
+                nashornConsole: true
         ]) >> null
         0 * _
     }

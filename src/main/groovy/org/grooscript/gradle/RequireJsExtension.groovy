@@ -8,4 +8,5 @@ class RequireJsExtension {
     String initialText
     String finalText
     List<String> mainContextScope
+    boolean nashornConsole = false
 }

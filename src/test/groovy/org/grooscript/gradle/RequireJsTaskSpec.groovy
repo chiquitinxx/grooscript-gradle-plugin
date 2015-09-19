@@ -54,7 +54,8 @@ class RequireJsTaskSpec extends Specification {
                 initialText: null,
                 finalText: null,
                 mainContextScope: null,
-                customization: null
+                customization: null,
+                nashornConsole: false
         ]) >> null
         0 * _
     }

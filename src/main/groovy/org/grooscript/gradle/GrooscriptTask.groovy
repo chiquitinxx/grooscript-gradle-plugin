@@ -19,8 +19,9 @@ class GrooscriptTask extends DefaultTask {
     List<String> mainContextScope
     String addGsLib
     boolean requireJsModule = false
-    boolean consoleInfo = false
-    boolean includeDependencies = false
+    boolean consoleInfo
+    boolean includeDependencies
+    boolean nashornConsole
 
     void checkProperties() {
         source = source ?: project.extensions.grooscript?.source
@@ -34,6 +35,8 @@ class GrooscriptTask extends DefaultTask {
         mainContextScope = mainContextScope ?: project.extensions.grooscript?.mainContextScope
         addGsLib = addGsLib ?: project.extensions.grooscript?.addGsLib
         includeDependencies = includeDependencies ?: project.extensions.grooscript?.includeDependencies
+        consoleInfo = consoleInfo ?: project.extensions.grooscript?.consoleInfo
+        nashornConsole = nashornConsole ?: project.extensions.grooscript?.nashornConsole
     }
 
     Map getConversionProperties() {

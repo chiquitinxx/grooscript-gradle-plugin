@@ -46,6 +46,7 @@ grooscript {
     recursive = true
     mainContextScope = ['$'] //Variables available in main scope
     addGsLib = 'grooscript, grooscript-tools' //Include libs (comma separated) from grooscript ('grooscript', 'grooscript.min', 'grooscript-tools' or 'jquery.min')
+    nashornConsole = true //Use 'print' and not 'console.log'
 }
 --
 

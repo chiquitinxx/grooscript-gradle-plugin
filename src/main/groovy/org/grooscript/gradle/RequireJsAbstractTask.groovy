@@ -15,6 +15,7 @@ class RequireJsAbstractTask extends DefaultTask {
     String initialText
     String finalText
     List<String> mainContextScope
+    boolean nashornConsole
 
     void checkProperties() {
         sourceFile = sourceFile ?: project.extensions.requireJs?.sourceFile
@@ -30,6 +31,7 @@ class RequireJsAbstractTask extends DefaultTask {
         classpath = classpath ?: project.extensions.requireJs?.classpath
         if (classpath)
             classpath = classpath.collect { project.file(it).path }
+        nashornConsole = nashornConsole ?: project.extensions.requireJs?.nashornConsole
     }
 
     void errorParameters() {
@@ -48,6 +50,7 @@ class RequireJsAbstractTask extends DefaultTask {
         conversionOptions[ConversionOptions.FINAL_TEXT.text] = finalText
         conversionOptions[ConversionOptions.MAIN_CONTEXT_SCOPE.text] = mainContextScope
         conversionOptions[ConversionOptions.CUSTOMIZATION.text] = customization
+        conversionOptions[ConversionOptions.NASHORN_CONSOLE.text] = nashornConsole
         GrooScript.convertRequireJs(sourceFile, destinationFolder, conversionOptions)
     }
 }

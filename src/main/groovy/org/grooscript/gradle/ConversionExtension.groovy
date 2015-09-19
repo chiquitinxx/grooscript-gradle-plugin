@@ -11,4 +11,6 @@ class ConversionExtension {
     List<String> mainContextScope
     String addGsLib
     boolean includeDependencies = false
+    boolean consoleInfo = false
+    boolean nashornConsole = false
 }

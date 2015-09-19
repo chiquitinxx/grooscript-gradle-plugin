@@ -115,7 +115,8 @@ class ConversionThreadTaskSpec extends Specification {
                 addGsLib: 'gs',
                 requireJsModule: false,
                 consoleInfo: false,
-                includeDependencies: false
+                includeDependencies: false,
+                nashornConsole: false
         ]) >> filesDaemon
         0 * filesDaemon._
         0 * GsConsole._
