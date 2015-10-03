@@ -1,1 +1,0 @@
-gs.println("Hello world!");
