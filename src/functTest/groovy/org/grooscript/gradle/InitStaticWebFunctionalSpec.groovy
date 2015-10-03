@@ -1,4 +1,4 @@
-package org.grooscript.gradle.functional
+package org.grooscript.gradle
 
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule

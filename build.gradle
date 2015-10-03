@@ -1,16 +1,15 @@
 plugins {
-    id "com.jfrog.bintray" version "1.2"
     id "org.asciidoctor.convert" version "1.5.2"
 }
 
 apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
+apply from: "$rootDir/gradle/publishing.gradle"
+apply from: "$rootDir/gradle/functional-test.gradle"
 
 group = 'org.grooscript'
-version = '1.2.1'
+version = '1.2.2-SNAPSHOT'
 
 ext {
     grooscriptVersion = '1.2.1'
@@ -25,22 +24,9 @@ repositories {
     jcenter()
 }
 
-task createClasspathManifest {
-    def outputDir = file("$buildDir/$name")
-
-    inputs.files sourceSets.main.runtimeClasspath
-    outputs.dir outputDir
-
-    doLast {
-        outputDir.mkdirs()
-        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
-    }
-}
-
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    testCompile gradleTestKit()
     testCompile('org.spockframework:spock-core:1.0-groovy-2.3') {
         exclude module: "groovy-all"
     }
@@ -57,60 +43,10 @@ dependencies {
     compile 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
     compile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.15'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
-    testRuntime files(createClasspathManifest)
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = project.ext['gradleVersion']
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-bintray {
-    user = project.hasProperty('bintray_user') ? bintray_user : ''
-    key = project.hasProperty('bintray_key') ? bintray_key : ''
-
-    publications = ['mavenJava']
-
-    dryRun = false //Whether to run this as dry-run, without deploying
-    publish = true //If version should be auto published after an upload
-    pkg {
-        repo = 'grooscript'
-        name = "${project.group}:grooscript-gradle-plugin"
-        desc = 'Convert groovy code to javascript'
-        websiteUrl = 'http://grooscript.org/'
-        issueTrackerUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin/issues'
-        vcsUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin.git'
-        licenses = ['Apache-2.0']
-        labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
-        version {
-            name = project.version
-            desc = 'Improve conversion options'
-            vcsTag = project.version
-            attributes = [
-                    'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
-            ]
-        }
-    }
-}
-
-artifacts {
-    archives sourcesJar
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            artifact sourcesJar {
-                classifier "sources"
-            }
-        }
-    }
 }
 
 asciidoctor {
