@@ -19,7 +19,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         project.extensions.create('spy', ChangesExtension)
         project.extensions.create('requireJs', RequireJsExtension)
         configureConvertTask(project)
-        configureCovertThreadTask(project)
+        configureConvertThreadTask(project)
         configureInitStaticWeb(project)
         configureTemplates(project)
         configureTemplatesThread(project)
@@ -35,7 +35,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         convertTask.group = GROOSCRIPT_GROUP
     }
 
-    private configureCovertThreadTask(Project project) {
+    private configureConvertThreadTask(Project project) {
         ConvertThreadTask daemonTask = project.tasks.create('convertThread', ConvertThreadTask)
         daemonTask.description = 'Start a daemon to convert groovy files to javascript if any file changes.'
         daemonTask.group = GROOSCRIPT_GROUP
