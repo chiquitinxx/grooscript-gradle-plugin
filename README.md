@@ -92,3 +92,8 @@ __requireJsThread__ - listen changes in groovy code to regenerate require.js mod
 More info about tasks [here](http://grooscript.org/gradle/tasks.html)
 
 Guide about using this plugin [here](http://grooscript.org/starting_gradle.html)
+
+== Contributors
+
+- Jorge Franco
+- Michal Bernhard
