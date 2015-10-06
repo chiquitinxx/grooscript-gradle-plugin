@@ -41,7 +41,7 @@ class ConvertThreadTask extends GrooscriptTask {
                 filesDaemon.stop()
             }
         } catch (e) {
-            GsConsole.error("Error in converion daemon: ${e.message}")
+            GsConsole.error("Error in conversion daemon: ${e.message}")
             filesDaemon?.stop()
         }
     }
