@@ -93,7 +93,8 @@ More info about tasks [here](http://grooscript.org/gradle/tasks.html)
 
 Guide about using this plugin [here](http://grooscript.org/starting_gradle.html)
 
-== Contributors
+Contributors
+---
 
 - Jorge Franco
 - Michal Bernhard
