@@ -1,7 +1,5 @@
 package org.grooscript.gradle
 
-import org.gradle.testkit.runner.GradleRunner
-
 import static org.gradle.testkit.runner.TaskOutcome.*
 import static org.grooscript.gradle.InitStaticWebTask.*
 
@@ -11,24 +9,15 @@ import static org.grooscript.gradle.InitStaticWebTask.*
 class InitStaticWebFunctionalSpec extends AbstractFunctionalSpec {
 
     def "init static web task and convert Presenter.groovy file"() {
-        given:
-        buildFile << 'apply plugin: org.grooscript.gradle.GrooscriptPlugin'
-
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('initStaticWeb')
-                .build()
+        def result = runWithArguments('initStaticWeb')
 
         then:
         result.standardOutput.contains('Generation completed.')
         result.task(":initStaticWeb").outcome == SUCCESS
 
         when:
-        result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('convert')
-                .build()
+        result = runWithArguments('convert')
         def generatedFile = new File(testProjectDir.root.absolutePath + SEP + JS_APP_DIR + SEP + 'Presenter.js')
 
         then:

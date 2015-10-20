@@ -1,7 +1,5 @@
 package org.grooscript.gradle
 
-import org.gradle.testkit.runner.GradleRunner
-
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 import static org.grooscript.gradle.InitStaticWebTask.SEP
 
@@ -13,8 +11,7 @@ class ConversionsFunctionalSpec extends AbstractFunctionalSpec {
     def "convert files"() {
         given:
         copyTestResourcesFiles('C.groovy', 'UseC.groovy', 'E.groovy')
-        buildFile << """apply plugin: org.grooscript.gradle.GrooscriptPlugin
-
+        buildFile << """
 grooscript {
     source = ['${fileToConvert}.groovy']
     destination = '.'
@@ -22,10 +19,7 @@ grooscript {
 }"""
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('convert')
-                .build()
+        def result = runWithArguments('convert')
         def generatedFile = new File(testProjectDir.root.absolutePath + SEP + fileToConvert + '.js')
 
         then:
