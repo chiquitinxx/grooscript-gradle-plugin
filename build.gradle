@@ -12,7 +12,7 @@ group = 'org.grooscript'
 version = '1.2.2-SNAPSHOT'
 
 ext {
-    grooscriptVersion = '1.2.1'
+    grooscriptVersion = '1.2.2-SNAPSHOT'
     gradleVersion = '2.8'
 }
 
@@ -21,6 +21,7 @@ sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
 
 repositories {
+    mavenLocal()
     jcenter()
 }
 
