@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
     }
 }
 
@@ -26,7 +26,7 @@ bintray {
     publish = true //If version should be auto published after an upload
     pkg {
         repo = 'grooscript'
-        name = "${project.group}:grooscript-gradle-plugin"
+        name = "org.grooscript:grooscript-gradle-plugin"
         desc = 'Convert groovy code to javascript'
         websiteUrl = 'http://grooscript.org/'
         issueTrackerUrl = 'https://github.com/chiquitinxx/grooscript-gradle-plugin/issues'
@@ -34,11 +34,11 @@ bintray {
         licenses = ['Apache-2.0']
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
-            name = project.version
+            name = '1.2.2'
             desc = 'Upgrade to last grooscript version'
-            vcsTag = project.version
+            vcsTag = '1.2.2'
             attributes = [
-                    'gradle-plugin': ['org.grooscript.conversion', project.group, project.name].join(':')
+                    'gradle-plugin': ['org.grooscript.conversion', 'org.grooscript', 'grooscript-gradle-plugin'].join(':')
             ]
         }
     }
