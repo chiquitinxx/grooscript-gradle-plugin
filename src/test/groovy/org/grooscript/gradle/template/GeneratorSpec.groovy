@@ -33,6 +33,17 @@ class GeneratorSpec extends Specification {
         thrown(GrooScriptException)
     }
 
+    def 'supporting spring autowire import'() {
+        given:
+        def templates = ['one.gtpl': "import org.springframework.beans.factory.annotation.Autowired;p 'Hello!'"]
+
+        when:
+        generator.generateClassCode(templates)
+
+        then:
+        notThrown(GrooScriptException)
+    }
+
     def 'custom type checking'() {
         given:
         def templates = ['one.gtpl': "p 'Hello!'"]

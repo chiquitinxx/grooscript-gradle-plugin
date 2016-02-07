@@ -11,7 +11,7 @@ import static org.grooscript.util.Util.SEP as LS
 /**
  * Created by jorge on 22/8/15.
  */
-class AbstractFunctionalSpec extends Specification {
+abstract class AbstractFunctionalSpec extends Specification {
 
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile

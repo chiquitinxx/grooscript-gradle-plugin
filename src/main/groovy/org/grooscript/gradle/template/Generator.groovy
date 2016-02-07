@@ -49,7 +49,11 @@ class Templates {
         templates.each { entry ->
             try {
                 CompilerConfiguration conf = new CompilerConfiguration()
-                conf.addCompilationCustomizers(new SecureASTCustomizer(importsWhitelist: []))
+                conf.addCompilationCustomizers(new SecureASTCustomizer(
+                        //Added Autowired because is used when compiling groovy templates
+                        //No idea why, maybe spring apps adds it!
+                        importsWhitelist: ['org.springframework.beans.factory.annotation.Autowired'])
+                )
                 if (customTypeChecker) {
                     def acz = new ASTTransformationCustomizer(TypeChecked, extensions: customTypeChecker)
                     conf.addCompilationCustomizers(acz)
@@ -83,7 +87,8 @@ class Templates {
         }
     }
 
-    private CompilationUnit compileCode(conf, scriptClassName, classLoader, String code) {
+    private CompilationUnit compileCode(CompilerConfiguration conf, String scriptClassName,
+                                        GroovyClassLoader classLoader, String code) {
         def compilationUnitFinal = new CompilationUnit(conf, null, classLoader)
         compilationUnitFinal.addSource(scriptClassName, code)
         compilationUnitFinal.compile(CompilePhase.INSTRUCTION_SELECTION.phaseNumber)
