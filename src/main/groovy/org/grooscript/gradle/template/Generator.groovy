@@ -24,6 +24,7 @@ class Templates {
 
   static String applyTemplate(String name, model = [:]) {
     def cl = templates[name]
+    if (!cl) throw new Exception('Not found template: ' + name)
     cl.delegate = model
     cl(model)
   }

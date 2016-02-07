@@ -77,6 +77,7 @@ class Templates {
 
   static String applyTemplate(String name, model = [:]) {
     def cl = templates[name]
+    if (!cl) throw new Exception('Not found template: ' + name)
     cl.delegate = model
     cl(model)
   }
@@ -108,6 +109,7 @@ class Templates {
 
   static String applyTemplate(String name, model = [:]) {
     def cl = templates[name]
+    if (!cl) throw new Exception('Not found template: ' + name)
     cl.delegate = model
     cl(model)
   }
@@ -198,6 +200,19 @@ class Templates {
         then:
         !result.exception
         result.console == '<p>Hello Jorge!</p><p>Bye Jorge.</p>'
+    }
+
+    def 'try to convert a template that doesn\'t exists'() {
+        given:
+        def templates = ['hello.gtpl': "p 'Hello!'"]
+        def code = generator.generateClassCode(templates)
+        code += "\nprintln Templates.applyTemplate('notExists.tpl')\n"
+
+        when:
+        JsTestResult result = GrooScript.evaluateGroovyCode(code, 'grooscript-tools')
+
+        then:
+        thrown(GrooScriptException)
     }
 
     Generator generator = new Generator()
