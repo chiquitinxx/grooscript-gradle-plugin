@@ -77,9 +77,12 @@ class Templates {
 
   static String applyTemplate(String name, model = [:]) {
     def cl = templates[name]
-    if (!cl) throw new Exception('Not found template: ' + name)
-    cl.delegate = model
-    cl(model)
+    if (!cl) {
+       '<p>Not found template: ' + name + '</p>'
+    } else {
+        cl.delegate = model
+        cl(model)
+    }
   }
 }'''
     }
@@ -109,9 +112,12 @@ class Templates {
 
   static String applyTemplate(String name, model = [:]) {
     def cl = templates[name]
-    if (!cl) throw new Exception('Not found template: ' + name)
-    cl.delegate = model
-    cl(model)
+    if (!cl) {
+       '<p>Not found template: ' + name + '</p>'
+    } else {
+        cl.delegate = model
+        cl(model)
+    }
   }
 }'''
     }
@@ -212,7 +218,8 @@ class Templates {
         JsTestResult result = GrooScript.evaluateGroovyCode(code, 'grooscript-tools')
 
         then:
-        thrown(GrooScriptException)
+        !result.exception
+        result.console == '<p>Not found template: notExists.tpl</p>'
     }
 
     Generator generator = new Generator()
