@@ -13,7 +13,7 @@ class InitStaticWebFunctionalSpec extends AbstractFunctionalSpec {
         def result = runWithArguments('initStaticWeb')
 
         then:
-        result.standardOutput.contains('Generation completed.')
+        result.output.contains('Generation completed.')
         result.task(":initStaticWeb").outcome == SUCCESS
 
         when:
