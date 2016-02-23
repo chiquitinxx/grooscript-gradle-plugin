@@ -9,11 +9,11 @@ apply from: "$rootDir/gradle/publishing.gradle"
 apply from: "$rootDir/gradle/functional-test.gradle"
 
 group = 'org.grooscript'
-version = '1.2.3-SNAPSHOT'
+version = '1.2.3'
 
 ext {
-    grooscriptVersion = '1.2.3-SNAPSHOT'
-    gradleVersion = '2.8'
+    grooscriptVersion = '1.2.3'
+    gradleVersion = '2.11'
 }
 
 def compatibilityVersion = 1.7

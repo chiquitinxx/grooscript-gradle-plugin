@@ -34,9 +34,9 @@ bintray {
         licenses = ['Apache-2.0']
         labels = ['groovy', 'javascript', 'grooscript', 'gradle', 'plugin']
         version {
-            name = '1.2.2'
-            desc = 'Upgrade to last grooscript version'
-            vcsTag = '1.2.2'
+            name = "${project.version}"
+            desc = 'Upgrade to last grooscript version and fixes'
+            vcsTag = "${project.version}"
             attributes = [
                     'gradle-plugin': ['org.grooscript.conversion', 'org.grooscript', 'grooscript-gradle-plugin'].join(':')
             ]
