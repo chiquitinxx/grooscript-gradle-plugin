@@ -3,6 +3,7 @@ package org.grooscript.gradle
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.grooscript.convert.ConversionOptions
+import org.grooscript.gradle.grails.InitGrailsProcessor
 import spock.lang.Specification
 
 /**
@@ -33,10 +34,26 @@ class GrooscriptPluginSpec extends Specification {
         project.extensions.templates instanceof TemplatesExtension
         project.extensions.spy instanceof ChangesExtension
         project.extensions.requireJs instanceof RequireJsExtension
+        project.extensions.grooscriptGrails instanceof GrailsExtension
 
         and: 'without changes in conversion options'
         ConversionOptions.values().collect { it.text } ==
                 ['classpath', 'customization', 'mainContextScope', 'initialText', 'finalText', 'recursive', 'addGsLib',
                  'requireJsModule', 'consoleInfo', 'includeDependencies', 'nashornConsole']
+    }
+
+    def 'grails support'() {
+        given:
+        GrooscriptPlugin grooscriptPlugin = new GrooscriptPlugin()
+        InitGrailsProcessor initGrailsProcessor = Mock(InitGrailsProcessor)
+        grooscriptPlugin.initGrailsProcessor = initGrailsProcessor
+        Project project = ProjectBuilder.builder().build()
+
+        when:
+        grooscriptPlugin.apply(project)
+
+        then:
+        1 * initGrailsProcessor.start(project)
+        0 * _
     }
 }

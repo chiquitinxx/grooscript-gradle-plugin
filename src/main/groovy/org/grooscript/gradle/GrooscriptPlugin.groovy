@@ -2,6 +2,7 @@ package org.grooscript.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.grooscript.gradle.grails.InitGrailsProcessor
 import org.grooscript.gradle.util.InitToolsImpl
 
 /**
@@ -11,6 +12,7 @@ import org.grooscript.gradle.util.InitToolsImpl
 class GrooscriptPlugin implements Plugin<Project> {
 
     static final String GROOSCRIPT_GROUP = 'Grooscript'
+    InitGrailsProcessor initGrailsProcessor = new InitGrailsProcessor()
 
     @Override
     void apply(Project project) {
@@ -18,6 +20,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         project.extensions.create('templates', TemplatesExtension)
         project.extensions.create('spy', ChangesExtension)
         project.extensions.create('requireJs', RequireJsExtension)
+        project.extensions.create('grooscriptGrails', GrailsExtension)
         configureConvertTask(project)
         configureConvertThreadTask(project)
         configureInitStaticWeb(project)
@@ -27,6 +30,7 @@ class GrooscriptPlugin implements Plugin<Project> {
         configureSyncGsLibsTask(project)
         configureRequireJsTask(project)
         configureRequireJsThreadTask(project)
+        initGrailsProcessor.start(project)
     }
 
     private configureConvertTask(Project project) {
